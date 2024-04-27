@@ -1,0 +1,34 @@
+# GUIX # this is a color profile for the "Colored Tiers (Titles)" mod by Karax
+# which is already included in this mod, see localization/english/replace/culture_titles_l_english.yml
+
+textformatting = {
+	format = {
+		name = tier0 #baron
+		format = "color:{0.45, 0.45, 0.45}" #gray
+	}
+
+	format = {
+		name = tier1 #count
+		format = "color:{0.59, 0.42, 0.32}" #brown/bronze
+	}
+
+	format = {
+		name = tier2 #duke
+		format = "color:{0.45, 0.51, 0.58}" #blue/silver
+	}
+
+	format = {
+		name = tier3 #king
+		format = "color:{0.76, 0.64, 0.29}" #yellow/gold
+	}
+
+	format = {
+		name = tier4 #emperor
+		format = "color:{0.63, 0.31, 0.47}" #purple
+	}
+
+	format = {
+		name = black #prowess
+		format = "color:{0.1, 0.1, 0.1}" #black
+	}
+}

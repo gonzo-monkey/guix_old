@@ -1,0 +1,753 @@
+types CharacterWindow {
+	####################################################################################################
+	# GUIX # TAB BUTTONS
+	# "DOWN" & "UP" indicates whether the button has been pressed or not
+	# "DEFAULT" & "EXPANDED" indicates whether realm_info is hidden or not
+	####################################################################################################
+
+	type guix_window_character_4_tabs = hbox {
+		name = "tabs"
+		#visible = "[CharacterWindow.AreNoneExpanded]"
+		layoutpolicy_horizontal = expanding
+		margin_top = -5
+		ignoreinvisible = yes
+		
+		# GUIX # FAMILY
+		##################################################
+		hbox = {
+			layoutpolicy_horizontal = expanding
+
+			# GUIX # FAMILY UP DEFAULT
+			button_tab = {
+				name = "family_button_up_default"
+				visible = "[And(Not(GetVariableSystem.HasValue('guix_cw','hide_realm')),Not(GetVariableSystem.HasValue('guix_tab','family')))]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+
+				# GUIX # start by clearing all the tabs views
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				# GUIX # then set the one you want to show
+				onclick = "[GetVariableSystem.Set('guix_tab','family')]"
+
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_FAMILY"
+						default_format = "#low"
+					}
+				}
+			}
+
+			# GUIX # FAMILY UP EXPANDED
+			button_tab = {
+				name = "family_button_up_expanded"
+				visible = "[And(GetVariableSystem.HasValue('guix_cw','hide_realm'),And(Not(GetVariableSystem.HasValue('guix_tab','family')),Not(GetVariableSystem.HasValue('guix_tab','family_expanded')) ) )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+
+				# GUIX # start by clearing all the tabs views
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				# GUIX # then set the one you want to show
+				onclick = "[GetVariableSystem.Set('guix_tab','family_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+				onclick = "[GetScriptedGui( 'GUIX_list_builder_spouses' ).Execute( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_FAMILY"
+						default_format = "#low"
+					}
+				}
+			}
+
+			# GUIX # FAMILY DOWN DEFAULT
+			button_tab = {
+				name = "family_button_down_default"
+				visible = "[And(GetVariableSystem.HasValue('guix_tab','family'),Not(GetVariableSystem.HasValue('guix_cw','hide_realm')) )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','family')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','family_expanded')]"
+				onclick = "[GetScriptedGui( 'GUIX_list_builder_spouses' ).Execute( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_FAMILY"
+						default_format = "#clickable"
+					}
+				}
+			}
+
+			# GUIX # FAMILY DOWN EXPANDED
+			button_tab = {
+				name = "family_button_down_expanded"
+				visible = "[And(GetVariableSystem.HasValue('guix_tab','family_expanded'),GetVariableSystem.HasValue('guix_cw','hide_realm') )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','family_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','show_realm')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','family')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_FAMILY"
+						default_format = "#clickable"
+					}
+				}
+			}
+		}
+
+		# GUIX # RELATIONS
+		##################################################
+		hbox = {
+			visible = "[Character.IsAlive]"
+			layoutpolicy_horizontal = expanding
+
+			# GUIX # RELATIONS UP DEFAULT
+			button_tab = {
+				name = "relations_button_up_default"
+				visible = "[And(Not(GetVariableSystem.HasValue('guix_cw','hide_realm')),Not(GetVariableSystem.HasValue('guix_tab','relations')))]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+
+				# GUIX # start by clearing all the tabs views
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				# GUIX # then set the one you want to show
+				onclick = "[GetVariableSystem.Set('guix_tab','relations')]"
+
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_RELATIONS"
+						default_format = "#low"
+					}
+				}
+			}
+
+			# GUIX # RELATIONS UP EXPANDED
+			button_tab = {
+				name = "relations_button_up_expanded"
+				visible = "[And(GetVariableSystem.HasValue('guix_cw','hide_realm'),And(Not(GetVariableSystem.HasValue('guix_tab','relations')),Not(GetVariableSystem.HasValue('guix_tab','relations_expanded')) ) )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+
+				# GUIX # start by clearing all the tabs views
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				# GUIX # then set the one you want to show
+				onclick = "[GetVariableSystem.Set('guix_tab','relations_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+				onclick = "[GetScriptedGui( 'GUIX_list_builder_relations' ).Execute( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_RELATIONS"
+						default_format = "#low"
+					}
+				}
+			}
+
+			# GUIX # RELATIONS DOWN DEFAULT
+			button_tab = {
+				name = "relations_button_down_default"
+				visible = "[And(GetVariableSystem.HasValue('guix_tab','relations'),Not(GetVariableSystem.HasValue('guix_cw','hide_realm')) )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','relations')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','relations_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+				onclick = "[GetScriptedGui( 'GUIX_list_builder_relations' ).Execute( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_RELATIONS"
+						default_format = "#clickable"
+					}
+				}
+			}
+
+			# GUIX # RELATIONS DOWN EXPANDED
+			button_tab = {
+				name = "relations_button_down_expanded"
+				visible = "[And(GetVariableSystem.HasValue('guix_tab','relations_expanded'),GetVariableSystem.HasValue('guix_cw','hide_realm') )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','relations_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','show_realm')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','relations')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_RELATIONS"
+						default_format = "#clickable"
+					}
+				}
+			}
+		}
+
+		# GUIX # COURT
+		##################################################
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			datacontext = "[CharacterWindow.GetCourt]"
+			visible = "[Not(IsDataModelEmpty( CharacterSelectionList.GetList ))]"
+
+			# GUIX # COURT UP DEFAULT
+			button_tab = {
+				name = "court_button_up_default"
+				visible = "[And(Not(GetVariableSystem.HasValue('guix_cw','hide_realm')),Not(GetVariableSystem.HasValue('guix_tab','court')))]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+
+				# GUIX # start by clearing all the tabs views
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				# GUIX # then set the one you want to show
+				onclick = "[GetVariableSystem.Set('guix_tab','court')]"
+
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_COURT"
+						default_format = "#low"
+					}
+				}
+			}
+
+			# GUIX # COURT UP EXPANDED
+			button_tab = {
+				name = "court_button_up_expanded"
+				visible = "[And(GetVariableSystem.HasValue('guix_cw','hide_realm'),And(Not(GetVariableSystem.HasValue('guix_tab','court')),Not(GetVariableSystem.HasValue('guix_tab','court_expanded')) ) )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+
+				# GUIX # start by clearing all the tabs views
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				# GUIX # then set the one you want to show
+				onclick = "[GetVariableSystem.Set('guix_tab','court_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_COURT"
+						default_format = "#low"
+					}
+				}
+			}
+
+			# GUIX # COURT DOWN DEFAULT
+			button_tab = {
+				name = "court_button_down_default"
+				visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),Not(GetVariableSystem.HasValue('guix_cw','hide_realm')) )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','court')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','court_expanded')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_COURT"
+						default_format = "#clickable"
+					}
+				}
+			}
+
+			# GUIX # COURT DOWN EXPANDED
+			button_tab = {
+				name = "court_button_down_expanded"
+				visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_cw','hide_realm') )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','court_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','show_realm')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','court')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_COURT"
+						default_format = "#clickable"
+					}
+				}
+			}
+		}
+
+		# GUIX # VASSALS
+		##################################################
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			datacontext = "[CharacterWindow.GetVassals]"
+			visible = "[Not(IsDataModelEmpty( CharacterSelectionList.GetList ))]"
+
+			# GUIX # VASSALS UP DEFAULT
+			button_tab = {
+				name = "vassals_button_up_default"
+				visible = "[And(Not(GetVariableSystem.HasValue('guix_cw','hide_realm')),Not(GetVariableSystem.HasValue('guix_tab','vassals')))]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+
+				# GUIX # start by clearing all the tabs views
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				# GUIX # then set the one you want to show
+				onclick = "[GetVariableSystem.Set('guix_tab','vassals')]"
+
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_VASSALS"
+						default_format = "#low"
+					}
+				}
+			}
+
+			# GUIX # VASSALS UP EXPANDED
+			button_tab = {
+				name = "vassals_button_up_expanded"
+				visible = "[And(GetVariableSystem.HasValue('guix_cw','hide_realm'),And(Not(GetVariableSystem.HasValue('guix_tab','vassals')),Not(GetVariableSystem.HasValue('guix_tab','vassals_expanded')) ) )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+
+				# GUIX # start by clearing all the tabs views
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				# GUIX # then set the one you want to show
+				onclick = "[GetVariableSystem.Set('guix_tab','vassals_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+				#onclick = "[GetScriptedGui( 'GUIX_list_builder_vassals' ).Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
+
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_VASSALS"
+						default_format = "#low"
+					}
+				}
+			}
+
+			# GUIX # VASSALS DOWN DEFAULT
+			button_tab = {
+				name = "vassals_button_down_default"
+				visible = "[And(GetVariableSystem.HasValue('guix_tab','vassals'),Not(GetVariableSystem.HasValue('guix_cw','hide_realm')) )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','vassals')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','vassals_expanded')]"
+				#onclick = "[GetScriptedGui( 'GUIX_list_builder_vassals' ).Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_VASSALS"
+						default_format = "#clickable"
+					}
+				}
+			}
+
+			# GUIX # VASSALS DOWN EXPANDED
+			button_tab = {
+				name = "vassals_button_down_expanded"
+				visible = "[And(GetVariableSystem.HasValue('guix_tab','vassals_expanded'),GetVariableSystem.HasValue('guix_cw','hide_realm') )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','vassals_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','show_realm')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','vassals')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_VASSALS"
+						default_format = "#clickable"
+					}
+				}
+			}
+		}
+
+		# GUIX # DIPLOMACY
+		##################################################
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			visible = "[And(Not(GetVariableSystem.HasValue('guix_tab','titles')),And(Not(GetVariableSystem.HasValue('guix_tab','titles_expanded')),And(Not(GetVariableSystem.HasValue('guix_tab','claims')),And(Not(GetVariableSystem.HasValue('guix_tab','claims_expanded')),And(Not(GetVariableSystem.HasValue('guix_tab','traits')),And(Not(GetVariableSystem.HasValue('guix_tab','traits_expanded')),And(Not(GetVariableSystem.HasValue('guix_tab','modifiers')),Not(GetVariableSystem.HasValue('guix_tab','modifiers_expanded')))))))))]"
+
+			
+			# GUIX # DIPLOMACY UP DEFAULT
+			button_tab = {
+				name = "diplomacy_button_up_default"
+				visible = "[And(Not(GetVariableSystem.HasValue('guix_cw','hide_realm')),Not(GetVariableSystem.HasValue('guix_tab','diplomacy')))]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+
+				# GUIX # start by clearing all the tabs views
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				# GUIX # then set the one you want to show
+				onclick = "[GetVariableSystem.Set('guix_tab','diplomacy')]"
+
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_DIPLOMACY"
+						default_format = "#low"
+					}
+				}
+			}
+
+			# GUIX # DIPLOMACY UP EXPANDED
+			button_tab = {
+				name = "diplomacy_button_up_expanded"
+				visible = "[And(GetVariableSystem.HasValue('guix_cw','hide_realm'),And(Not(GetVariableSystem.HasValue('guix_tab','diplomacy')),Not(GetVariableSystem.HasValue('guix_tab','diplomacy_expanded')) ) )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+
+				# GUIX # start by clearing all the tabs views
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				# GUIX # then set the one you want to show
+				onclick = "[GetVariableSystem.Set('guix_tab','diplomacy_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_DIPLOMACY"
+						default_format = "#low"
+					}
+				}
+			}
+
+			# GUIX # DIPLOMACY DOWN DEFAULT
+			button_tab = {
+				name = "diplomacy_button_down_default"
+				visible = "[And(GetVariableSystem.HasValue('guix_tab','diplomacy'),Not(GetVariableSystem.HasValue('guix_cw','hide_realm')))]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','diplomacy')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','diplomacy_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_DIPLOMACY"
+						default_format = "#clickable"
+					}
+				}
+			}
+
+			# GUIX # DIPLOMACY DOWN EXPANDED
+			button_tab = {
+				name = "diplomacy_button_down_expanded"
+				visible = "[And(GetVariableSystem.HasValue('guix_tab','diplomacy_expanded'),GetVariableSystem.HasValue('guix_cw','hide_realm') )]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','diplomacy_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','show_realm')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','diplomacy')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_DIPLOMACY"
+						default_format = "#clickable"
+					}
+				}
+			}			
+		}
+
+		# GUIX # TITLES
+		##################################################
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			visible = "[Or(GetVariableSystem.HasValue('guix_tab','titles'),GetVariableSystem.HasValue('guix_tab','titles_expanded'))]"
+
+			# GUIX # TITLES DOWN DEFAULT
+			button_tab = {
+				name = "titles_button_down_default"
+				visible = "[GetVariableSystem.HasValue('guix_cw','show_realm')]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','titles')]"
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','titles_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						raw_text = "Titles"
+						default_format = "#clickable"
+					}
+				}
+			}
+
+			# GUIX # TITLES DOWN EXPANDED
+			button_tab = {
+				name = "titles_button_down_expanded"
+				visible = "[GetVariableSystem.HasValue('guix_cw','hide_realm')]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','titles_expanded')]"
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','titles')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','show_realm')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						raw_text = "Titles"
+						default_format = "#clickable"
+					}
+				}
+			}			
+		}	
+
+		# GUIX # CLAIMS
+		##################################################
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			visible = "[Or(GetVariableSystem.HasValue('guix_tab','claims'),GetVariableSystem.HasValue('guix_tab','claims_expanded'))]"
+
+			# GUIX # CLAIMS DOWN DEFAULT
+			button_tab = {
+				name = "claims_button_down_default"
+				visible = "[GetVariableSystem.HasValue('guix_cw','show_realm')]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','claims')]"
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','claims_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						raw_text = "Claims"
+						default_format = "#clickable"
+					}
+				}
+			}
+
+			# GUIX # CLAIMS DOWN EXPANDED
+			button_tab = {
+				name = "claims_button_down_expanded"
+				visible = "[GetVariableSystem.HasValue('guix_cw','hide_realm')]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','claims_expanded')]"
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','claims')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','show_realm')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						raw_text = "Claims"
+						default_format = "#clickable"
+					}
+				}
+			}			
+		}
+
+		# GUIX # TRAITS
+		##################################################
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			visible = "[Or(GetVariableSystem.HasValue('guix_tab','traits'),GetVariableSystem.HasValue('guix_tab','traits_expanded'))]"
+
+			# GUIX # TRAITS DOWN DEFAULT
+			button_tab = {
+				name = "traits_button_down_default"
+				visible = "[GetVariableSystem.HasValue('guix_cw','show_realm')]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','traits')]"
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','traits_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						raw_text = "Traits"
+						default_format = "#clickable"
+					}
+				}
+			}
+
+			# GUIX # TRAITS DOWN EXPANDED
+			button_tab = {
+				name = "traits_button_down_expanded"
+				visible = "[GetVariableSystem.HasValue('guix_cw','hide_realm')]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','traits_expanded')]"
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','traits')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','show_realm')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						raw_text = "Traits"
+						default_format = "#clickable"
+					}
+				}
+			}			
+		}
+
+		# GUIX # MODIFIERS
+		##################################################
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			visible = "[Or(GetVariableSystem.HasValue('guix_tab','modifiers'),GetVariableSystem.HasValue('guix_tab','modifiers_expanded'))]"
+
+			# GUIX # MODIFIERS DOWN DEFAULT
+			button_tab = {
+				name = "modifiers_button_down_default"
+				visible = "[GetVariableSystem.HasValue('guix_cw','show_realm')]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','modifiers')]"
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','modifiers_expanded')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','hide_realm')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						raw_text = "Modifiers"
+						default_format = "#clickable"
+					}
+				}
+			}
+
+			# GUIX # MODIFIERS DOWN EXPANDED
+			button_tab = {
+				name = "modifiers_button_down_expanded"
+				visible = "[GetVariableSystem.HasValue('guix_cw','hide_realm')]"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				layoutpolicy_horizontal = expanding
+				
+				down = "[GetVariableSystem.HasValue('guix_tab','modifiers_expanded')]"
+				onclick = "[GetVariableSystem.Clear('guix_tab')]"
+				onclick = "[GetVariableSystem.Set('guix_tab','modifiers')]"
+				onclick = "[GetVariableSystem.Set('guix_cw','show_realm')]"
+				
+				using = tooltip_above
+
+				hbox = {
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						align = center
+						raw_text = "Modifiers"
+						default_format = "#clickable"
+					}
+				}
+			}			
+		}									
+	}
+}

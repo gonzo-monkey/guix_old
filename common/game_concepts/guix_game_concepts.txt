@@ -1,0 +1,97 @@
+﻿# GUIX # heir, titles, claims
+##################################################
+heir = {
+	texture = "gfx/interface/icons/message_feed/heir.dds"
+	alias = { heirs guix_heir_icon_i }
+}
+
+secondary_spouse = {
+	alias = { secondary_spouses }
+	texture = "gfx/interface/icons/custom/guix_marriage_secondary_spouse.dds"
+}
+
+# NOTE # everything above confirmed to keep
+####################################################################################################
+# NOTE # everything below tbd
+
+secondary_heir = {
+	texture = "gfx/interface/icons/custom/guix_secondary_heir.dds"
+}
+
+# GUIX # LOWBORN TRADE - CUSTOM GAME CONCEPTS
+##################################################
+
+trade = {
+	texture = "gfx/interface/illustrations/lowborn_coa/lowborn_commoner.dds"
+}
+
+messenger = {
+	alias = { messengers }
+	texture = "gfx/interface/illustrations/lowborn_coa/lowborn_messenger.dds"
+	parent = trade
+}
+
+warrior = {
+	alias = { warriors }
+	texture = "gfx/interface/illustrations/lowborn_coa/lowborn_warrior.dds"
+	parent = trade
+}
+
+merchant = {
+	alias = { merchants }
+	texture = "gfx/interface/illustrations/lowborn_coa/lowborn_merchant.dds"
+	parent = trade
+}
+
+spy = {
+	alias = { spies }
+	texture = "gfx/interface/illustrations/lowborn_coa/lowborn_spy.dds"
+	parent = trade
+}
+
+scholar = {
+	alias = { scholars }
+	texture = "gfx/interface/illustrations/lowborn_coa/lowborn_scholar.dds"
+	parent = trade
+}
+
+knight_errant = {
+	alias = { knights_errant }
+	texture = "gfx/interface/illustrations/lowborn_coa/lowborn_knight_errant.dds"
+	parent = trade
+}
+
+consul = {
+	alias = { consuls }
+	texture = "gfx/interface/illustrations/lowborn_coa/lowborn_consul.dds"
+	parent = trade
+}
+
+lowborn = {
+	texture = "gfx/interface/illustrations/lowborn_coa/lowborn_commoner.dds"
+}
+
+# GUIX # LOWBORN TRADE - EDITED GAME CONCEPTS
+##################################################
+
+commoner = {
+	texture = "gfx/interface/illustrations/lowborn_coa/lowborn_commoner.dds"
+	alias = { commoners}
+}
+
+gift = {
+	alias = { gifts send_gift }
+}
+
+prowess_skill = {
+	parent = skills
+	alias = { prowess prowess_i natural_prowess }
+
+	texture = "gfx/interface/icons/icon_prowess.dds"
+	framesize = { 80 80 }
+}
+
+modifier = {
+	texture = "gfx/interface/icons/custom/guix_modifiers.dds"
+	alias = { modifiers }
+}

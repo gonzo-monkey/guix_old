@@ -1,0 +1,142 @@
+﻿l_french:
+  
+   # GUIX # Secondary Heir 
+ game_concept_secondary_heir: "Héritier secondaire"
+ game_concept_secondary_heir_desc: "Le $game_concept_secondary_heir$ est n'importe quel [heir|E] qui n'est pas le [primary_heir|E]. Ils peuvent hériter d'un ou plusieurs titres inférieurs, mais ne sont pas #italic;low (actuellement)# ! premier en ligne vers le [primary_title|E]."
+  
+   # GUIX # Dynasty Heir 
+ game_concept_player_heir: "Héritier de la dynastie"
+ game_concept_player_heir_desc: "Le $game_concept_player_heir$ est l'[heir|E] sous lequel un joueur (ou l'IA) continuera à jouer lors de la [succession|E].\n\nLe $game_concept_player_heir$ est généralement le même que le [primary_heir|E], mais si la [succession_law|E] de votre [primary_title|E] dicte qu'il doit aller à un personnage extérieur à votre [dynasty|E], vous continuerez à jouer en tant qu'héritier dynastique de votre deuxième titre le plus élevé (ou troisième, quatrième, etc.).\n\nCette situation est courante lorsque votre $game_concept_player_heir$ est rejeté en vertu d'une loi sur la succession élective."
+  
+   # GUIX # heir, claim & title texticons 
+ game_concept_guix_heir_icon_i: "@guix_heir_icon!"
+  
+   ################################################## 
+   # GUIX # FAMILY TIES concepts, texticons and tooltips 
+   ################################################## 
+  
+   # GUIX # replaced vanilla family_desc to include below concepts of NOT FAMILY and DISTANT FAMILY 
+ game_concept_family_desc: "La famille d'un personnage comprend :\n$BULLET$[close_family|e]\n$BULLET$[extended_family|e]"
+  
+   # GUIX # CLOSE FAMILY 
+   # using vanilla game concept 
+ game_concept_close_family: "Famille proche"
+ game_concept_close_family_member: "Membre de la famille proche"
+ game_concept_close_family_members: "Membres de la famille proche"
+ game_concept_guix_close_family_icon_i: "@guix_close_family_icon!"
+  
+   # GUIX # EXTENDED FAMILY 
+ game_concept_extended_family: "Famille élargie"
+ game_concept_extended_family_member: "Membre de la famille élargie"
+ game_concept_extended_family_members: "Membres de la famille élargie"
+ game_concept_guix_extended_family_icon_i: "@guix_extended_family_icon!"
+  
+   # GUIX # NOT FAMILY - not from the same dynasty 
+ game_concept_not_family: "Non-dynastique"
+ game_concept_not_family_member: "Relation non dynastique"
+ game_concept_not_family_members: "Relations non dynastiques"
+ game_concept_guix_not_family_icon_i: "@guix_not_family_icon!"
+ game_concept_not_family_desc: "Un personnage non dynastique est tout personnage qui n'est pas issu de la même [dynasty|E]. Il est possible que les membres de la [family|E] soient non dynastiques, résultant d'un mariage [matrilineal|E] ou ayant un enfant [bastard|E].\n\nSi la [succession_law|E] de votre [primary_title|E] dicte qu'il doit aller à un personnage en dehors de votre [dynasty|E], vous continuerez à jouer en tant qu'héritier dynastique de votre deuxième plus haut- titre de niveau (ou troisième, quatrième, etc.)."
+  
+ ################################################## 
+ # GUIX # LOWBORN TRADES 
+ ################################################## 
+  
+  ### existing concept - edited desc - removing reference to commoners 
+ game_concept_character: "Personnage"
+ game_concept_characters: "Personnages"
+ game_concept_character_possessive: "Personnage"
+ game_concept_characters_possessive: "Personnages'"
+ game_concept_character_desc: "Les personnages sont soit [noble|E], soit [lowborn|E], [landed|E] ou [unlanded|E], chacun avec son propre ensemble de [skills|E] et [traits|E], objectifs et aspirations. Ils se présentent sous la forme de [rulers|E], [courtiers|E] et [guests|E]. Tant qu'ils se trouvent dans [diplomatic_range|E], ils peuvent interagir avec eux.
+  
+  ### existing concept - edited desc - removing reference to commoners 
+ game_concept_landed: "Terrien"
+ game_concept_land: "Terre"
+ game_concept_landed_desc: "Un personnage $game_concept_landed$ est un [ruler|E] qui possède [holdings|E]. Sauf dans les [theocracies|E] et les [republics|E], les [lowborn|E] deviennent automatiquement des [nobles|E] lorsqu'ils sont débarqués, fondant une nouvelle [dynasty|E]."
+  
+  ### existing concept - edited desc 
+ game_concept_court: "Court"
+ game_concept_courts: "Courts"
+ game_concept_court_desc: "Every [ruler|E] has a $game_concept_court$, consisting of [unlanded|E] [nobles|E], [lowborn|E] and [close_family|E] in servitude of a [ruler|E].\n\nAt times you may meet someone interesting you wish to #high $invite_to_court_interaction$#!, or check-in on a [guest|E]. Exceptionally skilled [courtiers|E] can be useful to have on your [council|E].\n\n#weak Many others in servitude simply go unseen. A liege may require the chamber pot, but does not wish to see its contents.#!"
+  
+  ### existing concept - edited desc 
+ game_concept_courtier: "Courtisan"
+ game_concept_courtiers: "Courtisans"
+ game_concept_courtier_desc: "A $game_concept_courtier$ is an [unlanded|E] character serving their [liege|E] in [court|E].\n\nCourtiers can:\n$BULLET_WITH_TAB$Serve as [councillors|E]\n$BULLET_WITH_TAB$Serve in [armies|E] as [commanders|E] or [knights|E]\n$BULLET_WITH_TAB$Become their Ruler's [vassal|E] if granted a [title|E]\n$BULLET_WITH_TAB$Let their Ruler press their [claims|E] in [war|E]"
+  
+  ### existing concept - edited desc - removed reference to commoners in desc 
+ game_concept_noble: "Noble"
+ game_concept_nobles: "Nobles"
+ game_concept_nobleman: "Aristocrate"
+ game_concept_noblemen: "Aristocrates"
+ game_concept_noblewoman: "Aristocrate"
+ game_concept_noblewomen: "Aristocrates"
+ game_concept_nobility: "Noblesse"
+ game_concept_noble_desc: "$game_concept_nobles$ sont des personnages membres d'une [dynasty|E]. Les personnages sans dynastie sont considérés comme [lowborn|E]."
+  
+  ### existing concept - seperated from commoner, edited desc 
+ game_concept_lowborn: "Roturier"
+ game_concept_lowborn_desc: "$game_concept_lowborn$ are either [commoners|E] or skilled laborers practicing a [trade|E]. They can usually be found in the [court|E] of a [noble|E] [liege|E], but can still be [rulers|E] in their own right through [theocracies|E] and [republics|E].\n\nIf a Lowborn character becomes [landed|E], they immediately become [nobles|E] and found their own [dynasties|E] (except in [republics|E] and [theocracies|E])."
+  
+  ### existing concept - seperated from lowborn, edited desc 
+ game_concept_commoner: "Roturier"
+ game_concept_commoners: "Roturiers"
+ game_concept_commoner_desc: "A $game_concept_commoner$ is a [lowborn|E] character who does not excel at any particular [skill|E] and does not practice a [trade|E]. While they may aspire to be lesser [rulers|E], or join the [court|E] of a [noble|E] [liege|E], their dreams of founding a [dynasty|E] are as distant as the stars."
+  
+  ### new game concept - groups all the highly skilled lowborn 
+ game_concept_trade: "Commercial"
+ game_concept_trade_desc: "[lowborn|E] characters with high [skills|E] practice a $game_concept_trade$:\n$BULLET_WITH_TAB$[messengers|E]\n$BULLET_WITH_TAB$[warriors|E]\n$BULLET_WITH_TAB$[merchants|E]\n$BULLET_WITH_TAB$[spies|E]\n$BULLET_WITH_TAB$[scholars|E]\n$BULLET_WITH_TAB$[consuls|E]\n$BULLET_WITH_TAB$[knights_errant|E]\n\nWhile characters in a trade are generally [wanderers|E], [guests|E] or [courtiers|E], they aspire to join a [council|E], or be granted [land|E] and found their own [dynasty|E]."
+  
+  ### new game concept - lowborn with high DIPLOMACY 
+ game_concept_messenger: "Émissaire"
+ game_concept_messengers: "Émissaires"
+ game_concept_messenger_desc: "A [lowborn|E] character with a sharp mind and a soft tounge, they excel at the deft art of [diplomacy|E].\n\nMessengers serving as [courtiers|E] spend their time conveying private messages, delivering [gifts|E] or attempting to sway [opinion|e] in favour of their [liege|E].\n\n#weak "By long forbearing is a prince persuaded,\n and a soft tongue breaketh the bone."#!\n#low - Proverbs 25:15 #!"
+  
+  ### new game concept - lowborn with high MARTIAL 
+ game_concept_warrior: "Guerrier"
+ game_concept_warriors: "Guerriers"
+ game_concept_warrior_desc: "A [lowborn|E] character with the battlefield experience and stalwart disposition for [martial|E] affairs.\n\nWarriors serving as [courtiers|E] spend their time mustering drunkard [levies|E], preparing [supplies|E] and ideally preventing prisoners from escaping the [dungeon|E].\n\n#weak "The art of war... is a matter of life and death, a road either to safety or to ruin. Hence it is a subject of inquiry which can on no account be neglected."#!#low - Sun Tzu #!"
+  
+  ### new game concept - lowborn with high STEWARDSHIP 
+ game_concept_merchant: "Marchand"
+ game_concept_merchants: "Marchands"
+ game_concept_merchant_desc: "A [lowborn|E] character with a gift for making coin appear as if by witchcraft, but they swear it is humble [stewardship|E].\n\nMerchants serving as [courtiers|E] spend their time collecting local [taxes|E], supervising the purchase of [building|E] materials, and dabbling in the finer aspects of their [culture|E].\n\n#weak "If money go before, all ways do lie open."#!\n#low - William Shakespeare #!"
+  
+  ### new game concept - lowborn with high INTRIGUE 
+ game_concept_spy: "Espion"
+ game_concept_spies: "Espions"
+ game_concept_spy_desc: "A [lowborn|E] character with a malign influence, their unassuming appearance belies their dark talent for [intrigue|E].\n\nSpies serving as [courtiers|E] spend their time trading in [secrets|E] and [blackmail|E], and hopefully not trying to [GetScheme('murder').GetTypeName] you. \n\n#weak "But sooth is seyd, gon sithen many yeres,\nThat ‘feeld hath eyen, and the wode hath eres.’"#!\n#low - Geoffry Chaucer #!"
+  
+  ### new game concept - lowborn with high LEARNING 
+ game_concept_scholar: "Savant"
+ game_concept_scholars: "Savants"
+ game_concept_scholar_desc: "A [lowborn|E] character armed with quill, candle and a fervent penchant for [learning|E].\n\nScholars serving as [courtiers|E] spend their time studying the scrolls of their [faith|E], or probing a patient for signs of [illness|E], or worse yet, [heresy|E]!\n\n#weak "Against the disease of writing one must take special precautions, since it is a dangerous and contagious disease."#!\n#low - Pierre Abélard #!"
+  
+  ### new game concept - lowborn with high PROWESS 
+ game_concept_knight_errant: "Chevalier errant"
+ game_concept_knights_errant: "Chevaliers errants"
+ game_concept_knight_errant_desc: "A [lowborn|E] character with quick feet and strong arms, there is no doubting their [prowess|E].\n\nKnights Errant can provide a decisive advantage on the battlefield. And while they will serve in [court|E], they prefer the glory of [battle|E] to life as a meddling [courtier|E].\n\n#weak "Other knights serve the lords who keep them, or from whom they hold their lands, but we serve where we will, for men whose causes we believe in."#!#low - George R.R. Martin #!"
+  
+  ### new game concept - lowborn with multiple high SKILLS 
+ game_concept_consul: "Consul"
+ game_concept_consuls: "Consuls"
+ game_concept_consul_desc: "A [lowborn|E] character equally well versed in multiple subjects. Unlike [commoners|E], they are decidely uncommon.\n\nServing as [courtiers|E] they spend their time providing sage advice. With the right [personality|E], they may even make for a potential [spouse|E].\n\n#weak "no man so wise that he may not easily err\nif he takes no other counsel than his own."#!\n#low - Ben Jonson #!"
+  
+  ###  existing concept - added Gifts (plural) 
+ game_concept_gifts: "Cadeaux"
+ game_concept_gift: "Cadeau"
+ game_concept_send_gift: "Envoyer un cadeau"
+ game_concept_gift_desc: "Envoyer un cadeau à un autre personnage augmentera son [opinion|E] sur vous en échange de [gold|E][gold_i].\n\nPlus le destinataire est gourmand, plus vous devrez envoyer d'or et plus vous aurez d'opinion. obtiendrez.\n\nPlus votre [diplomacy|E] est élevée, plus vous obtiendrez d'opinion."
+  
+  ### existing concept - edited desc 
+ game_concept_vassal : "Vassal"
+ game_concept_vassals: "Vassaux"
+ game_concept_vassalage: "Vassalage"
+ game_concept_vassals_possessive : "Vassaux"
+ game_concept_vassalize : "Vassaliser"
+ game_concept_vassalization : "Vassalisation"
+ game_concept_vassal_desc: "Un $game_concept_vassal$ est un personnage [landed|E] qui a juré fidélité à un autre dirigeant — son [liege|E].\n\nLe $game_concept_vassal$ fournit à son seigneur des [levies|E] et des [taxes|E] — leurs [obligations|E] — en échange d'une protection.\n\nSi l'[opinion|E] d'un $game_concept_vassal$ sur son seigneur est faible, il peut rejoindre des [factions|E], ou un [scheme|E] pour remplacer leur seigneur avec quelqu'un d'autre.\n\n#les personnages faibles sans terre ne jurent pas fidélité et sont libres de toute obligation au-delà de la servitude envers leur [liege|E].#!"
+  
+ game_concept_secondary_spouse: "Conjoint secondaire"
+ game_concept_secondary_spouses: "Conjoints secondaires"
+ game_concept_secondary_spouse_desc: "Un $game_concept_secondary_spouse$ a un statut plus élevé qu'une [concubine|E], autorisé dans [faiths|E] avec le [GetFaithDoctrine('doctrine_polygamy').GetBaseName] [doctrine|E].\n\n$game_concept_secondary_spouses$ est fourni avec les avantages et les avantages du [marriage|E], mais contrairement à votre [primary_spouse|E], ils ne font pas partie de votre [council|E].\n\nLe concubinage s'exclut mutuellement avec [GetFaithDoctrine('doctrine_polygamy').GetBaseName]."

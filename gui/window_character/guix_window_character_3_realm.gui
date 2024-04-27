@@ -1,0 +1,1005 @@
+##################################################
+# GUIX # SECTION 3 --- REALM INFO
+##################################################
+
+types CharacterWindow {
+	# GUIX # 
+	type guix_window_character_3_realm = widget {
+		# GUIX # HIDE REALM - this hides the Realm section when Tab Views are expanded
+		##################################################
+		visible = "[Not(GetVariableSystem.HasValue('guix_cw','hide_realm'))]"
+		##################################################
+		datacontext = "[GetIllustration( 'character_location_exterior' )]"
+		layoutpolicy_horizontal = expanding
+		size = { 0 210 }
+
+		background = {
+			using = Background_Bottom_Fade
+			margin_bottom = 3
+			alpha = 0.75
+		}
+
+		# GUIX # BACKGROUND
+		widget = {
+			size = { 100% 100% }
+
+			using = Animation_Character_Window_Refresh
+
+			# GUIX # Tone the background down for Characters holding Titles
+			# since there's so much info on screen
+			##################################################
+			background = {
+				visible = "[Character.HasLandedTitles]"
+				texture = "[Illustration.GetTexture( Character.MakeScope )]"
+				alpha = 0.3
+				fittype = centercrop
+
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+					blend_mode = alphamultiply
+					mirror = vertical
+				}
+
+				using = Mask_Rough_Edges
+			}
+			background = {
+				visible = "[Not(Character.HasLandedTitles)]"
+				texture = "[Illustration.GetTexture( Character.MakeScope )]"
+				alpha = 0.7
+				fittype = centercrop
+
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+					blend_mode = alphamultiply
+					mirror = vertical
+				}
+
+				using = Mask_Rough_Edges
+			}			
+		}
+
+		# GUIX # CONTENTS
+		##################################################
+		vbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			margin_left = 5
+
+			# GUIX # REALM NAME & TYPE | STATS
+			##################################################
+			hbox = {
+				name = "name_and_stats"
+				layoutpolicy_horizontal = expanding
+				margin_left = 5
+				margin_right = 10
+
+				using = Animation_Character_Window_Refresh
+
+				background = {
+					texture ="gfx/interface/component_masks/mask_scratches.dds"
+					spriteType = Corneredtiled
+					using = Color_Black
+					alpha = 0.8
+					
+		
+					modify_texture = {
+						blend_mode = alphamultiply
+						texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+					}
+				}
+
+				vbox = {
+					visible = "[Not(Character.HasLandedTitles)]"
+					layoutpolicy_horizontal = expanding
+					
+					margin = { 5 0 }
+					max_width = 300
+
+					text_single = {
+						name = "character_title"
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						text = "CV_UNLANDED"
+						using = Font_Size_Medium
+						align = nobaseline
+					}
+
+					text_single = {
+						name = "government_type"
+						layoutpolicy_horizontal = expanding
+						text = "[Character.GetLocationDesc]"
+						default_format = "#low"
+						format_override = { high medium }
+						format_override = { V medium }
+						align = nobaseline
+						autoresize = no
+					}
+					expand = {}
+				}
+
+				# GUIX # REALM NAME & TYPE
+				# moved from window_character.gui
+				vbox = {
+					visible = "[Character.HasLandedTitles]"
+					datacontext = "[Character.GetPrimaryTitle]"
+					layoutpolicy_vertical = expanding
+					layoutpolicy_horizontal = expanding
+
+					hbox = {
+						layoutpolicy_horizontal = expanding
+
+						text_single = {
+							name = "character_title"
+							layoutpolicy_horizontal = expanding
+							text = "[Title.GetNameNoTooltip|U]"
+							default_format = "#medium"
+							using = Font_Size_Medium
+							max_width = 300
+						}
+
+						expand = {}
+					}
+
+					text_single = {
+						name = "faction"
+						visible = "[Title.HasFaction]"
+						layoutpolicy_horizontal = expanding
+						autoresize = no
+						text = "CV_CIVIL_WAR_FACTION"
+						default_format = "#low"
+						align = nobaseline
+						fontsize_min = 14
+					}
+
+					text_single = {
+						name = "government_type"
+						visible = "[Not( Title.HasFaction )]"
+						layoutpolicy_horizontal = expanding
+						autoresize = no
+						text = "CV_REALM_TYPE"
+						default_format = "#low"
+						align = nobaseline
+						fontsize_min = 14
+					}
+				}				
+
+				expand = {}				
+
+				# GUIX # REALM STATS
+				hbox = {
+					name = "stats"
+					spacing = 8
+					margin_bottom = 6
+					margin_top = 3
+					visible = "[Character.IsAlive]"
+
+					# GUIX # THEOCRATIC LESSEE
+					vbox = {
+						datacontext = "[CharacterWindow.GetCharacter]"
+						visible = "[Character.IsTheocraticLessee]"
+						spacing = -2
+						min_width = 35
+						tooltip = "CV_THEOCRACY_LESSEE_TOOLTIP"
+	
+						icon = {
+							name = "theocracy_lessee_info"
+							texture = "gfx/interface/icons/icon_holding_church.dds"
+							size = { 30 30 }
+						}
+	
+						text_single = {
+							name = "domain_limit"
+							text = "[Character.GetNumTitlesFromTheocraticLease]"
+							default_format = "#high"
+							align = center|nobaseline
+						}					
+					}
+
+					# GUIX # HEAD OF FAITH
+					vbox = {
+						datacontext = "[CharacterWindow.GetCharacter]"
+						visible = "[Character.IsReligiousHead]"
+						spacing = -2
+						min_width = 30
+						tooltip = "CV_THEOCRACY_RELIGIOUS_HEAD_TOOLTIP"
+
+						icon = {
+							name = "religious_head_info"							
+							size = { 30 30 }
+							texture = "gfx/interface/icons/icon_head_of_faith_income.dds"
+						}						
+					}
+
+					# GUIX # DOMAIN LIMIT
+					vbox = {
+						datacontext = "[CharacterWindow.GetCharacter]"
+						visible = "[And( Not( Character.GetPrimaryTitle.HasFaction ), And( Character.HasLandedTitles, Character.IsAlive ) )]"
+						tooltip = "[Character.GetDomainLimitTooltip]"
+						spacing = -2
+	
+						background = {
+							visible = "[GreaterThan_int32( Character.GetDomainSize, Character.GetDomainLimit )]"
+							using = Status_Bad
+							margin_top = 4
+						}
+	
+						icon = {
+							name = "domain_icon"
+							size = { 30 30 }
+							texture = "gfx/interface/icons/icon_domain.dds"
+						}
+	
+						text_single = {
+							name = "domain_limit"
+							text = "[Character.GetDomainSize]/[Character.GetDomainLimit]"
+							default_format = "#high"
+							align = center|nobaseline
+						}
+					}						
+
+					vbox = {
+						visible = "[Character.HasLandedTitles]"
+						spacing = -2
+						min_width = 35
+						tooltip = "[Character.GetDreadBreakdown]"
+
+						icon = {
+							name = "dread_icon"
+							size = { 30 30 }
+							texture = "gfx/interface/icons/icon_dread.dds"
+						}
+
+						text_single = {
+							name = "total_dread"
+							text = "[Character.GetDread|0]"
+							default_format = "#high"
+							align = center|nobaseline
+							fontsize_min = 12
+							max_width = 50
+						}
+					}
+
+					vbox = {
+						tooltip = "[Character.GetGoldTooltipWithBalance]"
+						min_width = 35
+						spacing = -2
+
+						icon = {
+							name = "icon_gold"
+							size = { 30 30 }
+							texture = "gfx/interface/icons/icon_gold.dds"
+						}
+
+						text_single = {
+							name = "total_gold"
+							text = "[Character.GetGold|0]"
+							default_format = "#high"
+							align = center|nobaseline
+							fontsize_min = 12
+							max_width = 50
+						}
+					}
+
+					vbox = {
+						tooltip = "[Character.GetPrestigeTooltipWithBalance]"
+						min_width = 35
+						spacing = -2
+
+						icon = {
+							name = "icon_prestige"
+							size = { 30 30 }
+							texture = "[Character.GetPrestigeLevelTexture]"
+						}
+
+						text_single = {
+							name = "prestige"
+							text = "[Character.GetPrestige|0]"
+							default_format = "#high"
+							align = center|nobaseline
+							fontsize_min = 12
+							max_width = 50
+						}
+					}
+
+					vbox = {
+						tooltip = "[Character.GetPietyTooltipWithBalance]"
+						min_width = 35
+						spacing = -2
+
+						icon = {
+							name = "icon_piety"
+							size = { 30 30 }
+							texture = "[Character.GetPietyLevelTexture]"
+						}
+
+						text_single = {
+							name = "piety"
+							text = "[Character.GetPiety|0]"
+							default_format = "#high"
+							align = center|nobaseline
+							fontsize_min = 12
+							max_width = 50
+						}
+					}
+
+					spacer = {
+						size = { 0 3 }
+					}
+
+					vbox = {
+						visible = "[Character.HasLandedTitles]"
+						tooltip = "[CharacterWindow.GetMilitaryStrengthTooltip]"
+						spacing = -2
+						min_width = 35
+
+						icon = {
+							name = "icon_combat_strength"
+							size = { 30 30 }
+							texture = "gfx/interface/icons/icon_soldier.dds"
+						}
+
+						text_single = {
+							name = "military_total_strength"
+							text = "[CharacterWindow.GetCachedMilitaryStrengthText]"
+							default_format = "#high"
+							align = center|nobaseline
+							fontsize_min = 12
+							max_width = 80
+						}
+					}
+				}
+			}
+
+			# GUIX # BIG REALM COA | TITLES & CLAIMS | DIPLOMACY
+			##################################################
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin_top = 8
+
+				# GUIX # BIG REALM COA
+				hbox = {
+					layoutpolicy_vertical = expanding
+					margin_right = 6
+					vbox = {
+						visible = "[Character.HasLandedTitles]"
+						layoutpolicy_vertical = expanding
+						using = Animation_Character_Window_Refresh
+		
+						coa_realm_medium_crown = {
+							datacontext = "[Character]"
+
+							blockoverride "coa_button"
+							{
+								name = "realm_shield"
+								tooltip = "[Character.GetDefaultRealmFlagTooltipPrimaryTitleClickInfo]"
+								onclick = "[DefaultOnCoatOfArmsClick(Character.GetPrimaryTitle.GetID)]"
+							}
+						}
+						expand = {}
+					}					
+				}
+
+				# GUIX # DIVIDER
+				widget = {
+					visible = "[Character.HasLandedTitles]"
+					parentanchor = left
+					divider = {
+						size = { 4 100 }
+						position = { -5 15 }
+						using = Color_Grey
+						alpha = 0.25
+					}
+				}
+				
+				# GUIX # TITLES & CLAIMS
+				vbox_titles_claims_box = {
+					visible = "[Not( Or( Character.GetPrimaryTitle.HasFaction, DataModelHasItems( CharacterWindow.GetDiplomacyItems )))]"
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding						
+
+					using = Animation_Character_Window_Refresh
+
+					blockoverride "titles_extra_items"
+					{
+						visible = "[GreaterThan_int32(GetDataModelSize(CharacterWindow.GetTitles), '(int32)11' )]"
+						text = "[GetNumberAbove_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)11' )|=]"
+					}
+
+					blockoverride "titles_max_slots"
+					{
+						datamodel_wrap = 11
+					}
+
+					blockoverride "claims_extra_items"
+					{
+						visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetClaims), '(int32)11' )]"
+						text = "[GetNumberAbove_int32(GetDataModelSize(CharacterWindow.GetClaims), '(int32)11' )|=]"
+					}
+
+					blockoverride "claims_max_slots"
+					{
+						datamodel_wrap = 11
+					}
+				}
+
+				# GUIX # DIPLOMACY BOX (removed label to save space - ok since Diplomacy is the default 5th Tab)
+				hbox = {
+					visible = "[DataModelHasItems( CharacterWindow.GetDiplomacyItems )]"
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					margin_right = 2
+
+					vbox_titles_claims_box = {
+						visible = "[And( Not( Character.GetPrimaryTitle.HasFaction ), LessThanOrEqualTo_int32(GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)4'))]"
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+
+						using = Animation_Character_Window_Refresh
+
+						blockoverride "titles_extra_items"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)8' )]"
+							text = "[GetNumberAbove_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)8' )|=]"
+						}
+
+						blockoverride "titles_max_slots"
+						{
+							datamodel_wrap = 8
+						}
+
+						blockoverride "claims_extra_items"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetClaims), '(int32)8' )]"
+							text = "[GetNumberAbove_int32(GetDataModelSize(CharacterWindow.GetClaims), '(int32)8' )|=]"
+						}
+
+
+						blockoverride "claims_max_slots"
+						{
+							datamodel_wrap = 8
+						}
+					}
+
+					vbox_titles_claims_box = {
+						visible = "[And( Not( Character.GetPrimaryTitle.HasFaction ), And(GreaterThan_int32(GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)4'), LessThanOrEqualTo_int32(GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)6')))]"
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+
+						using = Animation_Character_Window_Refresh
+
+						blockoverride "titles_extra_items"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)7' )]"
+							text = "[GetNumberAbove_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)7' )|=]"
+						}
+
+						blockoverride "titles_max_slots"
+						{
+							datamodel_wrap = 7
+						}
+
+						blockoverride "claims_extra_items"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetClaims), '(int32)7' )]"
+							text = "[GetNumberAbove_int32(GetDataModelSize(CharacterWindow.GetClaims), '(int32)7' )|=]"
+						}
+
+						blockoverride "claims_max_slots"
+						{
+							datamodel_wrap = 7
+						}
+					}
+
+					vbox_titles_claims_box = {
+						visible = "[And( Not( Character.GetPrimaryTitle.HasFaction ), And(GreaterThan_int32(GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)6'), LessThanOrEqualTo_int32(GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)8')))]"
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+
+						using = Animation_Character_Window_Refresh
+
+						blockoverride "titles_extra_items"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)6' )]"
+							text = "[GetNumberAbove_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)6' )|=]"
+						}
+
+						blockoverride "titles_max_slots"
+						{
+							datamodel_wrap = 6
+						}
+
+						blockoverride "claims_extra_items"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetClaims), '(int32)6' )]"
+							text = "[GetNumberAbove_int32(GetDataModelSize(CharacterWindow.GetClaims), '(int32)6' )|=]"
+						}
+
+						blockoverride "claims_max_slots"
+						{
+							datamodel_wrap = 6
+						}
+					}
+
+					vbox_titles_claims_box = {
+						visible = "[And( Not( Character.GetPrimaryTitle.HasFaction ), GreaterThan_int32(GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)8'))]"
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+
+						using = Animation_Character_Window_Refresh
+
+						blockoverride "titles_extra_items"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)5' )]"
+							text = "[GetNumberAbove_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)5' )|=]"
+						}
+
+						blockoverride "titles_max_slots"
+						{
+							datamodel_wrap = 5
+						}
+
+						blockoverride "claims_extra_items"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetClaims), '(int32)5' )]"
+							text = "[GetNumberAbove_int32(GetDataModelSize(CharacterWindow.GetClaims), '(int32)5' )|=]"
+						}
+
+						blockoverride "claims_max_slots"
+						{
+							datamodel_wrap = 5
+						}
+					}
+
+					expand = {
+						layoutpolicy_horizontal = expanding
+						visible = "[Character.GetPrimaryTitle.HasFaction]"
+					}
+
+					# GUIX # DIVIDER
+					widget = {
+						parentanchor = left
+						divider = {
+							size = { 4 100 }
+							position = { -8 15 }
+							using = Color_Grey
+							alpha = 0.5
+						}
+					}
+
+					vbox_diplomacy_box = {
+						visible = "[And(Not(IsDataModelEmpty(CharacterWindow.GetDiplomacyItems)), LessThanOrEqualTo_int32(GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)4'))]"
+						layoutpolicy_vertical = expanding
+
+						using = Animation_Character_Window_Refresh
+
+						blockoverride "diplomacy_slots"
+						{
+							maxverticalslots = 2
+							maxhorizontalslots = 2
+							datamodel_wrap = 2
+						}
+					}
+
+					vbox_diplomacy_box = {
+						visible = "[And(GreaterThan_int32(GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)4'), LessThanOrEqualTo_int32(GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)6'))]"
+						layoutpolicy_vertical = expanding
+
+						using = Animation_Character_Window_Refresh
+
+						blockoverride "diplomacy_slots"
+						{
+							maxverticalslots = 2
+							maxhorizontalslots = 3
+							datamodel_wrap = 3
+						}
+					}
+
+					vbox_diplomacy_box = {
+						visible = "[And(GreaterThan_int32(GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)6'), LessThanOrEqualTo_int32(GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)8'))]"
+						layoutpolicy_vertical = expanding
+
+						using = Animation_Character_Window_Refresh
+
+						blockoverride "diplomacy_slots"
+						{
+							maxverticalslots = 2
+							maxhorizontalslots = 4
+							datamodel_wrap = 4
+						}
+					}
+
+					vbox_diplomacy_box = {
+						visible = "[GreaterThan_int32(GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)8')]"
+						layoutpolicy_vertical = expanding
+
+						using = Animation_Character_Window_Refresh
+
+						blockoverride "diplomacy_extra_items"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)10' )]"
+							text = "[GetNumberAbove_int32( GetDataModelSize(CharacterWindow.GetDiplomacyItems), '(int32)10' )|=]"
+						}
+
+						blockoverride "diplomacy_slots"
+						{
+							maxverticalslots = 2
+							maxhorizontalslots = 5
+							datamodel_wrap = 5
+						}
+					}
+					expand = {}
+				}
+				expand = {}					
+			}
+			expand = {}
+		}
+	}
+
+	# GUIX # TITLES & CLAIMS BUTTONS & ITEMS
+	# moved from window_character.gui
+	# it's a 'type' because there are multiple versions, depending on the number of diplomacy items
+	type vbox_titles_claims_box = vbox {
+
+		## Titles
+		hbox = {
+			name = "titles"
+			visible = "[Not( IsDataModelEmpty( CharacterWindow.GetTitles ) )]"
+			layoutpolicy_horizontal = expanding
+			margin_left = 5
+			# GUIX # TITLE button state 1
+			##################################################
+			vbox = {
+				minimumsize = { 65 40 }
+				maximumsize = { 65 40 }
+				visible = "[Not(GetVariableSystem.HasValue('guix_tab','titles'))]"
+				button = {	
+					texture = "gfx/interface/icons/message_feed/titles.dds"
+					size = { 34 34 }
+					
+					onclick = "[GetVariableSystem.Clear('guix_tab')]"
+					onclick = "[GetVariableSystem.Set('guix_tab','titles')]"
+					tooltip = "CV_TITLES_SHOW_TT"					
+				}
+				hbox = {
+					text_single = {
+						visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)0' )]"
+						text = "CV_TITLES"
+						align = top
+					}
+					expand = {}
+				}					
+			}
+		
+			# GUIX # TITLE button state 2
+			##################################################
+			vbox = {
+				minimumsize = { 65 40 }
+				maximumsize = { 65 40 }
+				visible = "[GetVariableSystem.HasValue('guix_tab','titles')]"
+				button = {	
+					texture = "gfx/interface/icons/custom/guix_titles_bw.dds"
+					size = { 34 34 }
+				
+					down = "[GetVariableSystem.HasValue('guix_tab','titles')]"
+					onclick = "[GetVariableSystem.Clear('guix_tab')]"
+					onclick = "[GetVariableSystem.Set('guix_tab','diplomacy')]"
+					tooltip = "CV_TITLES_HIDE_TT"
+				}
+				hbox = {
+					text_single = {
+						visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetTitles), '(int32)0' )]"
+						text = "CV_TITLES"
+						align = top
+					}
+					expand = {}
+				}					
+			}
+
+			# GUIX # TITLE icons
+			##################################################
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin_left = 5
+
+				fixedgridbox = {
+					datamodel = "[CharacterWindow.GetTitles]"
+					flipdirection = yes
+					addrow = 60
+					addcolumn = 38
+					maxverticalslots = 1
+
+					block "titles_max_slots" {
+						datamodel_wrap = 8
+					}
+
+					item = {
+						coa_title_tiny_crown = {
+							datacontext = "[TitleItem.GetTitle]"
+							#	visible = "[GreaterThan_int32( Title.GetTierFrame, '(int32)3' )]"
+							using = tooltip_ne
+
+							icon = {
+								name = "has_laws"
+								visible = "[TitleItem.GetTitle.HasLaws]"
+								parentanchor = bottom|right
+								size = { 25 25 }
+								position = { 5 0 }
+								texture = "gfx/interface/icons/title_status/icon_title_law.dds"
+							}
+						}
+					}
+				}
+				expand = {}
+			}
+						
+		}
+
+		## Claims
+		hbox = {
+			name = "claims"
+			visible = "[Not(IsDataModelEmpty(CharacterWindow.GetClaims))]"
+			layoutpolicy_horizontal = expanding
+			margin_left = 5
+			# GUIX # CLAIMS button state 1
+			##################################################
+			vbox = {
+				minimumsize = { 65 40 }
+				maximumsize = { 65 40 }
+				visible = "[Not(GetVariableSystem.HasValue('guix_tab','claims'))]"
+				button = {			
+					texture = "gfx/interface/icons/custom/guix_claims_icon.dds"
+					size = { 32 32 }
+				
+					onclick = "[GetVariableSystem.Clear('guix_tab')]"
+					onclick = "[GetVariableSystem.Set('guix_tab','claims')]"
+					
+					tooltip = "CV_CLAIMS_SHOW_TT"
+				}
+
+				hbox = {
+					text_single = {
+						visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetClaims), '(int32)0' )]"
+						text = "CV_CLAIMS"
+						align = top
+					}
+					expand = {}
+				}
+			}
+
+			# GUIX # CLAIMS button state 2
+			##################################################
+			vbox = {
+				minimumsize = { 65 40 }
+				maximumsize = { 65 40 }
+				visible = "[GetVariableSystem.HasValue('guix_tab','claims')]"
+				button = {
+					texture = "gfx/interface/icons/custom/guix_claims_icon_bw.dds"
+					size = { 32 32 }
+
+					down = "[GetVariableSystem.HasValue('guix_tab','claims')]"
+					onclick = "[GetVariableSystem.Clear('guix_tab')]"
+					onclick = "[GetVariableSystem.Set('guix_tab','diplomacy')]"
+				
+					tooltip = "CV_CLAIMS_HIDE_TT"
+				}
+				hbox = {
+					text_single = {
+						visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetClaims), '(int32)0' )]"
+						text = "CV_CLAIMS"
+						align = top
+					}
+					expand = {}
+				}
+
+			}
+			
+			# GUIX # CLAIMS icons
+			##################################################
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin_left = 5
+				
+				fixedgridbox = {
+					name = "claims_box"
+					datamodel = "[CharacterWindow.GetClaims]"
+					flipdirection = yes
+					addrow = 60
+					addcolumn = 38
+					maxverticalslots = 1
+
+					block "claims_max_slots" {
+						datamodel_wrap = 8
+					}
+
+					item = {
+						container = {
+							datacontext = "[Claim.GetTitle]"
+							using = tooltip_ne
+							tooltip = "CHARACTER_WINDOW_CLAIM_TOOLTIP"
+
+							coa_title_tiny_crown = {
+								name = "claim"
+								tooltip_enabled = no
+
+								# GUIX # pressed, unpressed & implicit
+								# GUIX # (character will NOT inherit)
+								##################################################							
+								highlight_icon = {
+									name = "pressed_claim"
+									datacontext = "[GetScriptedGui( 'guix_will_inherit' )]"
+									visible = "[And(Not(ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('title_heir', Title.GetHeir.MakeScope ).End )), And(Claim.IsPressed, Not(Claim.IsImplicit)))]"
+
+									texture = "gfx/interface/icons/title_status/icon_claim_pressed.dds"
+									size = { 24 24 }
+									parentanchor = bottom|right
+									tooltip = "GUIX_CLAIM_PRESSED"
+									using = tooltip_ne
+									tooltip_offset = { -30 30 }
+								}
+
+								highlight_icon = {
+									name = "unpressed_claim"
+									datacontext = "[GetScriptedGui( 'guix_will_inherit' )]"
+									visible = "[And(Not(ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('title_heir', Title.GetHeir.MakeScope ).End )), And(Not(Claim.IsPressed), Not(Claim.IsImplicit)))]"
+									texture = "gfx/interface/icons/title_status/icon_claim_unpressed.dds"
+									size = { 24 24 }
+									parentanchor = bottom|right
+									tooltip = "GUIX_CLAIM_UNPRESSED"
+									using = tooltip_ne
+									tooltip_offset = { -30 30 }
+								}
+
+								highlight_icon = {
+									name = "implicit_claim"
+									datacontext = "[GetScriptedGui( 'guix_will_inherit' )]"
+									visible = "[And(Claim.IsImplicit,Not(ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('title_heir', Title.GetHeir.MakeScope ).End ) ))]"
+									texture = "gfx/interface/icons/title_status/icon_claim_implicit.dds"
+									size = { 24 24 }
+									parentanchor = bottom|right
+									tooltip = "GUIX_CLAIM_IMPLICIT"
+									using = tooltip_ne
+									tooltip_offset = { -30 30 }
+								}
+
+								# GUIX # pressed, unpressed & implicit
+								# GUIX # (character will inherit)
+								##################################################
+								highlight_icon = {
+									name = "will_inherit_pressed_claim"
+									datacontext = "[GetScriptedGui( 'guix_will_inherit' )]"
+									visible = "[And(ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('title_heir', Title.GetHeir.MakeScope ).End ), And(Claim.IsPressed, Not(Claim.IsImplicit) ) )]"
+									texture = "gfx/interface/icons/custom/guix_icon_claim_inherit.dds"
+									size = { 24 24 }
+									parentanchor = bottom|right
+									tooltip = "GUIX_CLAIM_INHERIT_PRESSED"
+									using = tooltip_ne
+									tooltip_offset = { -30 30 }
+								}
+		
+								highlight_icon = {
+									name = "will_inherit_unpressed_claim"
+									datacontext = "[GetScriptedGui( 'guix_will_inherit' )]"
+									visible = "[And(ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('title_heir', Title.GetHeir.MakeScope ).End ), And(Not(Claim.IsPressed), Not(Claim.IsImplicit)))]"
+									texture = "gfx/interface/icons/custom/guix_icon_claim_inherit.dds"
+									size = { 24 24 }
+									parentanchor = bottom|right
+									tooltip = "GUIX_CLAIM_INHERIT_UNPRESSED"
+									using = tooltip_ne
+									tooltip_offset = { -30 30 }
+								}
+								
+								highlight_icon = {
+									datacontext = "[GetScriptedGui( 'guix_will_inherit' )]"
+									visible = "[And(Claim.IsImplicit,ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('title_heir', Title.GetHeir.MakeScope ).End ) )]"
+									texture = "gfx/interface/icons/custom/guix_icon_claim_inherit.dds"
+									size = { 24 24 }
+									parentanchor = bottom|right
+									tooltip = "GUIX_CLAIM_INHERIT_IMPLICIT"
+									using = tooltip_ne
+									tooltip_offset = { -30 30 }
+								}
+							}
+						}
+					}
+				}
+
+				expand = {}
+			}
+		}
+		expand = {}
+	}
+
+	# GUIX # DIPLOMACY ITEMS
+	# moved from window_character.gui
+	# it's a 'type' because there are multiple versions, depending on the number of diplomacy items
+	type vbox_diplomacy_box = vbox {
+		name = "diplomacy"
+
+		vbox = {
+			margin_top = 14
+			min_width = 100
+
+			fixedgridbox = {
+				name = "diplomacy_items"
+				datamodel = "[CharacterWindow.GetDiplomacyItems]"
+				flipdirection = yes
+				addrow = 65
+				addcolumn = 50
+
+				block "diplomacy_slots"
+				{
+					maxverticalslots = 2
+					maxhorizontalslots = 2
+					datamodel_wrap = 2
+				}
+
+				item = {
+					container = {
+						onmousehierarchyenter = "[DiplomacyItem.MouseEnter]"
+						onmousehierarchyleave = "[DiplomacyItem.MouseLeave]"
+
+						button = {
+							visible = "[Not(DiplomacyItem.IsStruggle)]"
+							parentanchor = top|hcenter
+							position = { 0 -22 }
+							texture = "gfx/interface/icons/diplomatic_icons.dds"
+							frame = "[DiplomacyItem.GetDiplomacyFrame]"
+							framesize = { 120 120 }
+							size = { 50 50 }
+							tooltip_enabled = no
+
+							text_single = {
+								name = "warscore"
+								visible = "[DiplomacyItem.HasWarScore]"
+								parentanchor = top|hcenter
+								position = { 0 10 }
+								text = "[DiplomacyItem.GetWarScoreFraction|0%=+]"
+								fontsize = 13
+							}
+						}
+
+						coa_realm_small = {
+							visible = "[Not(DiplomacyItem.IsStruggle)]"
+							datacontext = "[DiplomacyItem.GetTargetCharacter]"
+							tooltip = "[DiplomacyItem.GetTooltip]"
+							using = tooltip_es
+							tooltip_offset = { 0 22 }
+							onrightclick = "[DefaultOnRealmFlagClick(Character.GetID)]"
+
+							state = {
+								name = _mouse_hierarchy_enter
+								start_sound = {
+									soundeffect = "event:/SFX/UI/Generic/sfx_ui_generic_icon_pointer_over"
+								}
+							}
+
+							blockoverride "coa_button"
+							{
+								onclick = "[DiplomacyItem.OnClick]"
+								button_ignore = none
+							}
+						}
+
+						button = {
+							datacontext = "[DiplomacyItem.GetStruggle]"
+							visible = "[DiplomacyItem.IsStruggle]"
+							position = { 0 -3 }
+							size = { 50 60 }
+							onclick = "[DiplomacyItem.OnClick]"
+
+							datacontext = "[DiplomacyItem.GetTargetCharacter]"
+							tooltipwidget = struggle_tooltip;
+							using = tooltip_es
+							tooltip_offset = { 0 22 }
+
+							# GUIX # Legacy of Persia 1.11 - "struggle icon" widget was aadded to window_character.gui
+							widget_struggle_icon = {}
+						}
+					}
+				}
+			}
+		}
+
+		expand = {}
+	}
+}

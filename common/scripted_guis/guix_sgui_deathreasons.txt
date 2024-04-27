@@ -1,0 +1,503 @@
+﻿###---guix: this file determines which skull to show for each death_reason
+
+guix_death_default = {
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_hanged / strangled
+				##################################################
+				death_reason = death_hanged
+				death_reason = death_ritually_hung
+				death_reason = death_bell_revenge
+				death_reason = death_revenge
+				death_reason = death_strangled_with_own_intestines
+				
+				# observation_throat / injuries
+				##################################################
+				death_reason = death_molten_silver_by_mob
+				death_reason = death_choked
+				death_reason = death_choked_pus
+				death_reason = death_ended_on_feast_table
+			}
+		}
+	}
+}
+
+guix_death_disease = { 
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_disease
+				##############################################
+				death_reason = death_bubonic_plague
+				death_reason = death_smallpox
+				death_reason = death_typhus
+				death_reason = death_cancer
+				death_reason = death_pneumonic
+				death_reason = death_consumption
+				death_reason = death_leper
+				death_reason = death_gout_ridden
+				death_reason = death_great_pox
+				death_reason = death_ill
+				death_reason = death_sickly
+				death_reason = death_camp_fever
+				death_reason = death_march_malaise
+				# observation_poisoned
+				##############################################				
+				death_reason = death_poison
+				death_reason = death_poisonous_forage
+				death_reason = death_strongest_potion
+				death_reason = death_too_much_dessert
+				death_reason = death_snakes
+			}
+		}
+	}
+}
+
+guix_death_health = {
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_peaceful
+				##############################################
+				death_reason = death_natural_causes
+				death_reason = death_old_age
+				death_reason = death_euthanasia
+				death_reason = death_euthanasia_killer
+
+				# observation_health_internal
+				##############################################
+				death_reason = death_stress
+				death_reason = death_giant
+				death_reason = death_spindly
+				death_reason = death_wheezing
+				death_reason = death_bleeder
+				death_reason = death_depressed
+				death_reason = death_lunatic
+				death_reason = death_possessed
+				death_reason = death_incapable
+				death_reason = death_maimed
+				death_reason = death_physique_bad_1
+				death_reason = death_physique_bad_2
+				death_reason = death_physique_bad_3
+				death_reason = death_weak
+				death_reason = death_inbred
+				death_reason = death_dungeon
+				death_reason = death_dungeon_passive			
+				death_reason = death_treatment
+				death_reason = death_treatment_killer	
+				death_reason = death_physician_mistreatment
+				death_reason = death_attempted_treatment
+				death_reason = death_apoplexy
+				death_reason = death_cuteness_overload
+				death_reason = death_danced_to_death
+				death_reason = death_laughter
+				death_reason = death_heart_attack
+				death_reason = death_fear
+				death_reason = death_literalist_debate
+
+				# observation_health_external
+				##############################################
+				death_reason = death_wounded_1
+				death_reason = death_wounded_2
+				death_reason = death_wounded_3
+				death_reason = death_wounds
+				death_reason = death_flagellant
+				death_reason = blind
+				death_reason = death_spectator_injured
+				death_reason = death_tournament_stands_collapsed
+				death_reason = death_miniatures
+
+				# observation_health_malnourishment
+				##############################################
+				death_reason = death_malnourishment
+				death_reason = death_starved
+				death_reason = death_starved_killer
+				death_reason = death_nailed_in_cabinet
+
+				# observation_health_gluttany
+				##############################################
+				death_reason = death_obesity
+				death_reason = death_ate_themselves_to_death
+				death_reason = death_tumultuous_guts
+				death_reason = death_drinking_passive
+				death_reason = death_drank_to_death
+
+				# observation_health_pregnancy
+				##############################################
+				death_reason = death_childbirth
+				death_reason = death_delivery
+			}
+		}
+	}
+}
+
+guix_death_mystery = { 
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_unknown
+				##############################################
+				death_reason = debug
+				death_reason = unknown_death_reason
+
+				# observation_mystery
+				##############################################
+				death_reason = death_plotting
+				death_reason = death_mysterious
+				death_reason = death_hunting_mysterious
+				death_reason = death_accident
+				
+				# observation_no_corpse
+				##############################################		
+				death_reason = death_disappearance
+				death_reason = death_vanished
+				death_reason = death_lost_in_the_bog
+				death_reason = death_lost_in_the_forest
+			}
+		}
+	}
+}
+
+guix_death_missing = { 
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_decapitated
+				##############################################
+				death_reason = death_punishment
+				death_reason = death_head_ripped_off
+				death_reason = death_skull_removed
+				death_reason = death_botched_decapitation
+				death_reason = death_decapitated
+				death_reason = death_bell
+				death_reason = death_bell_killer
+			}
+		}
+	}
+}
+
+guix_death_bloody = { 
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_stabbed
+				##############################################				
+				death_reason = death_suicide # stabbed with a blade
+				death_reason = death_siege
+				death_reason = death_duel
+				death_reason = death_fight
+				death_reason = death_fight_killer				
+				death_reason = death_battle
+				death_reason = death_raid
+				death_reason = death_pilgrimage_bandit_attack
+				death_reason = death_attacked
+				death_reason = death_hunting_mistakenly_stabbed
+				death_reason = death_courtier_mistakenly_stabbed
+				death_reason = death_slaughtered_by_guards
+				death_reason = death_assassinated_by_soldiers
+				death_reason = death_cut_off_by_enemy_troops_offensive
+				death_reason = death_cut_off_by_enemy_troops_defensive
+				death_reason = death_scuffle_with_soldiers
+				death_reason = death_while_assassinating
+				death_reason = death_coup_successful
+				death_reason = death_coup_failed
+				death_reason = death_manhunted	
+				death_reason = death_refused_to_be_imprisoned
+				death_reason = death_bloody_wedding
+				death_reason = death_murder_feast
+				death_reason = death_piteously_cut_down
+				
+				# observation_hunting
+				##############################################
+				death_reason = death_hunting_mistakenly_shot
+				death_reason = death_hunting_trap
+				death_reason = death_equipment
+
+				# observation_unnatural
+				##############################################
+				death_reason = death_feast_accident
+				#death_reason = death_by_artifact [jomini_script_system.cpp:276]: Script system error! Error: death_reason trigger [ Invalid database object 'death_by_artifact' ]
+				death_reason = death_murder # what does this encompass?
+				death_reason = death_murder_known # what does this encompass?
+				death_reason = death_script_cruelty
+				death_reason = death_execution #Used for all executions
+				death_reason = death_execution_killer #Used for all executions
+				death_reason = death_assassination
+				death_reason = death_brutally_despatched				
+			}
+		}
+	}
+}
+
+guix_death_cracked = { 
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_cracked
+				##############################################					
+				death_reason = death_axe				
+				death_reason = death_fall
+				death_reason = death_fell_bedchamber				
+				death_reason = death_defenestrated_by_mob
+				death_reason = death_defenestration
+				death_reason = death_skull_cracked_open
+				death_reason = death_training_accident
+				death_reason = death_hunting_accident
+				death_reason = death_fallen_from_a_mountain
+				death_reason = death_mountain_rescue_operation
+				death_reason = death_fall_in_hole				
+				death_reason = death_avalanche
+				death_reason = death_run_over_cart
+				death_reason = death_crushed
+				death_reason = death_launched_out_of_catapult
+				death_reason = death_flight_attempt
+				death_reason = death_jumping_boulder #not used
+				death_reason = death_snapped_neck_climbing_tree ##not used
+				death_reason = death_roof_tile
+			}
+		}
+	}
+}
+
+guix_death_brutal = { 
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_butchered
+				##############################################				
+				death_reason = death_cloven_in_half
+				death_reason = death_viciously_dismembered
+				death_reason = death_ripped_apart_limb_by_limb
+				death_reason = death_chopped_to_pieces
+				
+				# observation_mangled
+				##############################################
+				death_reason = death_whipping
+				death_reason = death_torture
+				death_reason = death_torture_passive
+				death_reason = death_execution_blood_eagle
+				death_reason = death_execution_blood_eagle_killer
+				death_reason = death_execution_blot
+				death_reason = death_beaten
+				death_reason = death_sacrificed_to_gods
+				death_reason = death_crucified	
+				death_reason = death_dragged
+				death_reason = death_for_corpse_forest
+				death_reason = death_by_exploding_whale
+				death_reason = death_beaten_by_mob	
+				death_reason = death_hanged_and_disemboweled_by_mob
+				death_reason = death_torn_to_pieces_by_mob
+				death_reason = death_crucified_by_mob
+				death_reason = death_sacrificed_to_foreign_gods
+
+				# observation_heartless
+				##############################################				
+				death_reason = death_heart_ripped_out
+			}
+		}
+	}
+}
+
+guix_death_eaten = { 
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_eaten
+				##############################################					
+				death_reason = death_eaten
+				death_reason = death_ritually_hung_then_eaten
+				death_reason = death_ritually_eaten
+				death_reason = death_manhunted_eaten
+			}
+		}
+	}
+}
+
+guix_death_burned = { 
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_burned
+				##############################################					
+				death_reason = death_burned
+				death_reason = death_burned_by_mob
+				death_reason = death_burned_witch
+				death_reason = death_fire
+			}
+		}
+	}
+}
+
+guix_death_elements = {
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_elements
+				##############################################					
+				death_reason = death_hypothermia
+				death_reason = death_ice
+				death_reason = death_drowned
+				death_reason = death_sea_storm
+				death_reason = death_violent_storm
+				death_reason = death_froze
+				death_reason = death_heatstroke
+				death_reason = death_sun_trial
+			}
+		}
+	}
+}
+
+guix_death_excrement = { 
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			# observation_excrement
+			##################################################			
+			death_reason = death_drowned_in_excrement
+		}
+	}
+}
+
+guix_death_trepanned = { 
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			# observation_trepanned
+			##################################################
+			death_reason = death_trepanned
+		}
+	}
+}
+
+guix_death_beast = {
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_beast_pierced
+				##############################################
+				death_reason = death_deer
+				death_reason = death_boar
+				death_reason = death_hart
+				death_reason = death_moose
+
+				# observation_beast_shredded
+				##############################################	
+				death_reason = death_maimed_by_wild_beast
+				death_reason = death_riding_animal				
+				death_reason = death_carp_accident
+				death_reason = death_aurochs
+				death_reason = death_hyena
+				death_reason = death_lion
+				death_reason = death_tiger
+				death_reason = death_leopard
+				death_reason = death_wild_animal
+				death_reason = death_wolf
+				death_reason = death_wolves
+				death_reason = death_wolverine
+				death_reason = death_bear
+				death_reason = death_lynx
+				death_reason = death_crocodile
+				death_reason = death_dog_attack
+				death_reason = death_cat_attack
+				death_reason = death_sow # childhood events  "was bitten to death by a sow"				
+				
+				# observation_beast_blunt
+				##############################################	
+				death_reason = death_trampled_by_horse #no corresponding loc !?
+				death_reason = death_horse_riding_accident
+				death_reason = death_stampede
+				death_reason = death_gazelle
+				death_reason = death_bison
+				death_reason = death_roe
+				death_reason = death_antelope
+				death_reason = death_bull_charge
+				death_reason = death_crushed_by_elephant
+				death_reason = death_horse # childhood events "was killed by a bucking horse"
+				death_reason = death_camel # childhood events "was killed by a bucking camel"
+			}
+		}
+	}
+}
+
+guix_death_tourney = { 
+	scope = character
+	is_shown = {
+		AND = {
+			NOT = {
+				is_alive = yes
+			}
+			OR = {
+				# observation_tourney
+				##############################################
+				death_reason = death_contest_melee_accident
+				death_reason = death_contest_joust_accident
+				death_reason = death_contest_wrestling_accident
+				death_reason = death_contest_duel_accident
+				death_reason = death_contest_board_game_accident
+				death_reason = death_contest_horse_sport_accident
+				death_reason = death_tournament_pas_darmes_defend
+				death_reason = death_tournament_pas_darmes_challenge
+				death_reason = death_tournament_piledriver
+				death_reason = death_tournament_melee_throat
+				death_reason = death_tournament_roundhouse
+				death_reason = death_tournament_archery_fall
+				death_reason = death_tournament_quintain_hit
+			}
+		}
+	}
+}

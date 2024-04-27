@@ -1,0 +1,250 @@
+﻿l_french:
+  
+ ################################################## 
+ # GUIX # MAIN VIEW (no loc) 
+ ################################################## 
+ GUIX_DEATH_DATES: "([Character.GetBirthDate.GetYear|V] ~ [Character.GetDeathDate.GetYear|V])"
+  
+ ################################################## 
+ # GUIX # TRAITS & MODIFIERS BUTTON (some loc) 
+ ################################################## 
+ GUIX_SHOW_TRAITS: "$MY_REALM_WINDOW_SHOW$ $game_concept_character$ [traits|E]"
+ GUIX_SHOW_MODIFIERS: "$MY_REALM_WINDOW_SHOW$ $game_concept_character$ [modifiers|E]"
+ GUIX_NO_TRAITS: "$NO$ $game_concept_character$ [traits|E]"
+ GUIX_NO_MODIFIERS: "$NO$ $game_concept_character$ [modifiers|E]"
+  
+ GUIX_SCROLLABLE: "Faites défiler pour voir plus de [traits|E] et [modifiers|E]"
+ GUIX_3_PERSONALITY_TRAITS: "[personality_traits|E]"
+  
+ ################################################## 
+ # GUIX # CLAIM SHIELD TOOLTIPS (no loc) 
+ ################################################## 
+ GUIX_CLAIM_PRESSED: "#T [Claim.GetTitle.GetNameNoTooltip]#!\n[pressed_claim_i] [pressed_claim|E]\n$COA_TOOLTIP_CLICK_INFO_GUI$"
+ GUIX_CLAIM_UNPRESSED: "#T [Claim.GetTitle.GetNameNoTooltip]#!\n[unpressed_claim_i] [unpressed_claim|E]\n$COA_TOOLTIP_CLICK_INFO_GUI$"
+ GUIX_CLAIM_IMPLICIT: "#T [Claim.GetTitle.GetNameNoTooltip]#!\n[implicit_claim_i] [implicit_claim|E]\n$COA_TOOLTIP_CLICK_INFO_GUI$"
+ GUIX_CLAIM_INHERIT_PRESSED: "#T [Claim.GetTitle.GetNameNoTooltip]#!\n[guix_heir_icon_i] [heir|e]\n[pressed_claim_i] [pressed_claim|E]\n$COA_TOOLTIP_CLICK_INFO_GUI$"
+ GUIX_CLAIM_INHERIT_UNPRESSED: "#T [Claim.GetTitle.GetNameNoTooltip]#!\n[guix_heir_icon_i] [heir|e]\n[unpressed_claim_i] [unpressed_claim|E]\n$COA_TOOLTIP_CLICK_INFO_GUI$"
+ GUIX_CLAIM_INHERIT_IMPLICIT: "#T [Claim.GetTitle.GetNameNoTooltip]#!\n[guix_heir_icon_i] [heir|e]\n[implicit_claim_i] [implicit_claim|E]\n$COA_TOOLTIP_CLICK_INFO_GUI$"
+  
+ ################################################## 
+ # GUIX # TAB NAMES (optional loc - vanilla uses "Relationships" & "Courtiers") "Relationships" & "Courtiers"
+ ################################################## 
+ CV_TAB_FAMILY: "Famille"
+ CV_TAB_RELATIONS: "Relations"
+ CV_TAB_COURT: "Cour"
+ CV_TAB_VASSALS: "Vassaux"
+ CV_TAB_DIPLOMACY: "Diplomatie"
+  
+ ################################################## 
+ # GUIX # LABEL NAMES - made them tooltips, they are not in vanilla (no loc) 
+ ################################################## 
+ SECONDARY_SPOUSES: "[secondary_spouses|E]"
+ GUARDIAN_LABEL: "[guardian|E]"
+ WARDS_LABEL: "[wards|E]"
+ LOVERS_LABEL: "[lovers|E]"
+ FRIENDS_LABEL: "[friends|E]"
+ RIVALS_LABEL: "[rivals|E]"
+ CRUSHES_LABEL: "[crushes|E]"
+ BULLIES_LABEL: "[bullies|E]"
+ VICTIMS_LABEL: "[victims|E]"
+  
+ GUIX_CHILDREN_HEADING: "Enfants #cliquables;italic ([GetDataModelSize(CharacterWindow.GetChildren)])#!"
+ GUIX_SIBLINGS_HEADING: "Frères et sœurs #clickable;italic ([GetDataModelSize(CharacterWindow.GetSiblings)])#!"
+ GUIX_LOVERS_HEADING: "[lovers|E] #clickable;italic ([GetDataModelSize(CharacterWindow.GetSiblings)])#!"
+ GUIX_FRIENDS_HEADING: "[friends|E] #clickable;italic ([GetDataModelSize(CharacterWindow.GetSiblings)])#!"
+ GUIX_RIVALS_HEADING: "[rivals|E] #clickable;italic ([GetDataModelSize(CharacterWindow.GetSiblings)])#!"
+  
+ ################################################## 
+ # GUIX # LIST CHARACTER NAME (no loc) 
+ ################################################## 
+ GUIX_LIST_NAME: "[Character.GetUINameNoTooltip]"
+  
+ ################################################## 
+ # GUIX # VASSAL LIST SPECIFIC (some loc) 
+ ################################################## 
+ GUIX_REALM_WINDOW_SIZE_ICON: "@prestige_icon!"
+ GUIX_REALM_WINDOW_SIZE_NUMBER: "[Character.RealmSize|V]"
+  
+ GUIX_VASSAL_AT_WAR: "[Character.GetTitledFirstNameNoTooltip] est en [war|e] avec [Character.GetHerHis] [liege|e] ([Character.GetLiege.GetNameOrMe])"
+ GUIX_VASSAL_ALLIANCE: "[Character.GetTitledFirstNameNoTooltip] a une [alliance|e] avec [Character.GetHerHis] [liege|e] ([Character.GetLiege.GetNameOrMe])"
+ FRAME_RELATION_POWERFUL_VASSAL: "Ce [ruler|E] est un [powerful_vassal|E] qui n'attend rien de son [liege|e]"
+ GUIX_MILITARY_STRENGTH: "Ce [vassal|e] a @soldier_icon ! #v [Character.GetMilitaryStrengthText]# ! [soldiers|E]\nLeur [liege|E] a @soldier_icon ! #v [CharacterWindow.GetCharacter.GetMilitaryStrengthText]# ! [soldiers|E]"
+  
+ ################################################## 
+ # GUIX # DIPLOMACY (some loc) 
+ ################################################## 
+ GUIX_DIPLOMACY_NONE: "Pas de relations diplomatiques"
+ GUIX_DIPLOMACY_ATTACKING: "#attacker_color Attaque#!"
+ GUIX_DIPLOMACY_DEFENDING: "#defender_color Défendre#! contre"
+ GUIX_DIPLOMACY_ALLIANCE: "[allied|e] au"
+ GUIX_DIPLOMACY_TRUCE: "[truce|e] avec"
+ GUIX_DIPLOMACY_RAIDING: "[raiding|e]"
+ GUIX_DIPLOMACY_RAIDED: "[raided|e] par"
+ GUIX_STRUGGLE: "[Struggle.GetNameNoTooltip]"
+ GUIX_STRUGGLE_INVOLVED: "[Character.GetShortUINameNoTooltip|U] [Select_CString( Character.IsLocalPlayer, 'are', 'is' )] [Character.GetStruggleInvolvementType( Struggle.Self )] dans le "
+ GUIX_STRUGGLE_INTERLOPER: "[Character.GetShortUINameNoTooltip|U] [Select_CString( Character.IsLocalPlayer, 'are', 'is' )] un [Character.GetStruggleInvolvementType( Struggle.Self )] dans le "
+  
+ ################################################## 
+ # GUIX # TITLES & CLAIMS EXPANDED (some loc) 
+ ################################################## 
+ CV_TITLES: "[GetDataModelSize(CharacterWindow.GetTitles)|V] [titles|E]"
+ CV_CLAIMS: "[GetDataModelSize(CharacterWindow.GetClaims)|V] [claims|E]"
+ GUIX_NO_HEIR: "$NO$ [heir|e]"
+ GUIX_NO_HOLDER: "$NO$ [holder|e]"
+ GUIX_CLAIM_TITLE_NOT_CREATED: "($CLAIM_TITLE_NOT_CREATED$)"
+  
+ GUIX_TITLE_NOT_DE_JURE: "#italic;low Ne fait pas [de_jure] partie d'un autre titre"
+ GUIX_TITLE_DE_JURE_CREATED_YES: "[de_jure|E] fait partie de #L;Z [Title.GetDeJureLiege.GetName]#!"
+ GUIX_TITLE_DE_JURE_CREATED_NO: "[de_jure|E] fait partie de #L;Z [Title.GetDeJureLiege.GetName]#!"
+ GUIX_TITLE_NOT_CREATED: "#italic [title|e] n'a pas de #gras# ! été [created|e;l] pour le moment# !"
+  
+ GUIX_FEUDAL_ELECTIVE_SUCCESSSION_LAW: "• #L $feudal_elective_succession_law$#!"
+ GUIX_PRINCELY_ELECTIVE_SUCCESSSION_LAW: "• #L $princely_elective_succession_law$#!"
+ GUIX_GAELIC_ELECTIVE_SUCCESSSION_LAW: "• #L $gaelic_elective_succession_law$#!"
+ GUIX_SAXON_ELECTIVE_SUCCESSSION_LAW: "• #L $saxon_elective_succession_law$#!"
+ GUIX_SCANDINAVIAN_ELECTIVE_SUCCESSSION_LAW: "• #L $scandinavian_elective_succession_law$#!"
+  
+ GUIX_MALE_ONLY_LAW: "• #L $male_only_law$#!"
+ GUIX_MALE_PREFERENCE_LAW: "• #L $male_preference_law$#!"
+ GUIX_EQUAL_LAW: "• #L $equal_law$#!"
+ GUIX_FEMALE_ONLY_LAW: "• #L $female_only_law$#!"
+ GUIX_FEMALE_PREFERENCE_LAW: "• #L $female_preference_law$#!"
+ GUIX_SINGLE_HEIR_SUCCESSSION_LAW: "• #L $single_heir_succession_law$#!"
+ GUIX_PARTITION_SUCCESSSION_LAW: "• #L $partition_succession_law$#!"
+ GUIX_HIGH_PARTITION_SUCCESSSION_LAW: "• #L $high_partition_succession_law$#!"
+ GUIX_CONFEDERATE_PARTITION_SUCCESSSION_LAW: "• #L $confederate_partition_succession_law$#!"
+ GUIX_TEMPORAL_HEAD_OF_FAITH_SUCCESSSION_LAW: "• $temporal_head_of_faith_succession_law$"
+  
+ GUIX_SAME_FAITH: "• #L $same_faith_theocratic_succession_law$#!"
+ GUIX_THEOCRATIC: "• #L $bishop_theocratic_succession_law$#!"
+  
+ ################################################## 
+ # GUIX # FAMILY TAB LABELS (some loc) 
+ ################################################## 
+ GUIX_PATERNAL_GRANDPARENTS: "$GRANDPARENTS$ paternel"
+ GUIX_MATERNAL_GRANDPARENTS: "$GRANDPARENTS$ maternelle"
+  
+ CV_RIVALS_SHOW_TT: "#I Cliquez pour agrandir les [rivals|E]#!"
+ CV_RIVALS_HIDE_TT: "#I Cliquez pour masquer les [rivals|E]#!"
+  
+ ################################################## 
+ # GUIX # LOWBORN TRADES (some loc) 
+ ################################################## 
+  
+ TRADE_TT: "Les personnages [lowborn|E] dotés de [skills|E] élevées pratiquent un $game_concept_trade$:\n$BULLET_WITH_TAB$[messengers|E]\n$BULLET_WITH_TAB$[warriors|E]\n$BULLET_WITH_TAB$[merchants|E] \n$BULLET_WITH_TAB$[espions|E]\n$BULLET_WITH_TAB$[scholars|E]\n$BULLET_WITH_TAB$[consuls|E]\n$BULLET_WITH_TAB$[knights_errant|E]\n\nAlors que les personnages d'un échange sont généralement [wanderers|E], [guests|E] ou [courtiers|E], ils aspirent à rejoindre un [council|E], ou à obtenir une [land|E] et à fonder leur propre [dynasty|E]."
+  
+ LOWBORN_TRADE_TYPE: "[Character.Custom('LowbornTradeType')]"
+  
+   # GUIX # LowbornTradeType referenced in common/customizable_localization/99_guix)lowboarn_coa_custom_loc.txt 
+ loc_messenger: "[messenger|E]"
+ loc_warrior: "[warrior|E]"
+ loc_merchant: "[merchant|E]"
+ loc_spy: "[spy|E]"
+ loc_scholar: "[scholar|E]"
+ loc_knight_errant: "[knight_errant|E]"
+ loc_consul: "[consul|E]"
+ loc_mercenary: "[mercenary|E]"
+ loc_child: "[child|E]"
+ loc_commoner: "[commoner|E]"
+  
+ ################################################## 
+ # GUIX # FAMILY TIES ICONS (no loc) 
+ ################################################## 
+  
+   # vanilla 
+ FRAME_RELATION_FAMILY_DYNASTY: "Membre de ta [family|E] et [dynasty|E]"
+   # mod 
+ GUIX_CHAR_FAMILY_AND_DYNASTY: "Membre de la [CharacterWindow.GetCharacter.GetTitledFirstNamePossessiveNoTooltip] [family|E] et [dynasty|E]"
+  
+   # vanilla 
+ FRAME_RELATION_FAMILY: "Membre de ta [family|E] mais #bold;l pas#! de ta [dynasty|E]"
+   # mod 
+ GUIX_CHAR_FAMILY_NOT_DYNASTY: "Membre de [CharacterWindow.GetCharacter.GetTitledFirstNamePossessiveNoTooltip] [family|E] mais #bold pas# ! [CharacterWindow.GetCharacter.GetHerHis] [dynasty|E]"
+  
+   # vanilla 
+ FRAME_RELATION_DYNASTY_MEMBER: "Membre de votre [dynasty|E]"
+   # mod 
+ GUIX_CHAR_DYNASTY_NOT_FAMILY: "Membre de [CharacterWindow.GetCharacter.GetTitledFirstNamePossessiveNoTooltip] [dynasty|E] mais #bold not# ! [CharacterWindow.GetCharacter.GetHerHis] [family|E]"
+  
+   # vanilla 
+ FRAME_RELATION_BASTARD: "[bastard|E] illégitime"
+ FRAME_RELATION_FAMILY_BASTARD: "[bastard|E] illégitime de votre [family|E]"
+ FRAME_RELATION_DYNASTY_BASTARD: "[bastard|E] illégitime de votre [dynasty|E]"
+ FRAME_RELATION_FAMILY_DYNASTY_BASTARD: "[bastard|E] illégitime de votre [family|E] et de votre [dynasty|E]"
+  
+   # mod 
+ GUIX_BASTARD_DYNASTY: "Un [bastard|E] illégitime de [CharacterWindow.GetCharacter.GetTitledFirstNamePossessiveNoTooltip] [dynasty|E]"
+ GUIX_BASTARD_NOT_DYNASTY: "Un [bastard|E] illégitime qui est #bold pas #!de [CharacterWindow.GetCharacter.GetTitledFirstNamePossessiveNoTooltip] [dynasty|E]"
+  
+   # vanilla 
+ FRAME_RELATION_DYNAST: "$TT_DYNAST_DESC$"
+ FRAME_RELATION_HEAD_OF_HOUSE: "$TT_HOUSE_HEAD_DESC$"
+  
+   # mod 
+ GUIX_DYNASTY_HEAD: "[dynasty|E] de [CharacterWindow.GetCharacter.GetTitledFirstNamePossessiveNoTooltip] [CharacterWindow.GetCharacter.GetHouse.GetDynasty.GetName] $game_concept_dynasty$"
+ GUIX_HOUSE_HEAD: "[house_head|E] de [CharacterWindow.GetCharacter.GetTitledFirstNamePossessiveNoTooltip] $game_concept_house$ [CharacterWindow.GetCharacter.GetHouse.GetBaseName]"
+ GUIX_DYNASTY_AND_HOUSE_HEAD: "[dynasty|E] de [CharacterWindow.GetCharacter.GetTitledFirstNamePossessiveNoTooltip] $game_concept_dynasty$ [CharacterWindow.GetCharacter.GetHouse.GetDynasty.GetName], en plus d'être le [house_head|E] de $game_concept_house$ [CharacterWindow.GetCharacter.GetHouse.GetBaseName]."
+  
+   # vanilla 
+ FRAME_RELATION_DYNASTY_MEMBER: "Membre de votre [dynasty|E]"
+ FRAME_RELATION_DYNASTY_FOUNDER: "Fondateur de la [dynasty|E] of $game_concept_house$ #high [Character.GetDynasty.GetBaseNameNoTooltip]#!"
+ FRAME_RELATION_HOUSE_MEMBER: "Membre de votre [house|E]"
+ FRAME_RELATION_HOUSE_FOUNDER: "Fondateur de votre [house|E]"
+ FRAME_RELATION_NOT_HOUSE_MEMBER: "Pas un membre de votre [house|E]"
+ FRAME_RELATION_LEGITIMIZAD_BASTARD: "[legitimized_bastard|E]"
+ FRAME_RELATION_MY_FAMILY: "Tes $RELATION$"
+  
+ FRAME_RELATION_ME: "Il s'agit de #bold vous#!"
+ FRAME_RELATION_MY_HEIR: "Il s'agit de votre [player_heir|E]"
+ FRAME_RELATION_MY_LIEGE: "Il s'agit de votre [liege|E]"
+  
+   # mod 
+ GUIX_FRAME_RELATION_AI_HEIR: "C'est [CharacterWindow.GetCharacter.GetTitledFirstNamePossessiveNoTooltip] [player_heir|E]"
+ GUIX_PRIMARY_HEIR_WRONG_DYNASTY: "@warning_icon ! Le [player_heir|E] [CharacterWindow.GetCharacter.GetPlayerHeir.GetFullNameNoTooltip] est #bold et non #!le [primary_heir|E] à [CharacterWindow.GetCharacter.GetPrimaryTitle.GetDefinitiveNameNoTooltip].\n\n#I Cliquez pour voyez qui héritera du [primary_title|E]# !"
+  
+ ################################################## 
+ # GUIX # HIGHLIGHT BUTTONS for COURT and VASSALS (no loc) 
+ ################################################## 
+  
+ HIGHLIGHT_BUTTON_COURT_DEFAULT_SHOW_EMPLOYED: "$MY_REALM_WINDOW_SHOW$ [council|E] & [court_positions|E]"
+ HIGHLIGHT_BUTTON_COURT_EMPLOYED_SHOW_KNIGHTS: "[council|E] & [court_positions|E]  $BULLET$ $MY_REALM_WINDOW_SHOW$ [knights|E]"
+ HIGHLIGHT_BUTTON_COURT_KNIGHTS_SHOW_HOSTAGES_PRISONERS: "[knights|E]  $BULLET$ $MY_REALM_WINDOW_SHOW$ [hostages|E] & [prisoners|E]"
+ HIGHLIGHT_BUTTON_COURT_HOSTAGES_PRISONERS_SHOW_GUESTS: "[hostages|E] & [prisoners|E]  $BULLET$ $MY_REALM_WINDOW_SHOW$ [guests|E]"
+ HIGHLIGHT_BUTTON_COURT_GUEST_SHOW_FAMILY: "[guests|E]  $BULLET$ $MY_REALM_WINDOW_SHOW$ [family|E]"
+ HIGHLIGHT_BUTTON_COURT_FAMILY_SHOW_RELATIONS: "[family|E]  $BULLET$ $MY_REALM_WINDOW_SHOW$ [relations|E]"
+ HIGHLIGHT_BUTTON_COURT_RELATIONS_SHOW_DEFAULT: "[relations|E]  $BULLET$ $CLOSE_LABEL$"
+  
+ HIGHLIGHT_BUTTON_VASSALS_SHOW_COUNCIL: "$MY_REALM_WINDOW_SHOW$ [council|E]"
+ HIGHLIGHT_BUTTON_VASSALS_COUNCIL_SHOW_KNIGHTS: "[council|E]  $BULLET$ $MY_REALM_WINDOW_SHOW$ [knights|E]"
+ HIGHLIGHT_BUTTON_VASSALS_KNIGHTS_SHOW_FAMILY: "[knights|E]  $BULLET$ $MY_REALM_WINDOW_SHOW$ [family|E]"
+ HIGHLIGHT_BUTTON_VASSALS_FAMILY_SHOW_RELATIONS: "[family|E]  $BULLET$ $MY_REALM_WINDOW_SHOW$ [relations|E]"
+ HIGHLIGHT_BUTTON_VASSALS_RELATIONS_SHOW_DEFAULT: "[relations|E]  $BULLET$ $CLOSE_LABEL$"
+  
+ ################################################## 
+   # GUIX # 00_DEBUG_INTERACTIONS (for testing only) 
+ ################################################## 
+ guix_death_bloodless: "mort sans effusion de sang"
+ guix_death_disease: "mort par maladie"
+ guix_death_health: "mort par mauvaise santé"
+ guix_death_mystery: "mort mystérieuse"
+ guix_death_missing: "mort par disparition"
+ guix_death_bloody: "mort sanglante"
+ guix_death_brutal: "mort par brutalité"
+ guix_death_cracked: "mort par fissuration"
+ guix_death_burned: "mort par brûlé"
+ guix_death_eaten: "mort par dévoration"
+ guix_death_headless: "mort par décapitation"
+ guix_death_tourney: "mort par tournoi"
+ guix_death_beast: "mort par bête"
+ guix_death_wilds: "mort par les terres sauvages"
+ guix_death_trepanned: "mort par trépanation"
+ guix_death_bell: "mort par cloche"
+ guix_death_excrement: "mort par excréments"
+  
+ add_modifier_interaction: "Ajouter un modificateur"
+ guix_cat_positive: "#p Chat#!"
+ guix_cockroach_negative: "#n Cafard#!"
+ guix_exercise_positive: "#p Exercice#!"
+ guix_drink_negative: "#n Boire#!"
+ guix_love_positive: "#p LAmour#!"
+  

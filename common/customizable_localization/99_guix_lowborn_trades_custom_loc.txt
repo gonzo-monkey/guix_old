@@ -1,0 +1,262 @@
+﻿
+# GUIX # Custom localization for LowbornTradeType
+# to show the appropriate text and tooltip with the coa shield
+##################################################
+LowbornTradeType = {
+	type = character
+	random_valid = no
+	
+	# GUIX # MESSENGER (high diplomacy)
+	text = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				highest_skill = diplomacy
+				OR = {
+					AND = {
+						diplomacy >= high_skill_rating
+						NOR = {
+							any_held_title = {
+								is_mercenary_company = yes
+							}
+							prowess >= high_skill_rating
+							highest_skill = martial
+							highest_skill = stewardship
+							highest_skill = intrigue
+							highest_skill = learning
+						}
+					}
+					diplomacy >= extremely_high_skill_rating					
+				}
+			}
+		}
+		localization_key = loc_messenger
+	}
+
+	# GUIX # WARRIOR (high martial)
+	text = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				highest_skill = martial
+				OR = {
+					AND = {
+						martial >= high_skill_rating
+						NOR = {
+							any_held_title = {
+								is_mercenary_company = yes
+							}
+							prowess >= high_skill_rating
+							highest_skill = diplomacy
+							highest_skill = stewardship
+							highest_skill = intrigue
+							highest_skill = learning
+						}
+					}
+					martial >= extremely_high_skill_rating
+				}
+			}
+		}
+		localization_key = loc_warrior
+	}
+
+	# GUIX # MERCHANT (high stewardship)
+	text = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				highest_skill = stewardship
+				OR = {
+					AND = {
+						stewardship >= high_skill_rating
+						NOR = {
+							any_held_title = {
+								is_mercenary_company = yes
+							}
+							prowess >= high_skill_rating
+							highest_skill = martial
+							highest_skill = diplomacy
+							highest_skill = intrigue
+							highest_skill = learning
+						}
+					}
+					stewardship >= extremely_high_skill_rating
+				}
+			}
+		}
+		localization_key = loc_merchant
+	}
+
+	# GUIX # SPY (high intrigue)
+	text = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				highest_skill = intrigue
+				OR = {
+					AND = {
+						intrigue >= high_skill_rating
+						NOR = {
+							any_held_title = {
+								is_mercenary_company = yes
+							}
+							prowess >= high_skill_rating
+							highest_skill = martial
+							highest_skill = diplomacy
+							highest_skill = stewardship
+							highest_skill = learning
+						}
+					}
+					intrigue >= extremely_high_skill_rating
+				}
+			}
+		}
+		localization_key = loc_spy
+	}
+
+	# GUIX # SCHOLAR (high learning)
+	text = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				highest_skill = learning
+				OR = {
+					AND = {
+						learning >= high_skill_rating
+						NOR = {
+							any_held_title = {
+								is_mercenary_company = yes
+							}
+							prowess >= high_skill_rating
+							highest_skill = martial
+							highest_skill = diplomacy
+							highest_skill = stewardship
+							highest_skill = intrigue
+						}
+					}
+					learning >= extremely_high_skill_rating
+				}	
+			}
+		}
+		localization_key = loc_scholar
+	}
+
+	# GUIX # KINGHT_ERRANT (high prowess)
+	text = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				prowess >= high_skill_rating
+			}
+			NOT = {
+				any_held_title = {
+					is_mercenary_company = yes
+				}
+			}
+		}
+		localization_key = loc_knight_errant
+	}
+
+	# GUIX # CONSUL (more than 1 high skill)
+	text = {
+		trigger = {
+			OR = {
+				diplomacy >= high_skill_rating
+				martial >= high_skill_rating
+				stewardship >= high_skill_rating
+				intrigue >= high_skill_rating
+				learning >= high_skill_rating
+			}
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				OR = {
+					AND = {
+						highest_skill = diplomacy
+						highest_skill = martial
+					}
+					AND = {
+						highest_skill = diplomacy
+						highest_skill = stewardship
+					}
+					AND = {
+						highest_skill = diplomacy
+						highest_skill = intrigue
+					}
+					AND = {
+						highest_skill = diplomacy
+						highest_skill = learning
+					}
+					AND = {
+						highest_skill = martial
+						highest_skill = stewardship
+					}
+					AND = {
+						highest_skill = martial
+						highest_skill = intrigue
+					}
+					AND = {
+						highest_skill = martial
+						highest_skill = learning
+					}
+					AND = {
+						highest_skill = stewardship
+						highest_skill = intrigue
+					}
+					AND = {
+						highest_skill = stewardship
+						highest_skill = learning
+					}
+					AND = {
+						highest_skill = intrigue
+						highest_skill = learning
+					}
+				 }
+			}
+			NOT = {
+				any_held_title = {
+					is_mercenary_company = yes
+				}
+				prowess >= high_skill_rating
+			}			
+		}
+		localization_key = loc_consul
+	}
+
+	# GUIX # MERCENARY
+	text = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				any_held_title = {
+					is_mercenary_company = yes
+				}
+			}
+		}
+		localization_key = loc_mercenary
+	}
+
+	# GUIX # CHILD
+	text = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = no
+			}
+		}
+		localization_key = loc_child
+	}
+	
+	# GUIX # EVERYONE ELSE
+	text = {
+		localization_key = loc_commoner
+		fallback = yes
+	}	
+}

@@ -1,0 +1,1202 @@
+####################################################################################################
+# GUIX # CUSTOM PORTRAIT TYPES
+####################################################################################################
+
+types PortraitTypes
+{
+
+    # GUIX # MAIN CHARACTER VIEW WIDGET
+    # replaces vanilla
+    # alive char get personality text
+    # dead char get birth/death dates & always show in grayscale
+    type portrait_character_view_main = margin_widget {
+        size = { 300 300 }
+        margin = { 3 3 }
+        
+        widget = {
+            size = { 100% 100% }
+            using = Portrait_Background_Glows
+        }
+
+        blockoverride "glow_local_player" {}
+        blockoverride "glow_selected" {}
+        # GUIX # disabled so dead characterss stay looking dead
+        #blockoverride "grayscale" {}
+
+        portrait_button = {
+            size = { 300 421 }
+            position = { -30 10 }
+            parentanchor = bottom|hcenter
+            using = portrait_base
+
+            portrait_texture = "[Character.GetAnimatedPortrait(Illustration.GetEnvironment(Character.Self), 'camera_character_view_main', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+            mask = "gfx/portraits/portrait_mask_character_view.dds"
+            effectname = "NoHighlight"
+
+            highlight_icon = {
+                name = "prison_bars"
+                visible = "[Character.IsImprisoned]"
+                visible_at_creation = no
+                size = { 100% 100% }
+                position = { 0 20 }
+
+                effectname = "NoHighlight"
+                texture = "gfx/portraits/portrait_prison_character_view.dds"
+
+                modify_texture = {
+                    name = "mask"
+                    texture = "gfx/portraits/portrait_mask_character_view.dds"
+                    spriteType = Corneredstretched
+                    blend_mode = alphamultiply
+                }
+            }
+
+            block "portrait_button" {}
+        }
+
+		widget = {
+			datacontext = "[CharacterWindow.GetCharacter]"
+			parentanchor = bottom
+			allow_outside = yes
+			position = { -10 0 }
+
+			flowcontainer = {
+				parentanchor = bottom
+				widgetanchor = bottom|left
+				position = { 30 -5 }
+				ignoreinvisible = yes
+
+                widget = {
+                    parentanchor = bottom|left
+                    minimumsize = { 200 50 }
+                    allow_outside = yes
+
+                    flowcontainer = {
+                        direction = vertical
+                        parentanchor = bottom|hcenter
+    
+                        # OPINON
+                        portrait_opinion = {
+                            block "portrait_opinion" {}
+                            parentanchor = hcenter
+                        }
+    
+    
+                        # GUIX # PERSONALITY TEXT
+                        flowcontainer = {
+                            ignoreinvisible = yes
+                            
+                            background = {
+                                using = Background_Area_Dark
+                                using = Color_Black
+                                margin = { 10 2 }
+                            }
+    
+                            text_single = {
+                                name = "ai_personality_alive"
+                                visible = "[Character.IsAlive]"
+                
+                                raw_text = "#L [Character.GetAIPersonalityNoTooltip]#!"
+                                default_format = "#high"
+                                tooltip = "AI_PERSONALITY_TT"
+                                using = tooltip_se
+                
+                                fontsize_min = 12
+                                align = nobaseline
+                            }
+                            # GUIX # DEATH DATES						
+                            text_single = {
+                                name = "ai_personality_dead"
+                                visible = "[Not(Character.IsAlive)]"
+                
+                                text = "GUIX_DEATH_DATES"
+                                tooltip = "CHARACTER_DEAD_TOOLTIP"
+                                using = tooltip_se
+                
+                                fontsize_min = 12
+                                align = nobaseline
+                            }                        				
+                        }
+                        
+                    }                    
+                }
+			}
+		}
+    }
+
+    # GUIX # PORTRAIT (for use everywhere else)
+    type portrait_head_small = widget {
+        size = { 85 90 }
+
+        background = {
+            using = Background_Area_Solid
+
+            modify_texture = {
+                texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+                blend_mode = alphamultiply
+                alpha = 0.2
+                mirror = vertical
+            }
+        }
+
+        background = {
+            block "empty_character" {}
+            visible = "[Not( Character.HasLandedTitles )]"
+            texture = "gfx/portraits/portrait_frame.dds"
+            using = Color_Grey
+            margin = { -4 -4 }
+            alpha = 0.4
+        }
+
+        ### GUIX MOD ### adds a fade behind the portrait
+        widget = {
+            name = "character_rank"
+            size = { 100% 100% }
+
+            background = {
+                texture = "gfx/portraits/guix_portrait_fade.dds"
+                
+                margin_top = -4
+                margin_bottom = -3
+                margin_right = -4
+                margin_left = -3
+
+                framesize = { 196 194 }
+                frame = "[Character.GetPrimaryTitle.GetTierFrame]"
+            }
+        }
+
+        widget = {
+            size = { 100% 100% }
+            using = Portrait_Background_Glows
+
+            block "empty_character" {}
+        }
+
+        # GUIX # DEFAULT PORTRAIT
+        portrait_button = {
+            parentanchor = bottom|hcenter
+            size = { 80 100 }
+            using = portrait_base
+
+            block "portrait_texture"
+            {
+                portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+            }
+
+            mask = "gfx/portraits/portrait_mask_head_small.dds"
+            effectname = "NoHighlight"
+
+            highlight_icon = {
+                name = "prison_bars"
+                visible = "[Character.IsImprisoned]"
+                visible_at_creation = no
+                size = { 80 95 }
+                parentanchor = center
+                effectname = "NoHighlight"
+                texture = "gfx/portraits/portrait_prison_head.dds"
+
+                modify_texture = {
+                    name = "mask"
+                    texture = "gfx/portraits/portrait_mask_head_small.dds"
+                    spriteType = Corneredstretched
+                    blend_mode = alphamultiply
+                }
+            }
+
+            block "portrait_button" {}
+        }
+
+        widget_portrait_frame = {}
+
+        # GUIX # VASSAL IS AT WAR / ALLIANCE WITH LIEGE
+        flowcontainer = {
+            visible = "[Character.IsValid]"
+            parentanchor = bottom|left
+            position = { -3 -30 }
+            vassal_at_war_alliance = {
+                blockoverride "vassal_alliance_datacontext_visible" {
+                    datacontext = "[GetScriptedGui('guix_vassal_alliance')]"
+                    visible = "[And(Character.GetLiege.IsValid,ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('target', Character.GetLiege.MakeScope ).End ))]"
+                }
+                blockoverride "vassal_at_war_datacontext_visible" {
+                    datacontext = "[GetScriptedGui('guix_vassal_at_war')]"
+                    visible = "[And(Character.GetLiege.IsValid,ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('target', Character.GetLiege.MakeScope ).End ))]"
+                }
+            }            
+        }
+
+        # GUIX # COA (bottom left)     
+        block "coa" {
+            coa_realm_tiny = {
+                visible = "[Character.HasLandedTitles]"
+                parentanchor = bottom|left
+                position = { 3 -2 }
+                scale = 0.85
+            }
+        }
+
+        widget = {
+            size = { 100% 100% }
+            visible = "[Not( Character.HasLandedTitles )]"
+            block "empty_character" {}
+
+            background = {
+                texture = "gfx/portraits/portrait_frame.dds"
+                using = Color_Grey
+                margin = { -4 -4 }
+                alpha = 0.4
+
+                modify_texture = {
+                    texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+                    blend_mode = alphamultiply
+                    mirror = vertical
+                }
+            }
+
+            background = {
+                visible = "[Character.IsHovered]"
+                texture = "gfx/portraits/portrait_frame.dds"
+                using = Color_Grey
+                alpha = 0.7
+                margin = { -4 -4 }
+            }
+        }
+
+        # GUIX # ICON LIST (bottom right)
+        guix_portrait_status_icons_small = {            
+            blockoverride "CharacterWindow_Icons" {
+                # for Character Window only
+            }
+        }   
+
+        # GUIX # OPINION
+        portrait_opinion_small = {          
+            blockoverride "family_ties_main_char" {
+                # for Character Window only
+            }
+        }
+
+        # Portrait unknown glow
+        highlight_icon = {
+            name = "portrait_unknown_head_small_glow"
+            parentanchor = center
+            position = { 3 -9 }
+            gfxtype = framedbuttongfx
+            effectname = "NoHighlight"
+            texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+            size = { 80 100 }
+            framesize = { 384 480 }
+            upframe = 1
+            overframe = 2
+
+            block "glow_visible"
+            {
+                visible = "[Not(Character.IsValid)]"
+            }
+
+            block "glow_flip" {}
+
+            block "onclick" {}
+        }
+    }
+
+    # GUIX # PORTRAIT (for use in the tab views)
+    type guix_portrait_head_small = widget {
+        size = { 85 90 }
+
+        background = {
+            using = Background_Area_Solid
+
+            modify_texture = {
+                texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+                blend_mode = alphamultiply
+                alpha = 0.2
+                mirror = vertical
+            }
+        }
+
+        background = {
+            block "empty_character" {}
+            visible = "[Not( Character.HasLandedTitles )]"
+            texture = "gfx/portraits/portrait_frame.dds"
+            using = Color_Grey
+            margin = { -4 -4 }
+            alpha = 0.4
+        }
+
+        ### GUIX MOD ### adds a fade behind the portrait
+        widget = {
+            name = "character_rank"
+            size = { 100% 100% }
+
+            background = {
+                texture = "gfx/portraits/guix_portrait_fade.dds"
+                
+                margin_top = -4
+                margin_bottom = -3
+                margin_right = -4
+                margin_left = -3
+
+                framesize = { 196 194 }
+                frame = "[Character.GetPrimaryTitle.GetTierFrame]"
+            }
+        }
+
+        widget = {
+            size = { 100% 100% }
+            using = Portrait_Background_Glows
+
+            block "empty_character" {}
+        }
+
+        # GUIX # DEFAULT PORTRAIT
+        portrait_button = {
+            parentanchor = bottom|hcenter
+            size = { 80 100 }
+            using = portrait_base
+
+            block "portrait_texture"
+            {
+                portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+            }
+
+            mask = "gfx/portraits/portrait_mask_head_small.dds"
+            effectname = "NoHighlight"
+
+            highlight_icon = {
+                name = "prison_bars"
+                visible = "[Character.IsImprisoned]"
+                visible_at_creation = no
+                size = { 80 95 }
+                parentanchor = center
+                effectname = "NoHighlight"
+                texture = "gfx/portraits/portrait_prison_head.dds"
+
+                modify_texture = {
+                    name = "mask"
+                    texture = "gfx/portraits/portrait_mask_head_small.dds"
+                    spriteType = Corneredstretched
+                    blend_mode = alphamultiply
+                }
+            }
+
+            block "portrait_button" {}
+        }
+
+        widget_portrait_frame = {}
+
+        # GUIX # VASSAL IS AT WAR / ALLIANCE WITH LIEGE
+        flowcontainer = {
+            visible = "[Character.IsValid]"
+            parentanchor = bottom|left
+            position = { -3 -30 }
+            vassal_at_war_alliance = {}
+        }
+
+        # GUIX # COA (bottom left)
+        ##################################################        
+        block "coa" {
+            coa_realm_tiny = {
+                visible = "[Character.HasLandedTitles]"
+                parentanchor = bottom|left
+                position = { 3 -2 }
+                scale = 0.85
+            }
+        }
+
+        widget = {
+            size = { 100% 100% }
+            visible = "[Not( Character.HasLandedTitles )]"
+            block "empty_character" {}
+
+            background = {
+                texture = "gfx/portraits/portrait_frame.dds"
+                using = Color_Grey
+                margin = { -4 -4 }
+                alpha = 0.4
+
+                modify_texture = {
+                    texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+                    blend_mode = alphamultiply
+                    mirror = vertical
+                }
+            }
+
+            background = {
+                visible = "[Character.IsHovered]"
+                texture = "gfx/portraits/portrait_frame.dds"
+                using = Color_Grey
+                alpha = 0.7
+                margin = { -4 -4 }
+            }
+        }
+
+        # GUIX # WARNING - player heir is NOT primary heir!
+        ##################################################
+        widget = {
+            allow_outside = yes
+            visible = "[Character.IsValid]"
+            datacontext = "[GetScriptedGui('guix_is_primary_heir_wrong_dynasty')]"            
+            
+            button = {
+                visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('main_char', CharacterWindow.GetCharacter.MakeScope ).End )]"
+                texture = "gfx/interface/icons/symbols/icon_warning.dds"
+                size = { 23 23 }
+                onclick = "[GetVariableSystem.Set('guix_tab','titles')]"
+                tooltip = "GUIX_PRIMARY_HEIR_WRONG_DYNASTY"
+                using = tooltip_ne
+            }
+        }
+
+        # GUIX # ICON LIST (bottom right)
+        ##################################################
+        guix_portrait_status_icons_small = {}   
+
+        # GUIX # OPINION
+        ##################################################
+        portrait_opinion_small = {}
+
+        # Portrait unknown glow
+        highlight_icon = {
+            name = "portrait_unknown_head_small_glow"
+            parentanchor = center
+            position = { 3 -9 }
+            gfxtype = framedbuttongfx
+            effectname = "NoHighlight"
+            texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+            size = { 80 100 }
+            framesize = { 384 480 }
+            upframe = 1
+            overframe = 2
+
+            block "glow_visible"
+            {
+                visible = "[Not(Character.IsValid)]"
+            }
+
+            block "glow_flip" {}
+
+            block "onclick" {}
+        }
+    }
+
+    # GUIX # PORTRAIT FRAME
+    ##################################################
+    type widget_portrait_frame = widget {
+        size = { 100% 100% }
+
+        background = {
+            visible = "[Not( Character.IsDiarchOf( Character.GetLiege ) )]"
+            texture = "gfx/portraits/guix_portrait_rank.dds"
+
+            margin_top = -4
+            margin_bottom = -3
+            margin_right = -4
+            margin_left = -3
+
+            framesize = { 196 194 }
+            frame = "[Character.GetPrimaryTitle.GetTierFrame]"
+        }
+
+        background = {
+            visible = "[Character.IsDiarchOf( Character.GetLiege )]"
+            texture = "gfx/portraits/guix_portrait_rank_regency.dds"
+
+            margin_top = 3
+            margin_bottom = -3
+            margin_right = -4
+            margin_left = -3
+
+            framesize = { 196 210 }
+            frame = "[Character.GetPrimaryTitle.GetTierFrame]"
+        }
+    }
+
+    # GUIX # PORTRAIT ICONS for MAIN CHAR view
+    # replaces vanilla
+    # made them bigger
+    ##################################################
+    type portrait_status_icons = flowcontainer {
+        ignoreinvisible = yes
+        visible = "[Character.IsValid]"
+
+        block "direction"
+        {
+            direction = vertical
+        }
+
+        # sorted by priority, highest prio at the bottom
+        block "status_icons" {
+
+            block "background"
+            {
+                background = {
+                    margin = { 2 2 }
+                    using = Background_Area_Dark
+                    using = Color_Black
+                    using = Mask_Rough_Edges
+                }
+                background = {
+                    margin = { 4 4 }
+                    using = Background_Area_Dark
+                    using = Mask_Rough_Edges
+                    alpha = 0.75
+                }
+            }
+
+            icon = {
+				name = "hostage_icon"
+				visible = "[Character.IsHostage]"
+				size = { 25 25 }
+				texture = "gfx/interface/icons/character_interactions/icon_hostage.dds"
+				tooltip = "[Character.GetHostageTooltip]"
+			}
+
+            icon = {
+                name = "traveling_icon"
+                visible = "[And(Character.IsTraveling, Character.GetTravelPlan.IsInTransit)]"
+                size = { 25 25 }
+                texture = "gfx/interface/icons/portraits/travel.dds"
+                tooltip = "CHARACTER_TRAVELING_TOOLTIP"
+            }
+
+            icon = {
+                name = "incapable"
+                visible = "[Character.IsIncapable]"
+                size = { 25 25 }
+                texture = "gfx/interface/icons/portraits/incapable.dds"
+                tooltip = "CHARACTER_INCAPABLE_TOOLTIP"
+            }
+
+            block "inspiration_status_icons"
+            {
+                has_inspiration_status_icon = {
+                    size = { 25 25 }
+                }
+                has_completed_inspiration_status_icon = {
+                    size = { 25 25 }
+                }
+            }
+
+            icon = {
+                name = "can_be_punished"
+                visible = "[Character.CanBePunished]"
+                size = { 25 25 }
+
+                texture = "gfx/interface/icons/portraits/punishment.dds"
+                tooltip = "[Character.PunishmentTooltip]"
+            }
+
+            # TODO BP2: Add visible trigger and tooltip
+            icon = {
+                name = "hostage"
+                visible = no
+                size = { 25 25 }
+
+                texture = "gfx/interface/icons/portraits/hostage.dds"
+            }
+
+            icon = {
+                name = "hook"
+                visible = "[Character.PlayerHasHooksOrHookableSecrets]"
+                size = { 25 25 }
+
+                texture = "gfx/interface/icons/portraits/hook_secret.dds"
+                framesize = { 40 40 }
+                frame = "[Character.GetHookOrHookableSecretsFrame]"
+                tooltip = "[Character.HookTooltip]"
+            }
+
+            icon = {
+                name = "liege_icon"
+                visible = "[And( ObjectsEqual( GetPlayer.GetLiege, Character.Self ) , Not( GetPlayer.IsIndependentRuler ) ) ]"
+                size = { 25 25 }
+
+                texture = "gfx/interface/icons/portraits/liege.dds"
+                tooltip = "FRAME_RELATION_MY_LIEGE"
+            }
+
+            icon = {
+                name = "powerful_vassal"
+                visible = "[Character.IsMyPowerfulVassal]"
+                size = { 25 25 }
+
+                texture = "gfx/interface/icons/portraits/powerful_vassal.dds"
+                framesize = { 40 40 }
+                frame = "[Character.GetPowerfulVassalFrame]"
+                tooltip = "[Character.GetPowerfulVassalTooltip]"
+            }
+
+            icon = {
+                name = "head_icon"
+                visible = "[LessThan_int32(Character.GetDynastyHeadRelationFrame('(bool)yes'), '(int32)9')]"
+                size = { 25 25 }
+
+                texture = "gfx/interface/icons/portraits/relation.dds"
+                framesize = { 40 40 }
+                frame = "[Character.GetDynastyHeadRelationFrame('(bool)yes')]"
+                tooltip = "[Character.GetDynastyHeadRelationTooltip]"
+            }
+
+            icon = {
+                name = "playable_icon"
+                visible = "[ObjectsEqual( Character.Self, GetPlayer.GetPlayerHeir )]"
+                size = { 25 25 }
+                texture = "gfx/interface/icons/portraits/heir.dds"
+                tooltip = "[Character.GetPlayableFrameTooltip]"
+            }
+
+            block "dead_icon"
+            {
+                icon = {
+                    name = "is_dead"
+                    visible = "[Character.IsDeadAndValid]"
+                    size = { 24 24 }
+    
+                    texture = "[Character.GetDeathReasonIcon]"
+                    tooltip = "CHARACTER_DEAD_TOOLTIP"
+                }
+            }
+
+            # GUIX # SEXUAL ORIENTATION
+            icon = {
+                visible = "[Not(Character.IsFemale)]"
+                size = { 25 25 }
+                framesize = { 40 40 }
+                frame = "[Character.GetSexualityFrame]"
+                texture = "gfx/interface/icons/character_status/sexuality_icons_male.dds"
+                tooltip = "SEXUALITY_TT"
+            }
+
+            icon = {
+                visible = "[Character.IsFemale]"
+                size = { 25 25 }
+                framesize = { 40 40 }
+                frame = "[Character.GetSexualityFrame]"
+                texture = "gfx/interface/icons/character_status/sexuality_icons_female.dds"
+                tooltip = "SEXUALITY_TT"
+            }
+        }
+    }
+
+	# GUIX # template for the character role icons used in guix_character_role_icons below
+    ##################################################
+	type guix_icon_template = icon {
+        parentanchor = hcenter
+        tooltip = "[Character.GetRelationToString( CharacterWindow.GetCharacter )]"
+        size = { 20 20 }
+		using = tooltip_ne
+	}
+
+    # GUIX # STATUS ICONS for PORTRAITS (bottom right)
+    # replaces vanilla
+    # made them bigger
+    ##################################################
+    type guix_portrait_status_icons_small = widget {
+        size = { 20 80 }
+        scissor = yes
+        parentanchor = top|right
+        position = { -2 4 }
+
+        flowcontainer = {
+            visible = "[Character.IsValid]"
+            ignoreinvisible = yes
+            direction = vertical
+            
+            background = {
+                using = Background_Area_Dark
+                margin = { 2 2 }
+                alpha = 0.75
+
+                modify_texture = {
+                    texture = "gfx/interface/component_masks/mask_glow.dds"
+                    blend_mode = alphamultiply
+                }
+            }
+            
+            # GUIX # CHARACTER WINDOW ICONS
+            # contextual relationship to the character in Character Window
+            # only shows on character window in specific views
+            ##################################################
+            block "CharacterWindow_Icons" {
+
+                # GUIX # POWERFUL VASSAL
+                # vassals view & when highlighted only!
+                guix_icon_template = {
+                    name = "powerful_vassal"
+                    visible = "[And(Character.IsPowerfulVassal,And(GetVariableSystem.HasValue('guix_vassals_highlight','default'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded'))))]"
+                    texture = "gfx/interface/icons/portraits/powerful_vassal_small.dds"
+                    framesize = { 28 28 }
+                    frame = "[Character.GetPowerfulVassalFrame]"
+                    tooltip = "[Character.GetPowerfulVassalTooltip]"          
+                }
+
+                # GUIX # KNIGHTS - court
+                # court view & when highlighted only!
+                guix_icon_template = {
+                    name = "knights_court"
+                    datacontext = "[GetScriptedGui('guix_character_is_knight_of')]"
+                    visible = "[And(ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ),And(GetVariableSystem.HasValue('guix_court_highlight','show_knights'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded'))))]"
+                    texture = "gfx/interface/icons/icon_knight.dds"
+                    tooltip = "[knight|E]"
+                } 
+
+                # GUIX # KNIGHTS - vassals
+                # vassals view & when highlighted only!
+                guix_icon_template = {
+                    name = "knights_vassals"
+                    datacontext = "[GetScriptedGui('guix_character_is_knight_of')]"
+                    visible = "[And(ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ),And(GetVariableSystem.HasValue('guix_vassals_highlight','show_knights'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded'))))]"
+                    texture = "gfx/interface/icons/icon_knight.dds"
+                    tooltip = "[knight|E]"
+                } 
+
+                # GUIX # COUNCILLOR - court
+                # court view & when highlighted only!
+                guix_icon_template = {
+                    name = "councillor_court"
+                    datacontext = "[GetScriptedGui('guix_character_has_council_position')]"
+                    visible = "[And(ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ),And(GetVariableSystem.HasValue('guix_court_highlight','show_employed'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded'))))]"
+                    texture = "gfx/interface/icons/character_interactions/council.dds"
+                    alpha = 0.9
+                }
+
+                # GUIX # COUNCILLOR - vassals
+                # vassals view & when highlighted only!
+                guix_icon_template = {
+                    name = "councillor_vassals"
+                    datacontext = "[GetScriptedGui('guix_character_has_council_position')]"
+                    visible = "[And(ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ),And(GetVariableSystem.HasValue('guix_vassals_highlight','show_council'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded'))))]"
+                    texture = "gfx/interface/icons/character_interactions/council.dds"
+                    alpha = 0.9
+                }
+
+                # GUIX # COURT POSITION
+                # court view & when highlighted only!
+                guix_icon_template = {
+                    name = "court position"
+                    datacontext = "[GetScriptedGui('guix_character_has_court_position')]"
+                    visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_employed'),ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"            
+                    texture = "gfx/interface/icons/character_interactions/icon_gold.dds"            
+                    tooltip = "[Character.GetHeldCourtPositionsString]"
+                }
+
+                # GUIX # GUEST
+                # court view & when highlighted only!
+                guix_icon_template = {
+                    name = "guest"
+                    datacontext = "[GetScriptedGui('guix_character_is_guest_of')]"
+                    visible = "[And(ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ),And(GetVariableSystem.HasValue('guix_court_highlight','show_guests'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded'))))]"
+                    texture = "gfx/interface/icons/character_interactions/guest.dds"
+                    tooltip = "[guest|E]"
+                }
+
+                # GUIX # HOSTAGE
+                guix_icon_template = {
+                    name = "hostage"
+                    datacontext = "[GetScriptedGui('guix_character_is_hostage_of')]"
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+                    texture = "gfx/interface/icons/memory_types/icon_hostage.dds"
+                    tooltip = "[hostage|E]"
+                }
+
+                # GUIX # PRISONER
+                guix_icon_template = {
+                    name = "prisoner"
+                    datacontext = "[GetScriptedGui('guix_character_is_prisoner_of')]"
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+                    texture = "gfx/interface/icons/memory_types/prison.dds"
+                    tooltip = "[prisoner|E]"
+                }                           
+
+                # GUIX # RELATION ICONS
+                container = {
+                    ignoreinvisible = yes
+                    using = Portrait_Relation_Icons_Character_Window
+                }
+
+                # GUIX # primary heir
+                guix_icon_template = {
+                    name = "primary heir"
+                    datacontext = "[GetScriptedGui('guix_character_is_primary_heir_of')]"
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+                    texture = "gfx/interface/icons/custom/guix_primary_heir.dds"
+                    tooltip = "[primary_heir|E]"
+                    alpha = 0.9
+                }
+
+                # GUIX # secondary heir
+                guix_icon_template = {
+                    name = "secondary heir"
+                    datacontext = "[GetScriptedGui('guix_character_is_heir_of')]"
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+                    texture = "gfx/interface/icons/custom/guix_secondary_heir.dds"
+                    tooltip = "[secondary_heir|E]"
+                }
+
+                # GUIX # patrilineal spouse
+                guix_icon_template = {
+                    name = "patrilineal spouse"
+                    datacontext = "[GetScriptedGui('guix_character_is_patrilineal_spouse_of')]"
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+                    texture = "gfx/interface/icons/custom/guix_marriage_patrilineal_spouse.dds"
+                    tooltip = "[primary_spouse|E]"
+                }
+
+                # GUIX # matrilineal spouse
+                guix_icon_template = {
+                    name = "matrilineal spouse"
+                    datacontext = "[GetScriptedGui('guix_character_is_matrilineal_spouse_of')]"
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+                    texture = "gfx/interface/icons/custom/guix_marriage_matrilineal_spouse.dds"
+                    tooltip = "[primary_spouse|E]"
+                }
+
+                # GUIX # patrilineal bethrothed
+                guix_icon_template = {
+                    name = "patrilineal betrothed"
+                    datacontext = "[GetScriptedGui('guix_character_is_patrilineal_betrothed_of')]"
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+                    texture = "gfx/interface/icons/custom/guix_marriage_patrilineal_betrothed.dds"
+                    tooltip = "[betrothed|E]"
+                }
+
+                # GUIX # matrilineal bethrothed
+                guix_icon_template = {
+                    name = "matrilineal betrothed"
+                    datacontext = "[GetScriptedGui('guix_character_is_matrilineal_betrothed_of')]"
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+                    texture = "gfx/interface/icons/custom/guix_marriage_matrilineal_betrothed.dds"
+                    tooltip = "[betrothed|E]"
+                }
+
+                # GUIX # consort - secondary spouses
+                guix_icon_template = {
+                    name = "secondary spouses"
+                    datacontext = "[GetScriptedGui('guix_character_is_secondary_spouse_of')]"
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+                    texture = "gfx/interface/icons/custom/guix_marriage_secondary_spouse.dds"
+                    tooltip = "[secondary_spouse|E]"
+                }
+
+                # GUIX # consort - concubines
+                guix_icon_template = {
+                    name = "concubines"
+                    datacontext = "[GetScriptedGui('guix_character_is_concubine_of')]"
+                    visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+                    texture = "gfx/interface/icons/custom/guix_marriage_concubine.dds"
+                    tooltip = "[concubine|E]"
+                }                
+
+            }
+
+            # GUIX # STATUS ICONS
+            # perm or temp status effects
+            # shows on all portraits
+            ##################################################
+            block "Status_Icons" {
+
+                # GUIX # dead                
+                guix_icon_template = {
+                    name = "dead"
+                    visible = "[Not(Character.IsAlive)]"            
+                    texture = "[Character.GetDeathReasonIcon]"		
+                    tooltip = "CHARACTER_DEAD_TOOLTIP"
+                }
+
+                # GUIX # hook
+                guix_icon_template = {
+                    name = "hook"
+                    visible = "[Character.PlayerHasHooksOrHookableSecrets]"
+                    texture = "gfx/interface/icons/portraits/hook_secret_small.dds"
+                    framesize = { 28 28 }
+                    frame = "[Character.GetHookOrHookableSecretsFrame]"
+                    tooltip = "[Character.HookTooltip]"
+                    size = { 18 18 } # reducing icon size
+                }
+
+                # GUIX # can_be_punished
+                guix_icon_template = {
+                    name = "can_be_punished"
+                    visible = "[Character.CanBePunished]"
+
+                    texture = "gfx/interface/icons/portraits/punishment_small.dds"
+                    tooltip = "[Character.PunishmentTooltip]"
+                }
+
+                # GUIX # has_inspiration
+                guix_icon_template = {
+                    name = "has_inspiration"
+                    visible = "[Character.HasInspiration]"
+                    texture = "gfx/interface/icons/portraits/inspiration_small.dds"
+                    tooltip = "CHARACTER_HAS_INSPIRATION_TOOLTIP"     
+                }
+
+                # GUIX # has_completed_inspiration
+                guix_icon_template = {
+                    name = "has_completed_inspiration"
+                    visible = "[And( Character.HasCompletedAnInspiration, Not( Character.HasInspiration ) )]" # Has an inspiration takes priority
+                    texture = "gfx/interface/icons/portraits/inspiration_complete_small.dds"
+                    tooltip = "CHARACTER_HAS_COMPLETED_AN_INSPIRATION_TOOLTIP"                    
+                }
+
+                # GUIX # incapable
+                guix_icon_template = {
+                    name = "incapable"
+                    visible = "[Character.IsIncapable]"
+                    texture = "gfx/interface/icons/portraits/incapable_small.dds"
+                    tooltip = "trait_incapable"
+                }
+
+                # GUIX # traveling_icon
+                guix_icon_template = {
+                    name = "traveling_icon"
+                    visible = "[And(Character.IsTraveling, Character.GetTravelPlan.IsInTransit)]"
+                    texture = "gfx/interface/icons/portraits/travel_small.dds"
+                    tooltip = "CHARACTER_TRAVELING_TOOLTIP"
+                    size = { 18 18 } # reducing icon size
+                }                                
+            }
+        }
+    }
+
+    # GUIX # OPINION TEXT
+    # your family/dynasty will always show
+    # the 'family ties' family/dynasty is for char window only
+    # (since it's the the family relation to the main char)
+    ##################################################
+    type portrait_opinion_small = flowcontainer {
+        visible = "[Character.IsValid]"
+        parentanchor = bottom|right
+        ignoreinvisible = yes
+        position = { -4 -4 }
+        minimumsize = { 0 20 }
+
+        background = {
+            name = "portrait_opinion_bg"
+            texture = "gfx/interface/component_tiles/solid_black_label.dds"
+            spritetype = Corneredtiled
+            spriteborder = { 20 20 }
+            margin = { 1 1 }
+            margin_right = 2
+            texture_density = 2
+        }
+
+        # GUIX # DREAD ICON
+        icon = {
+            name = "dread"
+            visible = "[And(Character.IsAlive,Character.ShouldShowDreadEffectIcon)]"
+            size = { 16 16 }
+            texture = "gfx/interface/icons/portraits/dread_values.dds"
+            framesize = { 40 40 }
+            frame = "[Character.GetPlayerDreadEffectIconFrame]"
+            tooltip = "[Character.GetPlayerDreadEffectTooltip]"
+            using = tooltip_ne   
+        }
+
+        # GUIX # OPINION
+        text_single = {
+            visible = "[And(Character.IsAlive,Not(Character.IsLocalPlayer))]"
+            max_width = 45
+            align = nobaseline
+            fontsize = 13
+            margin = { 2 0}
+
+            tooltipwidget = character_opinion_tooltip
+            using = tooltip_es
+            default_format = "#true_white"
+
+            block "opinion_text" {
+                text = "[Character.GetOpinionOf( GetPlayer )|=]"
+                fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
+                
+            }
+        }
+
+        # VANILLA (tree icon)
+        icon = {
+            name = "head_icon"
+            visible = "[And(Not(Character.IsPlayer),LessThan_int32(Character.GetDynastyHeadRelationFrame('(bool)yes'), '(int32)9'))]"
+            size = { 16 16 }
+
+            texture = "gfx/interface/icons/portraits/relation_small.dds"
+            framesize = { 28 28 }
+            frame = "[Character.GetDynastyHeadRelationFrame('(bool)yes')]"
+            tooltip = "[Character.GetDynastyHeadRelationTooltip]"
+            using = tooltip_ne
+        }
+
+        # VANILLA (blood icon)
+        icon = {
+            name = "relation_icon"
+            visible = "[And(Not(ObjectsEqual( Character.Self, CharacterWindow.GetCharacter.GetPlayerHeir )),And(Not(Character.IsPlayer),And(LessThan_int32(Character.GetPlayerDynastyRelationFrame, '(int32)9'),Not(LessThan_int32(Character.GetDynastyHeadRelationFrame('(bool)yes'), '(int32)9')))))]"
+            size = { 16 16 }
+
+            texture = "gfx/interface/icons/portraits/relation_small.dds"
+            framesize = { 28 28 }
+            frame = "[Character.GetPlayerDynastyRelationFrame]"
+            tooltip = "[Character.GetPlayerDynastyRelationTooltip]"
+            using = tooltip_ne
+        }
+
+        # GUIX # YOU
+        icon = {
+            name = "guix_player_heir"
+            visible = "[Character.IsPlayer]"
+            size = { 16 16 }
+            texture = "gfx/interface/icons/portraits/me_small.dds"
+            tooltip = "FRAME_RELATION_ME"
+            using = tooltip_ne
+        }
+
+        # GUIX # FAMILY TIES ICONS
+        # family relationship to the character in Character Window
+        # only show on character window & when main char is NOT player
+        # family icons are for seeing other main char's family
+        ##################################################
+        block "family_ties_main_char" {
+            # GUIX # DYNASTY HEIR (player)
+            icon = {
+                name = "playable_icon_player"
+                visible = "[And(Not(Character.IsPlayer),ObjectsEqual( Character.Self, GetPlayer.GetPlayerHeir ))]"
+                size = { 17 17 }
+                texture = "gfx/interface/icons/custom/guix_player_heir.dds"
+                tooltip = "[Character.GetPlayableFrameTooltip]"
+                using = tooltip_ne
+            }
+
+            # GUIX # DYNASTY HEIR (not player)
+            icon = {
+                name = "playable_icon_ai"
+                visible = "[And(Not(Character.IsPlayer),And(Not(ObjectsEqual( CharacterWindow.GetCharacter, GetPlayer )),ObjectsEqual( Character.Self, CharacterWindow.GetCharacter.GetPlayerHeir )))]"
+                size = { 17 17 }
+                texture = "gfx/interface/icons/custom/guix_player_heir.dds"
+                tooltip = "GUIX_FRAME_RELATION_AI_HEIR"
+                using = tooltip_ne
+            }
+
+            # GUIX # FAMILY TIES (family NOT dynasty)
+            icon = {
+                datacontext = "[GetScriptedGui('guix_is_family_not_dynasty')]"
+                visible = "[And(Not(CharacterWindow.GetCharacter.IsPlayer),ScriptedGui.IsShown(GuiScope.SetRoot( Character.MakeScope ).AddScope('main_char', CharacterWindow.GetCharacter.MakeScope ).End))]"
+                size = { 18 18 }
+                texture = "gfx/interface/icons/custom/guix_family_not_dynasty.dds"
+                tooltip = "GUIX_CHAR_FAMILY_NOT_DYNASTY"
+                using = tooltip_ne
+            }
+
+             # GUIX # FAMILY TIES (dynasty NOT family)
+             icon = {
+                datacontext = "[GetScriptedGui('guix_is_dynasty_not_family')]"
+                visible = "[And(Not(CharacterWindow.GetCharacter.IsPlayer),ScriptedGui.IsShown(GuiScope.SetRoot( Character.MakeScope ).AddScope('main_char', CharacterWindow.GetCharacter.MakeScope ).End))]"
+                size = { 18 18 }
+                texture = "gfx/interface/icons/custom/guix_dynasty_not_family.dds"
+                tooltip = "GUIX_CHAR_DYNASTY_NOT_FAMILY"
+                using = tooltip_ne
+            }       
+           
+            # GUIX # FAMILY TIES (family AND dynasty)
+            icon = {
+                datacontext = "[GetScriptedGui('guix_is_family_and_dynasty')]"
+                visible = "[And(Not(ObjectsEqual( Character.Self, CharacterWindow.GetCharacter.GetPlayerHeir )),And(Not(CharacterWindow.GetCharacter.IsPlayer),ScriptedGui.IsShown(GuiScope.SetRoot( Character.MakeScope ).AddScope('main_char', CharacterWindow.GetCharacter.MakeScope ).End)))]"
+                size = { 18 18 }
+                texture = "gfx/interface/icons/custom/guix_family_and_dynasty.dds"
+                tooltip = "GUIX_CHAR_FAMILY_AND_DYNASTY"
+                using = tooltip_ne
+            }
+
+            # GUIX # FAMILY TIES (bastard dynasty)
+            icon = {
+                datacontext = "[GetScriptedGui('guix_is_bastard_dynasty')]"
+                visible = "[And(Not(CharacterWindow.GetCharacter.IsPlayer),ScriptedGui.IsShown(GuiScope.SetRoot( Character.MakeScope ).AddScope('main_char', CharacterWindow.GetCharacter.MakeScope ).End))]"
+                size = { 18 18 }
+                texture = "gfx/interface/icons/custom/guix_family_bastard.dds"
+                tooltip = "GUIX_BASTARD_DYNASTY"
+                using = tooltip_ne
+            }
+
+            # GUIX # FAMILY TIES (bastard NOT dynasty)
+            icon = {
+                datacontext = "[GetScriptedGui('guix_is_bastard_not_dynasty')]"
+                visible = "[And(Not(CharacterWindow.GetCharacter.IsPlayer),ScriptedGui.IsShown(GuiScope.SetRoot( Character.MakeScope ).AddScope('main_char', CharacterWindow.GetCharacter.MakeScope ).End))]"
+                size = { 18 18 }
+                texture = "gfx/interface/icons/custom/guix_family_bastard.dds"
+                tooltip = "GUIX_BASTARD_NOT_DYNASTY"
+                using = tooltip_ne
+            }
+
+            # GUIX # FAMILY TIES (dynasty head)
+            icon = {
+                datacontext = "[GetScriptedGui('guix_is_dynasty_head')]"
+                visible = "[And(Not(CharacterWindow.GetCharacter.IsPlayer),ScriptedGui.IsShown(GuiScope.SetRoot( Character.MakeScope ).AddScope('main_char', CharacterWindow.GetCharacter.MakeScope ).End))]"
+                size = { 18 18 }
+                texture = "gfx/interface/icons/custom/guix_family_dynasty_or_house_head.dds"
+                tooltip = "GUIX_DYNASTY_HEAD"
+                using = tooltip_ne
+            }
+
+            # GUIX # FAMILY TIES (house head)
+            icon = {
+                datacontext = "[GetScriptedGui('guix_is_house_head')]"
+                visible = "[And(Not(CharacterWindow.GetCharacter.IsPlayer),ScriptedGui.IsShown(GuiScope.SetRoot( Character.MakeScope ).AddScope('main_char', CharacterWindow.GetCharacter.MakeScope ).End))]"
+                size = { 18 18 }
+                texture = "gfx/interface/icons/custom/guix_family_dynasty_or_house_head.dds"
+                tooltip = "GUIX_HOUSE_HEAD"
+                using = tooltip_ne
+            }
+
+            # GUIX # FAMILY TIES (dynasty AND house head)
+            icon = {
+                datacontext = "[GetScriptedGui('guix_is_dynasty_and_house_head')]"
+                visible = "[And(Not(CharacterWindow.GetCharacter.IsPlayer),ScriptedGui.IsShown(GuiScope.SetRoot( Character.MakeScope ).AddScope('main_char', CharacterWindow.GetCharacter.MakeScope ).End))]"
+                size = { 18 18 }
+                texture = "gfx/interface/icons/custom/guix_family_dynasty_or_house_head.dds"
+                tooltip = "GUIX_DYNASTY_AND_HOUSE_HEAD"
+                using = tooltip_ne
+            }            
+        }              
+    }
+    
+    # GUIX # VASSALS ALLIANCE ICON
+    ##################################################
+    type vassal_at_war_alliance = flowcontainer {
+        ignoreinvisible = yes
+
+        background = {
+            using = Background_Area_Dark
+            alpha = 0.75
+
+            modify_texture = {
+                texture = "gfx/interface/component_masks/mask_glow.dds"
+                blend_mode = alphamultiply
+            }
+        }
+
+        # GUIX # vassal alliance
+        icon = {
+            datacontext = "[Character]"
+            block "vassal_alliance_datacontext_visible" {
+                datacontext = "[GetScriptedGui('guix_vassal_alliance')]"
+                visible = "[And(Character.GetLiege.IsValid,ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('target', Character.GetLiege.MakeScope ).End ))]"
+            }
+            size = { 30 30 }
+            texture = "gfx/interface/icons/custom/guix_vassal_alliance.dds"
+            tooltip = "GUIX_VASSAL_ALLIANCE"
+            using = tooltip_ne
+        }
+        
+        # GUIX # vassal at war
+        icon = {
+            block "vassal_at_war_datacontext_visible" {
+                datacontext = "[GetScriptedGui('guix_vassal_at_war')]"
+                visible = "[And(Character.GetLiege.IsValid,ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('target', Character.GetLiege.MakeScope ).End ))]"
+            }
+            size = { 30 30 }
+            texture = "gfx/interface/icons/icon_banner.dds"
+            mirror = horizontal
+            tooltip = "GUIX_VASSAL_AT_WAR"
+            using = tooltip_ne
+        }        
+    }
+}

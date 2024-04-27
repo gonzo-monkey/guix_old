@@ -1,0 +1,1261 @@
+﻿# GUIX # this file defines what .dds skull icon to show for each DeathReason
+# GUIX # along with some vanilla stuff like "public_knowledge = yes"
+
+##################################################
+# guix_death_default
+##################################################
+
+	# observation_hanged / strangled
+	##############################################
+	death_hanged = {
+		public_knowledge = yes
+		icon = "guix_death_skull_choked.dds"
+	}
+	death_ritually_hung = {
+		public_knowledge = yes
+		icon = "guix_death_skull_choked.dds"
+	}
+	death_bell_revenge = {
+		public_knowledge = yes
+		icon = "guix_death_skull_choked.dds"
+	}
+	death_revenge = {
+		public_knowledge = yes
+		icon = "guix_death_skull_choked.dds"
+	}
+	death_strangled_with_own_intestines = {
+		public_knowledge = yes
+		icon = "guix_death_skull_choked.dds"
+	}
+	# observation_throat / injuries
+	##############################################
+	death_molten_silver_by_mob = {
+		public_knowledge = yes
+		icon = "guix_death_skull_choked.dds"
+	}
+	death_choked = {
+		public_knowledge = yes
+		icon = "guix_death_skull_choked.dds"
+	}
+	death_choked_pus = {
+		public_knowledge = yes
+		icon = "guix_death_skull_choked.dds"
+	}
+	death_ended_on_feast_table = {
+		icon = "guix_death_skull_choked.dds"
+	}
+
+	death_hostage_execution = {
+		public_knowledge = yes
+		icon = "guix_death_skull_choked.dds"
+	}
+
+##################################################
+# guix_death_disease
+##################################################
+
+	# observation_disease
+	##############################################
+	death_bubonic_plague = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = bubonic_plague
+		}
+		priority = 120
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_smallpox = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = smallpox
+		}
+		priority = 110
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_typhus = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = typhus
+		}
+		priority = 100
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_cancer = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = cancer
+		}
+		priority = 90
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_pneumonic = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = pneumonic
+		}
+		priority = 80
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_consumption = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = consumption
+		}
+		priority = 70
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_leper = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = leper
+		}
+		priority = 60
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_gout_ridden = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = gout_ridden
+		}
+		priority = 50
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_great_pox = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = great_pox
+		}
+		priority = 40
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_ill = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = ill
+		}
+		priority = 30
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_sickly = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = sickly
+		}
+		priority = 20
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_camp_fever = {
+		public_knowledge = yes
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_march_malaise = {
+		public_knowledge = yes
+		icon = "guix_death_skull_disease.dds"
+	}
+    # observation_poisoned
+    ##############################################
+	death_poison = {
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_poisonous_forage = {
+		public_knowledge = yes
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_too_much_dessert = {
+		public_knowledge = yes
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_strongest_potion = {
+		icon = "guix_death_skull_disease.dds"
+	}
+	death_snakes = {
+		public_knowledge = yes
+		icon = "guix_death_skull_disease.dds"
+	}
+
+##################################################
+# guix_death_health
+################################################## 
+
+	# observation_peaceful
+	##############################################
+	death_natural_causes = {
+		default = yes
+		natural = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_old_age = {
+		natural = yes
+		natural_death_trigger = {
+			age >= 60
+		}
+		priority = 10
+		icon = "guix_death_skull_health.dds"
+	}
+
+	death_euthanasia = {
+		icon = "guix_death_skull_health.dds"
+	}
+	death_euthanasia_killer = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+
+	# observation_health_internal
+	##############################################
+	death_stress = {
+		icon = "guix_death_skull_health.dds"
+	}
+	death_giant = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = giant
+		}
+		priority = 9 # Lower than old age
+		icon = "guix_death_skull_health.dds"
+	}
+	death_spindly = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = spindly
+		}
+		priority = 73
+		icon = "guix_death_skull_health.dds"
+	}
+	death_wheezing = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = wheezing
+		}
+		priority = 28
+		icon = "guix_death_skull_health.dds"
+	}
+	death_bleeder = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = bleeder
+		}
+		priority = 73
+		icon = "guix_death_skull_health.dds"
+	}
+	death_depressed = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = depressed
+		}
+		priority = 8 # Lower than old age
+		icon = "guix_death_skull_health.dds"
+	}
+	death_lunatic = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = lunatic
+		}
+		priority = 27
+		icon = "guix_death_skull_health.dds"
+	}
+	death_possessed = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = possessed
+		}
+		priority = 65
+		icon = "guix_death_skull_health.dds"
+	}
+	death_incapable = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = incapable
+		}
+		priority = 85
+		icon = "guix_death_skull_health.dds"
+	}
+	death_maimed = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = maimed
+		}
+		priority = 95
+		icon = "guix_death_skull_health.dds"
+	}
+	death_physique_bad_1 = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = physique_bad_1
+		}
+		priority = 9 # Should be lower than old age
+		icon = "guix_death_skull_health.dds"
+	}
+	death_physique_bad_2 = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = physique_bad_2
+		}
+		priority = 25
+		icon = "guix_death_skull_health.dds"
+	}
+	death_physique_bad_3 = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = physique_bad_3
+		}
+		priority = 45
+		icon = "guix_death_skull_health.dds"
+	}
+	death_weak = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = weak
+		}
+		priority = 25
+		icon = "guix_death_skull_health.dds"
+	}
+	death_inbred = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = inbred
+		}
+		priority = 45
+		icon = "guix_death_skull_health.dds"
+	}
+	death_dungeon = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_dungeon_passive = {
+		natural = yes
+		natural_death_trigger = {
+			is_imprisoned = yes
+		}
+		priority = 12
+		icon = "guix_death_skull_health.dds"
+	}
+	death_treatment = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_treatment_killer = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_physician_mistreatment = {
+		natural = yes
+		natural_death_trigger = {
+			has_character_modifier = risky_disease_treatment_failure_modifier
+		}
+		priority = 47
+		icon = "guix_death_skull_health.dds"
+	}
+	death_attempted_treatment = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_apoplexy = {
+		natural = yes
+		natural_death_trigger = {
+			OR = {
+				has_trait = wrathful
+				has_trait = impatient
+				has_trait = irritable
+			}
+		}
+		priorty = 45
+		icon = "guix_death_skull_health.dds"
+	}
+	death_cuteness_overload = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_danced_to_death = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_laughter = {
+		# jester event
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_heart_attack = {
+		# jester event
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_fear = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}	
+	death_literalist_debate = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+
+	# observation_health_external
+	##############################################
+	death_wounded_1 = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = wounded_1
+		}
+		priority = 37
+		icon = "guix_death_skull_health.dds"
+	}
+	death_wounded_2 = {
+		natural = yes
+		natural_death_trigger = {
+			OR = {
+				has_trait = wounded_2
+				AND = {
+					has_trait = wounded_1
+					has_character_modifier = infected_wound_modifier
+				}
+			}
+		}
+		priority = 75
+		icon = "guix_death_skull_health.dds"
+	}
+	death_wounded_3 = {
+		natural = yes
+		natural_death_trigger = {
+			OR = {
+				has_trait = wounded_3
+				has_character_modifier = gangrene_modifier
+			}
+		}
+		priority = 115
+		icon = "guix_death_skull_health.dds"
+	}
+	death_wounds = {
+		icon = "guix_death_skull_health.dds"
+	}
+	death_flagellant = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = flagellant
+		}
+		priority = 9 # Should be lower than old age
+		icon = "guix_death_skull_health.dds"
+	}
+	blind = {
+		natural = yes
+		natural_death_trigger = {
+			has_trait = blind
+		}
+		priority = 9 #Lower than old age
+		icon = "guix_death_skull_health.dds"
+	}
+	death_spectator_injured = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_tournament_stands_collapsed = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_miniatures = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+
+	# observation_health_malnourishment
+	##############################################	
+	death_malnourishment = {
+		natural = yes
+		natural_death_trigger = {
+			has_character_modifier = malnourished_modifier
+		}
+		priority = 36
+		icon = "guix_death_skull_health.dds"
+	}
+	death_starved = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_starved_killer = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}	
+	death_nailed_in_cabinet = {
+		# jester event
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+
+	# observation_health_gluttany
+	##############################################
+	death_obesity = {
+		natural = yes
+		natural_death_trigger = {
+			has_character_modifier = obese_modifier
+		}
+		priority = 36
+		icon = "guix_death_skull_health.dds"
+	}
+	death_ate_themselves_to_death = {
+		icon = "guix_death_skull_health.dds"
+	}
+	death_tumultuous_guts = {
+		icon = "guix_death_skull_health.dds"
+	}
+	death_drinking_passive = {
+		natural = yes
+		natural_death_trigger = {
+			OR = {
+				has_trait = drunkard
+				has_character_modifier = stress_drinking_binge
+			}
+		}
+		priority = 11
+		icon = "guix_death_skull_health.dds"
+	}
+	death_drank_to_death = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+
+	# observation_health_pregnancy
+	##############################################	
+	death_childbirth = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+	death_delivery = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+
+##################################################
+# guix_death_mystery
+##################################################
+	
+	# observation_unknown
+	##############################################	
+	debug = {
+		icon = "guix_death_skull_mystery.dds"
+	}
+	unknown_death_reason = {
+		icon = "guix_death_skull_mystery.dds"
+	}
+	
+	# observation_mystery
+	##############################################	
+	death_plotting = {
+		icon = "guix_death_skull_mystery.dds"
+	}
+	death_mysterious = {
+		icon = "guix_death_skull_mystery.dds"
+	}
+	death_hunting_mysterious = {
+		icon = "guix_death_skull_mystery.dds"
+	}
+	death_accident = {
+		icon = "guix_death_skull_mystery.dds"
+	}
+
+	# observation_no_corpse
+	##############################################
+	death_disappearance = {
+		icon = "guix_death_skull_missing.dds"
+	}	
+	death_vanished = {
+		icon = "guix_death_skull_missing.dds"
+	}
+	death_lost_in_the_bog = {
+		public_knowledge = yes 
+		icon = "guix_death_skull_missing.dds"
+	}
+	death_lost_in_the_forest = {
+		public_knowedge = yes
+		icon = "guix_death_skull_missing.dds"
+	}
+
+##################################################
+# guix_death_missing
+##################################################
+
+	# observation_decapitated
+	##############################################
+	death_punishment = {
+		public_knowledge = yes
+		icon = "guix_death_skull_missing.dds"
+	}
+	death_head_ripped_off = {
+		public_knowledge = yes
+		icon = "guix_death_skull_missing.dds"
+	}
+	death_skull_removed = {
+		public_knowledge = yes
+		icon = "guix_death_skull_missing.dds"
+	}
+	
+	death_botched_decapitation = {
+		public_knowledge = yes
+		icon = "guix_death_skull_missing.dds"
+	}
+	death_decapitated = {
+		public_knowledge = yes
+		icon = "guix_death_skull_missing.dds"
+	}
+	death_bell = {
+		public_knowledge = yes
+		icon = "guix_death_skull_missing.dds"
+	}
+	death_bell_killer = {
+		public_knowledge = yes
+		icon = "guix_death_skull_missing.dds"
+	}
+
+##################################################
+# guix_death_bloody
+##################################################
+
+	# observation_stabbed
+	##############################################	
+	death_suicide = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_siege = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_duel = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+		use_equipped_artifact_in_slot = right_hand
+	}
+	death_fight = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_fight_killer = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_battle = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_raid = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_pilgrimage_bandit_attack = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_attacked = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_hunting_mistakenly_stabbed = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_courtier_mistakenly_stabbed = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_slaughtered_by_guards = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_assassinated_by_soldiers = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_cut_off_by_enemy_troops_offensive = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_cut_off_by_enemy_troops_defensive = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_scuffle_with_soldiers = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_while_assassinating = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_coup_successful = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_coup_failed = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_manhunted = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_refused_to_be_imprisoned = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_bloody_wedding = {
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_murder_feast = {
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_piteously_cut_down = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+
+	# observation_hunting
+	##############################################
+	death_hunting_mistakenly_shot = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_hunting_trap = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_equipment = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+
+	# observation_unnatural
+	##############################################
+	death_feast_accident = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+			
+	death_murder = {
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_murder_known = { # For history setup
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	
+	death_script_cruelty  = {
+		icon = "guix_death_skull_bloody.dds"
+	}
+	
+	death_execution = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	death_execution_killer = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	
+	death_assassination = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+	
+	death_brutally_despatched = {
+		public_knowledge = yes
+		icon = "guix_death_skull_bloody.dds"
+	}
+
+##################################################
+# guix_death_cracked
+##################################################
+
+	# observation_cracked
+	##############################################
+	death_axe = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_fall = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_fell_bedchamber = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_defenestrated_by_mob = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_defenestration = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_skull_cracked_open = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_training_accident = {
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_hunting_accident = {
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_fallen_from_a_mountain = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_mountain_rescue_operation = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_fall_in_hole = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_avalanche = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_run_over_cart = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_crushed = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}	
+	death_launched_out_of_catapult = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_flight_attempt = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_jumping_boulder = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_snapped_neck_climbing_tree = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+	death_roof_tile = {
+		public_knowledge = yes
+		icon = "guix_death_skull_cracked.dds"
+	}
+
+##################################################
+# guix_death_brutal
+##################################################
+
+	# observation_butchered
+	##############################################
+	death_cloven_in_half = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_viciously_dismembered = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_ripped_apart_limb_by_limb = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_chopped_to_pieces = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}	
+
+	# observation_mangled
+	##############################################
+	death_whipping = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_torture = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_torture_passive = {
+		natural = yes
+		natural_death_trigger = {
+			has_character_modifier = recently_tortured
+		}
+		priority = 116
+		icon = "guix_death_skull_brutal.dds"
+	}	
+	death_execution_blood_eagle = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_execution_blood_eagle_killer = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_execution_blot = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_beaten = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_sacrificed_to_gods = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_crucified = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_dragged = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_for_corpse_forest = {
+		public_knowedge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_by_exploding_whale = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_beaten_by_mob = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_torn_to_pieces_by_mob = { 
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_hanged_and_disemboweled_by_mob = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_crucified_by_mob = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+	death_sacrificed_to_foreign_gods = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+
+	# observation_heartless
+	##############################################
+	death_heart_ripped_out = {
+		public_knowledge = yes
+		icon = "guix_death_skull_brutal.dds"
+	}
+
+##################################################
+# guix_death_eaten
+##################################################
+
+	# observation_eaten
+	##############################################
+	death_eaten = {
+		public_knowledge = yes
+		icon = "guix_death_skull_eaten.dds"
+	}
+	death_ritually_hung_then_eaten = {
+		public_knowledge = yes
+		icon = "guix_death_skull_eaten.dds"
+	}
+	death_ritually_eaten = {
+		public_knowledge = yes
+		icon = "guix_death_skull_eaten.dds"
+	}
+	death_manhunted_eaten = {
+		public_knowledge = yes
+		icon = "guix_death_skull_eaten.dds"
+	}
+
+##################################################
+# guix_death_burned
+##################################################	
+
+	# observation_burned
+	##############################################
+	death_burned = {
+		public_knowledge = yes
+		icon = "guix_death_skull_burned.dds"
+	}
+	death_burned_by_mob = {
+		public_knowledge = yes
+		icon = "guix_death_skull_burned.dds"
+	}
+	death_burned_witch = {
+		public_knowledge = yes
+		icon = "guix_death_skull_burned.dds"
+	}
+	death_fire = {
+		public_knowledge = yes
+		icon = "guix_death_skull_burned.dds"
+	}
+
+##################################################
+# guix_death_elements
+##################################################		
+
+	# observation_elements
+	##############################################
+	death_hypothermia = {
+		public_knowledge = yes
+		icon = "guix_death_skull_elements.dds"
+	}
+	death_ice = {
+		public_knowledge = yes
+		icon = "guix_death_skull_elements.dds"
+	}
+	death_violent_storm = {
+		public_knowledge = yes
+		icon = "guix_death_skull_elements.dds"
+	}
+	death_sea_storm = {
+		public_knowledge = yes
+		icon = "guix_death_skull_elements.dds"
+	}
+	death_drowned = {
+		public_knowledge = yes
+		icon = "guix_death_skull_elements.dds"
+	}
+	death_froze = {
+		public_knowledge = yes
+		icon = "guix_death_skull_elements.dds"
+	}
+	death_heatstroke = {
+		public_knowledge = yes
+		icon = "guix_death_skull_elements.dds"
+	}
+	death_sun_trial = {
+		public_knowledge = yes
+		icon = "guix_death_skull_elements.dds"
+	}
+
+##################################################
+# guix_death_excrement
+##################################################	
+	
+	# observation_excrement
+	##################################################
+	death_drowned_in_excrement = {
+		public_knowledge = yes
+		icon = "guix_death_skull_excrement.dds"
+	}
+
+##################################################
+# guix_death_trepanned
+##################################################
+
+	# observation_trepanned
+	##################################################
+	death_trepanned = {
+		public_knowledge = yes
+		icon = "guix_death_skull_trepanned.dds"
+	}
+
+##################################################
+# guix_death_beast
+##################################################
+
+	# observation_beast_pierced
+	##############################################
+	death_deer = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_boar = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_hart = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_moose = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+
+	# observation_beast_shredded
+	##############################################	
+	death_maimed_by_wild_beast = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_riding_animal = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_carp_accident = {
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_aurochs = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_hyena = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_lion = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_tiger = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_leopard = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_wild_animal = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_wolf = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_wolves = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_wolverine = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_bear = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_lynx = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_crocodile = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_dog_attack = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_cat_attack = {
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_sow = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+
+	# observation_beast_blunt
+	##############################################
+	death_trampled_by_horse = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_horse_riding_accident = {
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_stampede = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_gazelle = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_bison = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_roe = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_antelope = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_bull_charge = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	
+	death_crushed_by_elephant = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_horse = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+	death_camel = {
+		public_knowledge = yes
+		icon = "guix_death_skull_beast.dds"
+	}
+
+
+##################################################
+# guix_death_tourney
+##################################################
+
+	# observation_tourney
+	##############################################
+	death_contest_melee_accident = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+		use_equipped_artifact_in_slot = right_hand
+	}
+	death_contest_joust_accident = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+	}
+	death_contest_wrestling_accident = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+	}
+	death_contest_duel_accident = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+	}
+	death_contest_board_game_accident = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+	}
+	death_contest_horse_sport_accident = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+	}
+	death_tournament_pas_darmes_defend = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+		use_equipped_artifact_in_slot = right_hand
+	}
+	death_tournament_pas_darmes_challenge = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+		use_equipped_artifact_in_slot = right_hand
+	}
+	death_tournament_piledriver = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+	}
+	death_tournament_melee_throat = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+	}
+	death_tournament_roundhouse = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+	}
+	death_tournament_archery_fall = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+	}
+	death_tournament_quintain_hit = {
+		public_knowledge = yes
+		icon = "guix_death_skull_tourney.dds"
+	}
+
+

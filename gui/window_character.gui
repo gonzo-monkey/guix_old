@@ -1,0 +1,717 @@
+######################################################
+################# CHARACTER WINDOW ###################
+######################################################
+
+window = {
+	name = "character_window"
+	datacontext = "[GetVariableSystem]"
+	datacontext = "[CharacterWindow.GetCharacter]"
+	movable = no
+	layer = middle
+	allow_outside = yes
+
+	using = Window_Size_Sidebar
+	using = Window_Background_Sidebar
+
+	state = {
+		name = _show
+		using = Animation_FadeIn_Quick
+		using = Sound_WindowShow_Standard
+		position_x = 0
+
+		on_start = "[GetVariableSystem.Set( 'hide_bottom_left_HUD', 'true' )]"
+		on_start = "[GetScriptedGui( 'GUIX_list_builder_spouses' ).Execute( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+		on_start = "[GetScriptedGui( 'GUIX_list_builder_relations' ).Execute( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+
+		on_start = "[GetVariableSystem.Set('guix_tab','family')]"
+		on_start = "[GetVariableSystem.Set('guix_cw','show_realm')]"	
+		on_start = "[GetVariableSystem.Set('guix_spouse','show_primary')]"
+		on_start = "[GetVariableSystem.Set('guix_vassals_highlight','default')]"
+		on_start = "[GetVariableSystem.Set('guix_court_highlight','default')]"	
+	}
+
+	state = {
+		name = _hide
+		using = Animation_FadeOut_Quick
+		using = Sound_WindowHide_Standard
+		position_x = -60
+
+		on_start = "[GetVariableSystem.Clear( 'hide_bottom_left_HUD' )]"
+	}
+
+	vbox = {
+		name = "main_content"
+		using = Window_Margins_Sidebar
+
+		##################################################
+		# GUIX # SECTION 1 --- MAIN VIEW
+		# 3d models of the main & secondary char | char icon overlay | portraits
+		guix_window_character_1_main_view = {}
+		##################################################
+
+		##################################################
+		# GUIX # SECTION 2 --- CHAR INFO		
+		# char name | traits & modifiers scoll | skills | faith & culture | coa
+		guix_window_character_2_info = {}
+		##################################################
+
+		##################################################
+		# GUIX # SECTION 3 --- REALM INFO
+		# realm name | stats | big realm coa | titles | claims | diplomacy
+		guix_window_character_3_realm = {}
+		##################################################
+
+		##################################################
+		# GUIX # SECTION 4 --- TABS
+		# family | relations | court | vassals | diplomacy | titles | claims | traits | modifiers
+		guix_window_character_4_tabs = {}
+		##################################################
+
+		spacer = { size = { 0 2 } }
+
+		##################################################
+		# GUIX # SECTION 5 --- VIEWS
+		# family | relations | court | vassals | diplomacy | titles | claims | traits | modifiers
+		guix_window_character_5_views = {}
+		##################################################		
+	}
+
+	window_character_filter = {
+		name = "court_character_filter_window"
+		datacontext = "[CharacterWindow.GetCourt]"
+		size = { 510 860 }
+		position = { 525 140 }
+
+		blockoverride "editbox_properties"
+		{
+			name = "court_text_filter"
+			ontextedited = "[CharacterSelectionList.SetPattern]"
+			oneditingfinished = "[CharacterSelectionList.FinishEdit]"
+		}
+
+		blockoverride "addition_filter" {
+			vbox_filter_group = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetCategory('age_filter_category')]"
+				blockoverride "filters" {
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('adult_filter')]"
+					}
+				}
+			}
+
+			vbox_filter_group = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetCategory('personal_filter_category')]"
+				blockoverride "filters" {
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('religion_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('culture_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('hook_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('married_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('gender_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('health_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('inspiration_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('sexuality_filter')]"
+					}
+				}
+			}
+
+			vbox_filter_group = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetCategory('politics_filter_category')]"
+				blockoverride "filters" {
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('dynasty_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('hostage_filter')]"
+					}
+				}
+			}
+		}
+	}
+
+	window_character_filter = {
+		name = "vassal_filter_window"
+		datacontext = "[CharacterWindow.GetVassals]"
+		size = { 510 820 }
+		position = { 525 200 }
+
+		blockoverride "editbox_properties"
+		{
+			name = "vassal_text_filter"
+			ontextedited = "[CharacterSelectionList.SetPattern]"
+			oneditingfinished = "[CharacterSelectionList.FinishEdit]"
+		}
+
+		blockoverride "addition_filter" {
+			vbox_filter_group = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetCategory('age_filter_category')]"
+				blockoverride "filters" {
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('adult_filter')]"
+					}
+				}
+			}
+
+			vbox_filter_group = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetCategory('personal_filter_category')]"
+				blockoverride "filters" {
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('vassal_stance_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('religion_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('culture_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('hook_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('married_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('gender_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('health_filter')]"
+					}
+				}
+			}
+
+			vbox_filter_group = {
+				layoutpolicy_horizontal = expanding
+				datacontext = "[CharacterSelectionList.GetCategory('politics_filter_category')]"
+				blockoverride "filters" {
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('dynasty_filter')]"
+					}
+					filter_item = {
+						layoutpolicy_horizontal = expanding
+						datacontext = "[CharacterSelectionList.GetFilter('hostage_filter')]"
+					}
+				}
+			}
+		}
+	}
+}
+
+
+######################################################
+################ TYPES AND TEMPLATES #################
+######################################################
+
+types CharacterWindow
+{
+	type skill_icon_label_vertical = widget {
+		size = { 40 60 }
+
+		icon = {
+			name = "skill_icon"
+			texture = "gfx/interface/icons/icon_skills.dds"
+			size = { 24 24 }
+			framesize = { 60 60 }
+			position = { -10 17 }
+
+			block "icon"
+			{
+				frame = "[SkillItem.GetFrame]"
+			}
+		}
+
+		block "tooltip"
+		{
+			tooltip = "SKILL_ITEM_TOOLTIP"
+			using = tooltip_ne
+		}
+
+		text_single = {
+			name = "skill_value"
+			parentanchor = top|hcenter
+			position = { 5 17 }
+			align = center
+
+			block "value"
+			{
+				text = "[SkillItem.GetValue]"
+			}
+		}
+	}
+
+	type hbox_character_relation_and_ai = hbox
+	{
+		layoutpolicy_horizontal = expanding
+		spacing = 2
+
+		hbox = {
+			maximumsize = { 430 -1 }
+
+			text_single = {
+				maximumsize = { 281 -1 }
+				name = "character_relation_to_you"
+				text = "[Character.GetRelationToString( GetPlayer )]"
+				tooltip = "EXTENDED_RELATIONS_TOOLTIP"
+				using = tooltip_se
+
+				fontsize_min = 13
+				align = nobaseline
+			}
+
+			text_single = {
+				maximumsize = { 149 -1 }
+				name = "other_player_name"
+				visible = "[And( Character.IsPlayer, Not( Character.IsLocalPlayer ) )]"
+
+				raw_text = " • #L [Character.GetHumanName]#!"
+				tooltip = "AI_PERSONALITY_IS_PLAYER_TOOLTIP"
+				using = tooltip_se
+
+				fontsize_min = 13
+				align = nobaseline
+			}
+
+			text_single = {
+				maximumsize = { 149 -1 }
+				name = "ai_personality"
+				visible = "[Not( Character.IsPlayer )]"
+
+				raw_text = " • #L [Character.GetAIPersonalityNoTooltip]#!"
+				tooltip = "AI_PERSONALITY_TT"
+				using = tooltip_se
+
+				fontsize_min = 13
+				align = nobaseline
+			}
+		}
+
+		icon = {
+			visible = "[Not(Character.IsFemale)]"
+			size = { 20 20 }
+			framesize = { 40 40 }
+			frame = "[Character.GetSexualityFrame]"
+			texture = "gfx/interface/icons/character_status/sexuality_icons_male.dds"
+			tooltip = "SEXUALITY_TT"
+		}
+
+		icon = {
+			visible = "[Character.IsFemale]"
+			size = { 20 20 }
+			framesize = { 40 40 }
+			frame = "[Character.GetSexualityFrame]"
+			texture = "gfx/interface/icons/character_status/sexuality_icons_female.dds"
+			tooltip = "SEXUALITY_TT"
+		}
+
+		expand = {}
+	}
+
+	type icon_row_header_background = icon
+	{
+		size = { 100% 25 }
+
+		texture = "gfx/interface/component_tiles/tile_title_bg_01.dds"
+		spritetype = corneredtiled
+		spriteborder = { 20 0 }
+		texture_density = 2
+		alpha = 0.5
+	}
+
+	### Modified character row for relationship tab
+	type vbox_character_row_relationship_item = vbox {
+		spacing = -3
+
+		widget = {
+			layoutpolicy_horizontal = expanding
+			size = { 0 25 }
+			min_width = 110
+
+			block "expand_button" {
+				button_standard_hover = {
+					size = { 100% 100% }
+
+					block "expand_button_inside" {}
+				}
+			}
+
+			hbox = {
+				margin = { 10 0 }
+
+				background = {
+					using = Text_Label_Background
+					alpha = 0.5
+					margin = { 0 -2 }
+				}
+
+				text_single = {
+					align = nobaseline
+					fontsize = 16
+
+					block "header_text"
+					{
+						raw_text = "#D NEEDS TEXT#!"
+					}
+				}
+
+				text_single = {
+					align = nobaseline
+					fontsize = 16
+
+					block "header_text_clickable"
+					{
+						visible = no
+					}
+				}
+			}
+		}
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+
+			using = Animation_Character_Window_Refresh
+
+			block "gridbox" {
+				fixedgridbox = {
+					flipdirection = yes
+					addcolumn = 85
+					addrow = 90
+					datamodel_wrap = 7
+
+					block "gridbox_slots"
+					{
+						maxverticalslots = 1
+					}
+
+					block "portrait_datamodel" {
+						datamodel = "[CharacterWindow.GetParents]"
+					}
+
+					item = {
+						guix_portrait_head_small = {
+							blockoverride "portrait_button"
+							{
+								using = tooltip_ne
+							}
+							blockoverride "glow_visible"
+							{
+								visible = no
+							}
+						}
+					}
+				}
+			}
+
+			block "find_partner" {}
+
+			expand = {}
+		}
+
+		expand = {}
+	}
+
+	# GUIX # added in Legacy of Persia 1.11
+	type widget_struggle_icon = widget {
+		size = { 100% 100% }
+
+		struggle_phase_based_widget = {
+			datacontext = "[Struggle.GetCurrentPhase]"
+			visible = "[Struggle.IsInvolvedCharacter(Character.Self)]"
+
+			blockoverride "point_based_widget_content" { 
+				highlight_icon = {
+					size = { 100% 100% }
+					texture = "gfx/interface/icons/struggle_banners/point_involved_banner_small.dds"
+				}
+			}
+
+			blockoverride "time_based_widget_content" { 
+				highlight_icon = {
+					size = { 100% 100% }
+					texture = "gfx/interface/icons/struggle_banners/time_involved_banner_small.dds"
+				}
+			}
+		}
+
+		struggle_phase_based_widget = {
+			datacontext = "[Struggle.GetCurrentPhase]"
+			visible = "[Struggle.IsInterloperCharacter(Character.Self)]"
+
+			blockoverride "point_based_widget_content" { 
+				highlight_icon = {
+					size = { 100% 100% }
+					texture = "gfx/interface/icons/struggle_banners/point_interloper_banner_small.dds"
+				}
+			}
+
+			blockoverride "time_based_widget_content" { 
+				highlight_icon = {
+					size = { 100% 100% }
+					texture = "gfx/interface/icons/struggle_banners/time_interloper_banner_small.dds"
+				}
+			}
+		}
+
+		widget = {
+			size = { 100% 100% }
+			position = { 0 -3 }
+
+			icon = {
+				visible = "[Struggle.IsInvolvedCharacter(Character.Self)]"
+				parentanchor = center
+				size = { 34 34 }
+				texture = "gfx/interface/icons/struggle_banners/icon_background_02.dds"
+			}
+
+			icon = {
+				visible = "[Struggle.IsInterloperCharacter(Character.Self)]"
+				parentanchor = center
+				size = { 34 34 }
+				texture = "gfx/interface/icons/struggle_banners/icon_background_01.dds"
+			}
+
+			icon = {
+				parentanchor = center
+				size = { 30 30 }
+				texture = "[Struggle.GetCurrentPhase.GetIcon]"
+			}
+		}
+	}
+
+	# GUIX # added in Legacy of Persia 1.11
+	type modifier_item_icon = widget {
+		datacontext = "[ModifierItem.GetStaticModifier]"
+
+		size = { 25 25 }
+
+		# Preview list
+		icon = {
+			# the tag is hard-coded, if you want to change the name or add a new one please contact someone from code team
+			visible = "[ModifierItem.HasTooltipDataByTag('preview_list')]"
+
+			size = { 100% 100% }
+			texture = "[ModifierItem.GetIcon]"
+
+			block "icon_data" {
+				alwaystransparent = no
+			}
+
+			tooltipwidget = {
+				object_tooltip_pop_out = {
+					datacontext = "[ModifierItem.GetPreviewList]"
+
+					blockoverride "header_additions" {
+						hbox = {
+							margin_right = 10
+							margin_top = 8
+							margin_left = -4
+
+							icon = {
+								size = { 32 32 }
+								texture = "[StaticModifier.GetIcon]"
+								tintcolor = "[TooltipInfo.GetTintColor]"
+							}
+						}
+					}
+
+					blockoverride "title_text" {
+						margin = { 0 8 }
+						text = "[StaticModifier.GetName]"
+					}
+
+					blockoverride "concept_link" {
+						text = ""
+					}
+
+					blockoverride "main_description" {
+						vbox = {
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+
+							text_multi = {
+								autoresize = yes
+								max_width = 350
+								text = "[TimedModifierPreviewList.GetScaledDesc]"
+							}
+
+							vbox = {
+								layoutpolicy_horizontal = expanding
+								layoutpolicy_vertical = expanding
+
+								datamodel = "[TimedModifierPreviewList.GetItems]"
+
+								item = {
+									vbox = {
+										layoutpolicy_horizontal = expanding
+										layoutpolicy_vertical = expanding
+
+										text_single = {
+											layoutpolicy_horizontal = growing
+											text = "[TimedModifierPreviewItem.GetTitle]"
+										}
+
+										text_single = {
+											layoutpolicy_horizontal = growing
+											text = "[TimedModifierPreviewItem.GetExpirationDate]"
+										}
+									}
+								}
+							}
+
+							textbox = {
+								name = "input_info"
+								layoutpolicy_horizontal = expanding
+								margin_top = 10
+								margin_bottom = 20
+								using = DefaultTooltipText
+								multiline = yes
+								block "input_info_text" {}
+								fonttintcolor = "[TooltipInfo.GetTintColor]"
+							}
+						}
+					}
+				}
+			}
+		}
+
+		# Single modifier
+		icon = {
+			# the tag is hard-coded, if you want to change the name or add a new one please contact someone from code team
+			visible = "[ModifierItem.HasTooltipDataByTag('single_modifier')]"
+			size = { 100% 100% }
+			texture = "[ModifierItem.GetIcon]"
+
+			block "icon_data" {
+				alwaystransparent = no
+			}
+
+			tooltipwidget = {
+				static_modifier_tooltip = {
+					datacontext = "[ModifierItem.GetSingleModifierTooltipData]"
+
+					blockoverride "description_text_data" {
+						text = "[TimedModifierSingleItem.GetDesc]"
+					}
+				}
+			}
+		}
+
+		# Scaled single modifier
+		icon = {
+			# the tag is hard-coded, if you want to change the name or add a new one please contact someone from code team
+			visible = "[ModifierItem.HasTooltipDataByTag('scaled_single_modifier')]"
+
+			size = { 100% 100% }
+			texture = "[ModifierItem.GetIcon]"
+
+			block "icon_data" {
+				alwaystransparent = no
+			}
+
+			tooltipwidget = {
+				scaled_static_modifier_tooltip = {
+					datacontext = "[ModifierItem.GetScaledSingleModifierTooltipData]"
+
+					blockoverride "description_text_data" {
+						text = "[TimedModifierScaledSingleItem.GetDesc]"
+					}
+
+					blockoverride "effects_datamodel" {
+						datamodel = "[TimedModifierScaledSingleItem.GetEffectItems]"
+					}
+
+					blockoverride "expiration_date" {
+						text_single = {
+							layoutpolicy_horizontal = growing
+							text = "[TimedModifierScaledSingleItem.GetExpirationDate]"
+						}
+						margin_bottom = 10
+					}
+				}
+			}
+		}
+	}	
+}
+
+# NOTE # used to refresh almost every asset on the char window
+template Animation_Character_Window_Refresh
+{
+	state = {
+		name = character_window_refresh
+		using = Animation_Refresh_FadeOut
+		alpha = 0.65
+	}
+
+	state = {
+		using = Animation_Refresh_FadeIn
+	}
+}
+
+# NOTE # used to refresh the main & secondary character models
+template Animation_Character_Window_Refresh_Short
+{
+	state = {
+		name = character_window_refresh
+		using = Animation_Refresh_FadeOut
+		alpha = 0.8
+	}
+
+	state = {
+		using = Animation_Refresh_FadeIn
+		duration = 0.25
+	}
+}
+
+template Character_Window_Relation_Icon
+{
+	size = { 20 20 }
+	framesize = { 40 40 }
+
+	visible = "[ScriptedRelation.HasRelationBetween( CharacterWindow.GetCharacter, Character.Self )]"
+
+	tooltipwidget = {
+		scripted_relation_tooltip = {
+			blockoverride "description_text"
+			{
+				text = "[GetScriptedRelationTooltip( ScriptedRelation, CharacterWindow.GetCharacter, Character )]"
+			}
+		}
+	}
+}

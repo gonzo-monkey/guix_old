@@ -1,0 +1,1309 @@
+##################################################
+# GUIX # SECTION 1 --- 3D MODELS
+##################################################
+
+types CharacterWindow {
+	type guix_window_character_1_main_view = widget {
+		name = "main_characters"
+		datacontext = "[GetIllustration( 'character_view_bg' )]"
+		layoutpolicy_horizontal = expanding
+		size = { 0 305 }
+
+		widget = {
+			size = { 100% 100% }
+			using = Animation_Character_Window_Refresh
+
+			background = {
+				texture = "[Illustration.GetTexture( Character.MakeScope )]"
+				fittype = centercrop
+				margin_bottom = 5
+				margin_left = 1
+
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_rough_edges_down_right.dds"
+					spriteType = Corneredtiled
+					spriteborder = { 20 20 }
+					blend_mode = alphamultiply
+					texture_density = 2
+				}
+			}
+		}
+
+		buttons_window_control = {
+			parentanchor = top|right
+
+			blockoverride "button_close"
+			{
+				onclick = "[CharacterWindow.Close]"
+			}
+
+			blockoverride "button_back"
+			{
+				visible = "[HasViewHistory]"
+				onclick = "[OpenFromViewHistory]"
+				tooltip = "[GetViewHistoryTooltip]"
+			}
+
+			blockoverride "button_me"
+			{
+				visible = "[Not(Character.IsLocalPlayer)]"
+				onclick = "[DefaultOnCharacterClick(GetPlayer.GetID)]"
+			}
+
+			blockoverride "button_pin" {}
+			
+			background = {
+				using = Background_Area_Solid
+				modify_texture = {
+					name = "mask"
+					texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
+					spriteType = Corneredstretched
+					spriteborder = { 0 0 }
+					blend_mode = alphamultiply
+				}
+				alpha = 0.7
+				margin_left = 30
+				margin_right = 30
+			}
+		}
+
+		# GUIX # SECONDARY CHARACTER
+		##################################################
+		container = {
+			visible = "[CharacterWindow.ShouldShowSecondary]"
+
+			parentanchor = bottom|hcenter
+			position = { 10 0 }
+
+			datacontext = "[CharacterWindow.GetSecondaryCharater]"
+
+			using = Animation_Character_Window_Refresh_Short
+	
+			# We only have invalid secondary character here if player can marry them off
+			container = {
+				visible = "[Not(Character.IsValid)]"
+				position = { 0 35 }
+				parentanchor = center
+	
+				button_marry_off = {
+					datacontext = "[CharacterWindow.GetCharacter]"
+					visible = "[And( Not( ObjectsEqual( GetPlayer, Character.Self ) ), Not( Character.IsConcubine ) )]"
+					tooltip = "CHARACTER_WINDOW_FIND_SPOUSE"
+				}
+	
+				button_marry_off = {
+					datacontext = "[CharacterWindow.GetCharacter]"
+					visible = "[ObjectsEqual( GetPlayer, Character.Self )]"
+					tooltip = "CHARACTER_WINDOW_FIND_SPOUSE_SELF"
+				}
+			}
+	
+			portrait_character_view_spouse = {
+				visible = "[Character.IsValid]"
+	
+				state = {
+					name = cw_spouse_cycle
+					using = Animation_Refresh_FadeOut
+				}
+	
+				state = {
+					using = Animation_Refresh_FadeIn
+				}
+			}
+			
+			flowcontainer = {
+				parentanchor = bottom|left
+				
+				position = { 150 -3 }
+				ignoreinvisible = yes
+
+				flowcontainer = {
+					direction = vertical
+					parentanchor = bottom
+
+					# OPINON
+					portrait_opinion = {
+						block "portrait_opinion" {}
+						parentanchor = hcenter
+					}
+
+					# TEXT ("Spouse" or "Former Spouse")
+					flowcontainer = {
+						ignoreinvisible = yes
+						
+						text_label_center = {
+							text = "[CharacterWindow.GetSecondaryText]"
+							max_width = 120
+							align = nobaseline
+						}						
+					}
+				}
+
+				flowcontainer = {
+					parentanchor = vcenter
+
+					coa_realm_small = {
+						visible = "[Character.HasLandedTitles]"
+						using = Animation_ShowHide_Standard
+						parentanchor = bottom
+					}
+				}
+			}			
+		}
+
+		# GUIX # MAIN CHARACTER
+		##################################################
+		portrait_character_view_main = {
+			name = "tutorial_highlight_main_character_button"
+			parentanchor = bottom|left
+			position = { 0 0 }
+
+			using = Animation_Character_Window_Refresh_Short
+
+			blockoverride "portrait_opinion"
+			{}
+		}
+
+		# GUIX # CHARACTER 'BONDED' ICONS
+		# moved from inside 'container_secondary' so main char can't obscure them, since I shifted them left
+		# put main char and secondary char icons together so they're in a single widget
+		##################################################
+		widget = {
+			parentanchor = bottom
+			allow_outside = yes
+			position = { 245 -2 }
+			size = { 182 60 }
+
+			# GUIX # now includes SEXUAL ORIENTATION
+			portrait_status_icons = {
+				datacontext = "[CharacterWindow.GetCharacter]"
+				parentanchor = bottom
+				position = { -28 -4 }
+			}
+
+			flowcontainer = {
+				direction = vertical
+				position = { 0 -1 }
+
+				# ARROWS - PREV or NEXT SPOUSE (made them bigger)
+				flowcontainer = {
+					visible = "[Or( CharacterWindow.HasPreviousSecondary, CharacterWindow.HasNextSecondary )]"
+					spacing = -10
+					margin_left = -10
+					using = Animation_ShowHide_Standard
+
+					background = {
+						using = Background_Area_Dark
+						using = Color_Black
+						margin_bottom = 10
+						margin_left = 8
+						margin_right = -1
+					}
+
+					button_expand = {
+						enabled = "[CharacterWindow.HasPreviousSecondary]"
+						onclick = "[CharacterWindow.PreviousSecondary]"
+						onclick = "[PdxGuiTriggerAllAnimations( 'cw_spouse_cycle' )]"
+						tooltip = "[CharacterWindow.GetPreviousSecondaryTooltip]"
+						mirror = horizontal
+						size = { 30 30 }
+						using = tooltip_nw
+					}
+
+					button_expand = {
+						enabled = "[CharacterWindow.HasNextSecondary]"
+						onclick = "[CharacterWindow.NextSecondary]"
+						onclick = "[PdxGuiTriggerAllAnimations( 'cw_spouse_cycle' )]"
+						tooltip = "[CharacterWindow.GetNextSecondaryTooltip]"
+						size = { 30 30 }
+						using = tooltip_ne
+					}
+				}			
+
+				# GUIX # MARRIAGE / DIARCH ICONS
+				##################################################
+				flowcontainer = {
+					widgetanchor = bottom|left
+					ignoreinvisible = yes
+					background = {
+						margin = { 8 0 }
+						using = Background_Area_Solid
+					}
+					icon = {
+						name = "diarchy_active_icon"
+						visible = "[And(CharacterWindow.GetCharacter.HasActiveDiarchy, Not(CharacterWindow.ShowMarriageIcon))]"
+						parentanchor = bottom
+						position = { 0 -3 }
+						size = { 30 30 }
+						texture = "gfx/interface/icons/scale_of_power.dds"
+						tooltip = IN_ACTIVE_DIARCHY
+						using = tooltip_below
+					}
+		
+					icon = {
+						name = "marriage_type_icon"
+						visible = "[CharacterWindow.ShowMarriageIcon]"
+						parentanchor = bottom
+						position = { 0 -3 }
+						size = { 30 30 }
+						framesize = { 60 60 }
+						texture = "gfx/interface/icons/marriage_types.dds"
+						frame = "[CharacterWindow.GetMarriageIcon]"
+						tooltip = "[CharacterWindow.GetMarriageIconTooltip]"
+						using = tooltip_below
+					}
+					icon = {
+						name = "show_former_or_dead_spouses"
+						visible = "[And(Character.IsValid,And(Not(CharacterWindow.GetCharacter.HasActiveDiarchy),Not(CharacterWindow.ShowMarriageIcon)))]"
+						parentanchor = bottom
+						position = { 0 -3 }
+						size = { 30 30 }
+						framesize = { 60 60 }
+						texture = "gfx/interface/icons/custom/guix_marriage_type_bw.dds"
+						tooltip = "[CharacterWindow.GetMarriageIconTooltip]"
+						using = tooltip_below
+					}
+				}		
+			}
+
+			# GUIX # now includes SEXUAL ORIENTATION
+			portrait_status_icons = {
+				datacontext = "[CharacterWindow.GetSecondaryCharater]"
+				parentanchor = bottom
+				position = { 33 -4 }
+			}
+		}
+
+		expand = {}
+
+		# GUIX # PORTRAITS
+		##################################################
+		hbox = {
+			margin_top = 50
+			layoutpolicy_horizontal = expanding
+			expand = {}
+
+			### Jailor / Imprisoner / Imprisoned by
+			vbox = {
+				name = "imprisoned_by"
+				datacontext = "[CharacterWindow.GetCharacter.GetImprisonedBy]"
+				visible = "[Character.IsValid]"
+
+				margin_right = 10
+				layoutpolicy_vertical = expanding
+				using = Animation_Character_Window_Refresh
+
+				guix_portrait_head_small = {
+					blockoverride "portrait_transformation"
+					{
+						portrait_scale = { -1 1 }
+						portrait_offset = { 1 0 }
+					}
+
+				}
+
+				text_label_center = {
+					margin_left = -10
+					margin_right = -10
+					text = "IMPRISONED_BY"
+				}
+				expand = {}
+			}
+
+			### Hostage Home Court
+			vbox = {
+				name = "hostage_home_court"
+				datacontext = "[CharacterWindow.GetCharacter.GetHomeCourt]"
+				visible = "[Character.IsValid]"
+
+				margin_right = 10
+				layoutpolicy_vertical = expanding
+				using = Animation_Character_Window_Refresh
+
+				guix_portrait_head_small = {
+					blockoverride "portrait_transformation"
+					{
+						portrait_scale = { -1 1 }
+						portrait_offset = { 1 0 }
+					}
+				}
+
+				text_label_center = {
+					margin_top = 2
+					margin_left = -10
+					margin_right = -10					
+					text = "[home_court|E]"
+				}
+				expand = {}
+			}
+
+			### Liege
+			vbox = {
+				name = "liege"
+				datacontext = "[CharacterWindow.GetCharacter.GetLiegeEvenWhenDead]"
+				visible = "[CharacterWindow.HasLiegeEvenWhenDead]"
+				allow_outside = yes
+
+				margin_right = 20
+				layoutpolicy_vertical = expanding
+				using = Animation_Character_Window_Refresh
+
+				guix_portrait_head_small = {
+					
+					portrait_opinion = {
+						name = "liege_opinion"
+						parentanchor = hcenter
+						margin_top = -5
+
+						datacontext = "[CharacterWindow.GetCharacter]"
+						visible = "[And( Character.GetLiege.IsValid, And( Character.IsAlive, Not(Character.IsLocalPlayer ) ) )]"						
+
+						blockoverride "dread_logic" {
+							visible = "[Character.ShouldShowDreadEffectIconFor( Character.GetLiege )]"
+							frame = "[Character.GetDreadEffectIconFrameFor( Character.GetLiege )]"
+							tooltip = "[Character.GetDreadEffectTooltipFor( Character.GetLiege )]"
+						}
+
+						blockoverride "opinion_text"
+						{
+							text = "[Character.GetOpinionOf( Character.GetLiege )|=]"
+							fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
+						}
+
+						blockoverride "ott_heading_text"
+						{
+							text = "[Character.GetOpinionHeadingText( CharacterWindow.GetCharacter.GetLiege )]"
+						}
+
+						blockoverride "ott_opinion_value_text"
+						{
+							text = "[Character.GetOpinionOf( Character.GetLiege )|=]"
+							fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetLiege )]"
+						}
+
+						blockoverride "ott_opinion_breakdown_text"
+						{
+							text = "[Character.GetOpinionBreakdownText( CharacterWindow.GetCharacter.GetLiege )]"
+						}
+					}
+
+					blockoverride "portrait_transformation"
+					{
+						portrait_scale = { -1 1 }
+						portrait_offset = { 1 0 }
+					}
+
+					blockoverride "coa" {
+						coa_realm_tiny = {
+							visible = "[And(CharacterWindow.GetCharacter.IsAlive, CharacterWindow.HasLiegeTitleEvenWhenDead)]"
+							parentanchor = bottom|left
+							position = { 3 -2 }
+							scale = 0.85
+						}
+
+						coa_title_tiny = {
+							visible = "[And(Not(CharacterWindow.GetCharacter.IsAlive), CharacterWindow.HasLiegeTitleEvenWhenDead)]"
+							datacontext = "[CharacterWindow.GetCharacter.GetLiegeTitleEvenWhenDead]"
+							parentanchor = bottom|left
+							position = { 3 -2 }
+							scale = 0.85
+						}
+					}
+				}
+
+				hbox = {
+					spacing = 3
+
+					text_label_center = {
+						datacontext = "[CharacterWindow.GetCharacter]"
+						visible = "[Character.IsHostage]"
+						text = "WARDEN_OF"
+					}
+
+					text_label_center = {
+						datacontext = "[CharacterWindow.GetCharacter]"
+						visible = "[Not( Character.IsHostage )]"
+						text = "[liege|E]"
+					}
+
+					icon = {
+						datacontext = "[CharacterWindow.GetCharacter]"
+						name = "non_dejure_liege"
+						visible = "[Not( Character.GetVassalContract.IsRightfulLiege )]"
+						size = { 30 30 }
+						texture = "gfx/interface/icons/levy_tax_reduction.dds"
+
+						using = tooltip_ws
+						tooltip = "MRW_TT_NOT_RIGHTFUL_LIEGE"
+					}
+				}
+				expand = {}
+			}
+		}
+
+		### Host
+		container = {
+			name = "host"
+			datacontext = "[CharacterWindow.GetCourtOwner]"
+			visible = "[And( Not( CharacterWindow.HasLiegeEvenWhenDead ), And( CharacterWindow.GetCourtOwner.IsValid, Not( CharacterWindow.GetCharacter.IsRuler ) ) )]"
+			parentanchor = bottom|right
+			widgetanchor = top|left
+			position = { -105 -250 }
+
+			using = Animation_Character_Window_Refresh
+
+			guix_portrait_head_small = {
+				blockoverride "portrait_transformation"
+				{
+					portrait_scale = { -1 1 }
+					portrait_offset = { 1 0 }
+				}
+			}
+
+			text_label_center = {
+				margin_left = -10
+				margin_right = -10
+				parentanchor = top|hcenter
+				position = { 0 85 }
+				text = "[host|E]"
+			}
+
+
+			portrait_opinion = {
+				name = "liege_opinion"
+				datacontext = "[CharacterWindow.GetCharacter]"
+				visible = "[And(Character.IsAlive, Not(Character.IsLocalPlayer))]"
+				parentanchor = top|hcenter
+				position = { -10 110 }
+
+				blockoverride "dread_logic" {
+					visible = "[Character.ShouldShowDreadEffectIconFor( CharacterWindow.GetCourtOwner )]"
+					frame = "[Character.GetDreadEffectIconFrameFor( CharacterWindow.GetCourtOwner )]"
+					tooltip = "[Character.GetDreadEffectTooltipFor( CharacterWindow.GetCourtOwner )]"
+				}
+
+				blockoverride "opinion_text"
+				{
+					text = "[Character.GetOpinionOf( CharacterWindow.GetCourtOwner )|=]"
+					fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCourtOwner )]"
+				}
+
+				blockoverride "ott_heading_text"
+				{
+					text = "[Character.GetOpinionHeadingText( CharacterWindow.GetCourtOwner )]"
+				}
+
+				blockoverride "ott_opinion_value_text"
+				{
+					text = "[Character.GetOpinionOf( CharacterWindow.GetCourtOwner )|=]"
+					fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCourtOwner )]"
+				}
+
+				blockoverride "ott_opinion_breakdown_text"
+				{
+					text = "[Character.GetOpinionBreakdownText( CharacterWindow.GetCourtOwner )]"
+				}
+			}
+		}
+
+		# GUIX # EMPTY "SECONDARY SPOUSES" PORTRAIT
+		# When there are no Secondary Spouses, there is no character row for them in default Family tab
+		# This keeps space free to show double rows of siblings or children, with children taking higher priorty
+		# So an empty portrait shows instead to allow the player to still trigger the 'Arrainge Marriage' interaction
+		##################################################
+		container = {
+			name = "add_secondary_spouse"
+			visible = "[GetScriptedGui( 'guix_allowed_more_spouses' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).End )]"
+			parentanchor = bottom|right
+			position = { -115 -5 }
+
+			using = Animation_ShowHide_Standard
+			
+			fixedgridbox = {
+				name = "potential"
+				datamodel = "[GetNullCharacterDataModel( Character.CalcUnusedSecondarySpouseSlots )]"
+
+				addcolumn = 85
+				addrow = 90
+				# NOTE # set to 1 so otherwise all 3 'Unused' portraits show	
+				maxverticalslots = 1
+
+				item = {
+					container = {
+						guix_portrait_head_small = {
+							visible = "[Not( ObjectsEqual( GetPlayer, CharacterWindow.GetCharacter ) )]"
+							enabled = "[Character.IsPlayerInteractionShown('marry_off_interaction')]"
+							blockoverride "portrait_button_template_onclick"
+							{
+								onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('marry_off_interaction')]"
+							}
+							blockoverride "portrait_button_template_tooltip"
+							{
+								tooltip = "CHARACTER_WINDOW_FIND_SPOUSE"
+							}
+							blockoverride "onclick"
+							{
+								onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('marry_off_interaction')]"
+
+								button_icon = {
+									parentanchor = center
+									alwaystransparent = yes
+									size = { 20 20 }
+									position = {-5 -5}
+									texture = "gfx/interface/icons/flat_icons/plus.dds"
+								}
+							}
+						}
+
+						guix_portrait_head_small = {
+							visible = "[ObjectsEqual( GetPlayer, CharacterWindow.GetCharacter )]"
+							blockoverride "portrait_button_template_onclick"
+							{
+								onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('marry_off_interaction')]"
+							}
+							blockoverride "portrait_button_template_tooltip"
+							{
+								tooltip = "CHARACTER_WINDOW_FIND_SPOUSE_SELF"
+							}
+							blockoverride "onclick"
+							{
+								onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('marry_off_interaction')]"
+
+								button_icon = {
+									parentanchor = center
+									alwaystransparent = yes
+									size = { 26 26 }
+									position = {-5 0}
+									texture = "gfx/interface/icons/flat_icons/plus.dds"
+								}
+							}
+						}
+					}
+				}
+			}
+			text_label_center = {
+				margin_left = -10
+				margin_right = -10
+				parentanchor = top|hcenter
+				position = { 0 85 }
+				text = "SPOUSE"
+				multiline = yes
+				autoresize = yes
+				max_width = 110
+			}
+		}
+
+		# GUIX # EMPTY "CONCUBINES" PORTRAIT
+		# When there are no Concubines, there is no character row for them in default Family tab
+		# This keeps space free to show double rows of siblings or children, with children taking higher priorty
+		# So an ampty portrait shows instead to allow the player to still trigger the 'Find Concubine' interaction
+		##################################################	
+		container = {
+			name = "add_concubine"
+			visible = "[GetScriptedGui( 'guix_allowed_more_concubines' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).End )]"
+			parentanchor = bottom|right
+			position = { -115 -5 }
+
+			using = Animation_ShowHide_Standard
+			fixedgridbox = {
+				name = "potential"
+				datamodel = "[GetNullCharacterDataModel( Character.CalcUnusedConsortSlots )]"
+
+				addcolumn = 85
+				addrow = 90
+				# NOTE # set to 1 so otherwise all 3 'Unused' portraits show
+				maxverticalslots = 1
+
+				item = {
+					container = {
+						guix_portrait_head_small = {
+							blockoverride "portrait_button_template_onclick"
+							{
+								onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('find_concubine')]"
+								enabled = "[CharacterWindow.GetCharacter.IsPlayerInteractionValid('find_concubine')]"
+
+								button_plus = {
+									parentanchor = center
+									alwaystransparent = yes
+								}
+							}
+							blockoverride "portrait_button_template_tooltip"
+							{
+								tooltip = "[CharacterWindow.GetCharacter.GetPlayerInteractionTooltip('find_concubine')]"
+							}
+						}
+					}
+				}
+			}
+			text_label_center = {
+				margin_left = -10
+				margin_right = -10
+				parentanchor = top|hcenter
+				position = { 0 85 }
+				text = "CONCUBINE"
+				multiline = yes
+				autoresize = yes
+				max_width = 100
+			}			
+		}		
+
+		# GUIX # HEIR
+		##################################################
+		container = { # Player Heir for the local player
+			name = "heir_player"
+			datacontext = "[CharacterWindow.GetCharacter.GetPlayerHeir]"
+			visible = "[And( Character.IsValid, CharacterWindow.GetCharacter.IsLocalPlayer )]"
+			parentanchor = bottom|right
+			position = { -20 -5 }
+
+			using = Animation_Character_Window_Refresh
+
+			guix_portrait_head_small = {
+				blockoverride "portrait_transformation"
+				{
+					portrait_scale = { -1 1 }
+					portrait_offset = { 1 0 }
+				}
+				blockoverride "player_heir_portrait_only" {
+					# GUIX # WARNING - player heir is NOT primary heir!
+					##################################################
+					widget = {
+						ignoreinvisible = yes
+						allow_outside = yes
+
+						datacontext = "[GetScriptedGui('guix_is_primary_heir')]"
+						visible = "[Not(ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"				
+						
+						button = {
+							texture = "gfx/interface/icons/symbols/icon_warning.dds"
+							size = { 23 23 }
+							onclick = "[GetVariableSystem.Set('guix_tab','titles')]"
+							
+							tooltip = "GUIX_CHAR_NOT_PRIMARY_HEIR_WARNING"
+							using = tooltip_ne
+						}
+					}					
+				}				
+			}
+
+			text_label_center = {
+				margin_left = -10
+				margin_right = -10
+				parentanchor = top|hcenter
+				position = { 0 85 }
+				text = "[player_heir|E]"
+				multiline = yes
+				autoresize = yes
+				max_width = 100
+			}
+		}
+		container = { # Primary Heir for everyone else
+			name = "heir_primary"
+			#datacontext = "[CharacterWindow.GetCharacter.GetPrimaryTitle.GetHeir]"
+			datacontext = "[CharacterWindow.GetCharacter.GetPlayerHeir]"
+			visible = "[And( And( Character.IsValid, Not(CharacterWindow.GetCharacter.IsLocalPlayer) ), CharacterWindow.GetCharacter.IsAlive )]"
+			parentanchor = bottom|right
+			position = { -20 -5 }
+
+			using = Animation_Character_Window_Refresh
+
+			guix_portrait_head_small = {
+				parentanchor = right
+
+				blockoverride "portrait_transformation"
+				{
+					portrait_scale = { -1 1 }
+					portrait_offset = { 1 0 }
+				}
+				blockoverride "player_heir_portrait_only" {
+					# GUIX # WARNING - player heir is NOT primary heir!
+					##################################################
+					widget = {
+						ignoreinvisible = yes
+						allow_outside = yes
+
+						datacontext = "[GetScriptedGui('guix_is_primary_heir')]"
+						visible = "[Not(ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"				
+						
+						button = {
+							texture = "gfx/interface/icons/symbols/icon_warning.dds"
+							size = { 23 23 }
+							onclick = "[GetVariableSystem.Set('guix_tab','titles')]"
+							
+							tooltip = "GUIX_CHAR_NOT_PRIMARY_HEIR_WARNING"
+							using = tooltip_ne
+						}
+					}					
+				}				
+			}
+
+			text_label_center = {
+				margin_left = -10
+				margin_right = -10
+				parentanchor = top|hcenter
+				position = { 0 85 }
+				text = "[player_heir|E]"
+				#text = "[primary_heir|E]"
+				multiline = yes
+				autoresize = yes
+				max_width = 100
+			}
+		}
+
+		### DEBUG STUFF, please make sure those are visible and usable, especially the watch button, type "watch" into the console to show it
+		flowcontainer = {
+			name = "debug_buttons"
+			parentanchor = top|left
+			position = { 200 20 }
+			ignoreinvisible = yes
+
+			# Debug personality
+			text_single = {
+				visible = "[InDebugMode]"
+				tooltip = "CHARACTER_AI_VALUES_DEBUG_TOOLTIP"
+				raw_text = "#D AIValue#!"
+				align = nobaseline
+			}
+
+			button = {
+				using = editor_button
+				name = "ai_watch_button"
+				size = { 60 40 }
+				raw_text = "AI Watch"
+				align = center|nobaseline
+				onclick = "[CharacterWindow.OnAIWatch]"
+				visible = "[AIWatchWindowsEnabled]"
+				fontcolor = { 1.0 1.0 1.0 1.0 }
+			}
+
+			watch_window_button = {
+				size = { 60 40 }
+				onclick = "[AddWatchWindow( CharacterWindow.GetCharacter.MakeScope )]"
+			}
+
+			button = {
+				using = editor_button
+				name = "copy_portrait_button"
+				parentanchor = right
+				size = { 60 40 }
+				raw_text = "portrait"
+				align = center|nobaseline
+				onclick = "[CharacterWindow.OnCopyPortrait]"
+				visible = "[IsGameViewOpen('portrait_editor')]"
+				fontcolor = { 1.0 1.0 1.0 1.0 }
+			}
+		}
+
+		### LEFT SIDE BUTTONS
+		flowcontainer = {
+			parentanchor = bottom|left
+			position = { 5 -5 }
+			spacing = 5
+			ignoreinvisible = yes
+			direction = vertical
+
+			container = {
+				visible = "[Character.IsLocalPlayer]"
+				tooltip = "PLAYER_STRESS_TOOLTIP"
+				using = tooltip_es
+
+				widget = {
+					visible = "[Not(GreaterThanOrEqualTo_int32(GetPlayer.GetStressLevel, '(int32)3'))]"
+					size = { 100% 100%}
+
+					using = Animation_ShowHide_Standard
+
+					background = {
+						texture = "gfx/interface/component_masks/mask_fade_circle.dds"
+						color = { 0.15 0.15 0.15 1 }
+						margin = { 12 12 }
+					}
+				}
+
+				widget = {
+					visible = "[GreaterThanOrEqualTo_int32(GetPlayer.GetStressLevel, '(int32)3')]"
+					parentanchor = center
+					size = { 180% 180% }
+					using = Animation_ShowHide_Standard
+
+					icon = {
+						size = { 100% 100% }
+						texture = "gfx/interface/component_masks/mask_fade_circle.dds"
+						using = Color_Red
+						alpha = 0
+
+						state = {
+							name = a
+							next = b
+							trigger_on_create = yes
+							alpha = 0.5
+							duration = 0.4
+							using = Animation_Curve_Default
+						}
+
+						state = {
+							name = b
+							next = a
+							alpha = 0
+							duration = 1
+							using = Animation_Curve_Default
+						}
+					}
+				}
+
+
+				icon = {
+					parentanchor = vcenter
+					size = { 35 35 }
+					texture = "gfx/interface/icons/stress/icon_stress_level.dds"
+					framesize = { 70 70 }
+					frame = "[IntToFrameIndex( GetPlayer.GetStressLevel )]"
+
+
+					modify_texture = {
+						visible = "[GreaterThanOrEqualTo_int32(GetPlayer.GetStressLevel, '(int32)2')]"
+						name = "glow"
+						texture = "gfx/interface/colors/gold.dds"
+						blend_mode = colordodge
+						alpha = 0
+					}
+
+					state = {
+						name = a
+						next = b
+						duration = 0.4
+						trigger_on_create = yes
+						using = Animation_Curve_Default
+
+						modify_texture = {
+							name = "glow"
+							alpha = 0.3
+						}
+					}
+
+					state = {
+						name = b
+						next = a
+						duration = 1
+						using = Animation_Curve_Default
+
+						modify_texture = {
+							name = "glow"
+							alpha = 0
+						}
+					}
+				}
+			}
+
+			container = {
+				visible = "[GreaterThan_int32(GetDataModelSize(Character.GetKnownLanguages), '(int32)1')]"
+				parentanchor = hcenter
+				tooltip = "KNOWN_LANGUAGES_TOOLTIP"
+				widget = {
+					size = { 100% 100%}
+
+					using = Animation_ShowHide_Standard
+
+					background = {
+						texture = "gfx/interface/component_masks/mask_fade_circle.dds"
+						color = { 0.15 0.15 0.15 1 }
+						margin = { 12 12 }
+					}
+				}
+				icon_culture_pillar = {
+					size = { 30 30 }
+					texture = "gfx/interface/icons/culture_pillars/language.dds"
+				}
+			}
+
+			## barbershop button
+			button_normal = {
+				name = "open_barbershop"
+				visible = "[Character.CanCustomizePortrait]"
+
+				size = { 35 35 }
+				datacontext = "[CharacterWindow.AccessCharacter]"
+				tooltip = "CV_CUSTOMIZE_PORTRAIT"
+				using = tooltip_ne
+
+				icon = {
+					texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+					size = { 100% 100% }
+				}
+
+				button_barbershop = {
+					visible = "[Character.CanCustomizePortrait]"
+					onclick = "[Character.OnCustomizePortrait]"
+					onclick = "[CloseGameView( 'character_interaction_menu' )]"
+					size = { 25 25 }
+					parentanchor = center
+				}
+			}
+
+			button_normal = {
+				name = "open_kill_list"
+				visible = "[Character.HasKillsKnownTo( GetPlayer )]"
+
+				size = { 35 35 }
+
+				datacontext = "[Character]"
+				tooltip = "OPEN_KILL_LIST_TOOLTIP"
+				using = tooltip_es
+
+
+				icon = {
+					texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+					size = { 100% 100% }
+				}
+
+				button_kill_list = {
+					onclick = "[ToggleGameViewData( 'kill_list', Character.GetID  )]"
+					size = { 25 25 }
+					parentanchor = center
+
+					modify_texture = {
+						texture = "gfx/interface/icons/focuses/hud_icon_mask.dds"
+						blend_mode = alphamultiply
+					}
+				}
+			}
+
+			button_normal = {
+				name = "open_memories"
+
+				size = { 35 35 }
+				datacontext = "[Character]"
+				tooltip = "OPEN_MEMORIES_TOOLTIP"
+				using = tooltip_es
+
+				icon = {
+					texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+					size = { 100% 100% }
+				}
+
+				button_memories = {
+					onclick = "[ToggleGameViewData( 'memories', Character.GetID  )]"
+					size = { 25 25 }
+					parentanchor = center
+				}
+			}
+
+			button_normal = {
+				name = "open_focus_button"
+				size = { 35 35 }
+
+				visible = "[Or( Character.GetFocus.IsValid, Character.PlayerCanManageFocus )]"
+				tooltip = "PLAYER_LIFESTYLE_TOOLTIP"
+				using = tooltip_ne
+
+
+				icon = {
+					texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+					size = { 100% 100% }
+				}
+
+				highlight_icon_lifestyle_focus = {
+					size = { 100% 100% }
+					visible = "[And(GreaterThan_int32( Character.GetTotalPerkPoints, '(int32)0' ), Character.IsLocalPlayer)]"
+					texture = "[CharacterWindow.GetCharacter.GetFocus.GetIcon]"
+
+					modify_texture = {
+						texture = "gfx/interface/icons/focuses/hud_icon_mask.dds"
+						blend_mode = alphamultiply
+					}
+
+					state = {
+						name = a
+						next = b
+						alpha = 0
+						trigger_on_create = yes
+						duration = 1.2
+						using = Animation_Curve_Default
+					}
+
+					state = {
+						name = b
+						next = a
+						alpha = 0.5
+						duration = 0.6
+						using = Animation_Curve_Default
+					}
+					
+					glow = {
+						glow_radius = 2
+						glow_generation_rules= {
+							glow_alpha_mask = 0
+							glow_blur_passes = 2
+							glow_texture_downscale = 2.5f
+							glow_ignore_inside_pixels = yes
+						}
+						using = Color_Orange
+					}
+				}
+
+				highlight_icon_lifestyle_focus = {
+					size = { 100% 100% }
+					texture = "[CharacterWindow.GetCharacter.GetFocus.GetIcon]"
+					onclick = "[CharacterWindow.OnClickFocusButton]"
+					enabled = "[CharacterWindow.CanClickFocusButton]"
+					tooltip = "[CharacterWindow.GetFocusButtonTooltip]"
+
+					modify_texture = {
+						texture = "gfx/interface/icons/focuses/hud_icon_mask.dds"
+						blend_mode = alphamultiply
+					}
+				}
+			}
+
+			button_open_inventory = {
+				visible = "[Character.IsAlive]"
+				name = "open_inventory"
+				size = { 35 35 }
+			}
+		}
+
+		### TOP LEFT ROYAL COURT BUTTON
+		button_normal = {
+			name = "open_royal_court"
+			size = { 70 70 }
+			visible = "[Character.HasRoyalCourt]"
+
+			position = { -30 -30 }
+
+			onclick = "[CharacterWindow.Close]"
+			onclick = "[Character.OpenRoyalCourtView( 'throne' )]"
+			datacontext = "[Character.GetCourtGrandeurData]"
+			tooltip = OPEN_ROYAL_COURT_TOOLTIP
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+
+			button_royal_court = {
+				onclick = "[CharacterWindow.Close]"
+				onclick = "[Character.OpenRoyalCourtView( 'throne' )]"
+
+				size = { 30 30 }
+				parentanchor = center
+				position = { 9 10 }
+
+				modify_texture = {
+					texture = "gfx/interface/icons/focuses/hud_icon_mask.dds"
+					blend_mode = alphamultiply
+				}
+			}
+		}
+		
+		# GUIX # stone horizontal frame
+		widget = {
+			parentanchor = bottom
+			position = { 0 5 }
+			size = { 590 5 }
+			background = {
+				margin = { 5 0 }
+				texture = "gfx/interface/skinned/guix_hud_frame.dds"
+			}
+		}		
+	}
+
+	type realm_name_and_type_vbox = vbox {
+		layoutpolicy_horizontal = expanding
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+
+			text_single = {
+				name = "character_title"
+				layoutpolicy_horizontal = expanding
+				text = "[Title.GetNameNoTooltip|U]"
+				default_format = "#medium"
+				using = Font_Size_Medium
+				max_width = 300
+			}
+
+			expand = {}
+		}
+
+		text_single = {
+			name = "faction"
+			visible = "[Title.HasFaction]"
+			layoutpolicy_horizontal = expanding
+			autoresize = no
+			text = "CV_CIVIL_WAR_FACTION"
+			default_format = "#low"
+			align = nobaseline
+			fontsize_min = 14
+		}
+
+		text_single = {
+			name = "government_type"
+			visible = "[Not( Title.HasFaction )]"
+			layoutpolicy_horizontal = expanding
+			autoresize = no
+			text = "CV_REALM_TYPE"
+			default_format = "#low"
+			align = nobaseline
+			fontsize_min = 14
+		}
+	}
+
+	type button_marry_off = button {
+		name = "marry_off_button"
+		onclick = "[Character.OpenPlayerInteraction( 'marry_off_interaction' )]"
+		enabled = "[Character.IsPlayerInteractionValid( 'marry_off_interaction' )]"
+
+		gfxtype = framedbuttongfx
+		effectname = "NoHighlight"
+		texture = "gfx/portraits/unknown_portraits/unknown_spouse.dds"
+		size = { 195 282 }
+		framesize = { 554 780 }
+		upframe = 1
+		overframe = 2
+		alpha = 0.8
+
+		button_icon = {
+			parentanchor = center
+			alwaystransparent = yes
+			size = { 50 50 }
+			position = { 0 45 }
+			texture = "gfx/interface/icons/faith_doctrine_groups/doctrine_marriage_type.dds"
+		}
+	}
+
+	type container_secondary = container {
+		parentanchor = bottom|hcenter
+		position = { 15 0 }
+		datacontext = "[CharacterWindow.GetSecondaryCharater]"
+
+		using = Animation_Character_Window_Refresh_Short
+
+		# We only have invalid secondary character here if player can marry them off
+		container = {
+			visible = "[Not( Character.IsValid )]"
+			position = { 0 35 }
+			parentanchor = center
+
+			button_marry_off = {
+				datacontext = "[CharacterWindow.GetCharacter]"
+				visible = "[And( Not( ObjectsEqual( GetPlayer, Character.Self ) ), Not( Character.IsConcubine ) )]"
+				tooltip = "CHARACTER_WINDOW_FIND_SPOUSE"
+			}
+
+			button_marry_off = {
+				datacontext = "[CharacterWindow.GetCharacter]"
+				visible = "[ObjectsEqual( GetPlayer, Character.Self )]"
+				tooltip = "CHARACTER_WINDOW_FIND_SPOUSE_SELF"
+			}
+		}
+
+		portrait_character_view_spouse = {
+			visible = "[Character.IsValid]"
+
+			state = {
+				name = cw_spouse_cycle
+				using = Animation_Refresh_FadeOut
+			}
+
+			state = {
+				using = Animation_Refresh_FadeIn
+			}
+		}
+
+		widget = {
+			parentanchor = bottom
+			allow_outside = yes
+			position = { 93 0 }
+			size = { 182 60 }
+
+			flowcontainer = {
+				parentanchor = bottom
+				widgetanchor = bottom|left
+				position = { 33 -3 }
+				ignoreinvisible = yes
+
+				flowcontainer = {
+					direction = vertical
+					parentanchor = bottom
+
+					portrait_opinion = {
+						block "portrait_opinion" {}
+					}
+
+					flowcontainer = {
+						ignoreinvisible = yes
+
+						text_label_center = {
+							text = "[CharacterWindow.GetSecondaryText]"
+							max_width = 120
+							align = nobaseline
+						}
+
+						flowcontainer = {
+							visible = "[Or( CharacterWindow.HasPreviousSecondary, CharacterWindow.HasNextSecondary )]"
+							margin_bottom = 4
+							spacing = -5
+							parentanchor = bottom
+
+							using = Animation_ShowHide_Standard
+
+							button_expand = {
+								enabled = "[CharacterWindow.HasPreviousSecondary]"
+								onclick = "[CharacterWindow.PreviousSecondary]"
+								onclick = "[PdxGuiTriggerAllAnimations( 'cw_spouse_cycle' )]"
+								tooltip = "[CharacterWindow.GetPreviousSecondaryTooltip]"
+								mirror = horizontal
+							}
+
+							button_expand = {
+								enabled = "[CharacterWindow.HasNextSecondary]"
+								onclick = "[CharacterWindow.NextSecondary]"
+								onclick = "[PdxGuiTriggerAllAnimations( 'cw_spouse_cycle' )]"
+								tooltip = "[CharacterWindow.GetNextSecondaryTooltip]"
+							}
+						}
+					}
+				}
+
+				flowcontainer = {
+					parentanchor = vcenter
+
+					coa_realm_small = {
+						visible = "[Character.HasLandedTitles]"
+						using = Animation_ShowHide_Standard
+						parentanchor = bottom
+					}
+
+					portrait_status_icons = {
+						parentanchor = bottom
+						margin_bottom = 2
+					}
+				}
+			}
+			
+			icon = {
+				name = "diarchy_active_icon"
+				visible = "[And(CharacterWindow.GetCharacter.HasActiveDiarchy, Not(CharacterWindow.ShowMarriageIcon))]"
+				parentanchor = bottom
+				position = { 0 -3 }
+				size = { 30 30 }
+				texture = "gfx/interface/icons/scale_of_power.dds"
+				tooltip = IN_ACTIVE_DIARCHY
+				using = tooltip_below
+			}
+
+			icon = {
+				name = "marriage_type_icon"
+				visible = "[CharacterWindow.ShowMarriageIcon]"
+				parentanchor = bottom
+				position = { 0 -3 }
+				size = { 30 30 }
+				framesize = { 60 60 }
+				texture = "gfx/interface/icons/marriage_types.dds"
+				frame = "[CharacterWindow.GetMarriageIcon]"
+				tooltip = "[CharacterWindow.GetMarriageIconTooltip]"
+				using = tooltip_below
+			}
+		}
+	}	
+}

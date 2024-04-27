@@ -1,0 +1,1357 @@
+﻿####################################################################################################
+# GUIX # determine whether to show the SECONDARY_SPOUSE or CONCUBINE portrait
+# NOTE # used in guix_window_character_1_main_view.gui
+####################################################################################################
+guix_allowed_more_spouses = {
+	scope = character
+
+	is_shown = {
+		AND = {
+			OR = {
+				AND = {
+					any_spouse = { count = 1 }
+					NOT = { exists = betrothed }
+				}				
+				AND = {
+					any_spouse = { count = 0 }
+					exists = betrothed
+				}
+			}
+			allowed_more_spouses = yes
+		}
+	}
+}
+guix_allowed_more_concubines = {
+	scope = character
+
+	is_shown = {
+		any_concubine = { count = 0 }
+		allowed_more_concubines = yes
+	}
+}
+
+####################################################################################################
+# GUIX # determine if the inherit HEIR CROWN or TITLE STATUS should show
+####################################################################################################
+guix_is_primary_heir = {
+	scope = character
+	saved_scopes = {
+		main_char 
+	}
+	is_shown = {
+		is_primary_heir_of = scope:main_char
+	}
+}
+guix_is_primary_heir_wrong_dynasty = {
+	scope = character
+	saved_scopes = {
+		main_char
+	}
+	is_shown = {
+		is_player_heir_of = scope:main_char
+		NOT = {			
+			is_primary_heir_of = scope:main_char
+		}
+	}
+}
+guix_will_inherit = {
+	scope = character
+	saved_scopes = {
+		title_heir
+	}
+	is_shown = {
+		this = scope:title_heir
+	}
+}
+
+####################################################################################################
+# GUIX # determine whether to show a single or double row for SIBLING & CHILDREN in FAMILY tab
+####################################################################################################
+guix_siblings_single = {
+	scope = character
+
+	is_shown = {
+		OR = {
+			# show SINGLE row for siblings if there are
+			AND = {
+				any_sibling = { count > 0 even_if_dead = yes } # some siblings
+				any_sibling = { count <= 7 even_if_dead = yes } # but only a few
+			}
+
+			# show SINGLE row for siblings if there are
+			AND = {
+				any_sibling = { count > 7 even_if_dead = yes } # many siblings (1)
+				any_child = { count > 7 even_if_dead = yes } # but also many children (2)
+			}
+			
+			# show SINGLE row for siblings if there are
+			AND = {
+				any_sibling = { count > 7 even_if_dead = yes } # many siblings (1)
+				any_child = { count > 0 even_if_dead = yes } # but some children exist (1)
+				# some consorts (1)
+				OR = {
+					any_concubine = { count > 0 }
+					any_spouse = { count > 1 }
+					AND = {
+						any_spouse = { count = 1 }
+						is_betrothed = yes
+					}
+				}
+			}			
+		}
+	}
+}
+guix_siblings_double = {
+	scope = character
+
+	is_shown = {
+		OR = {
+			# show DOUBLE row for siblings if there are
+			AND = {				
+				any_sibling = { count > 7 even_if_dead = yes } # many siblings (2)
+				any_child = { count <= 7 even_if_dead = yes } # and only a few children (0 or 1)
+				# but no consorts (0)
+				AND = {
+					any_concubine = { count = 0 }
+					OR = {
+						any_spouse = { count <= 1 }
+						AND = {
+							any_spouse = { count = 0 }
+							is_betrothed = yes
+						}
+					}
+				}
+			}
+		}
+	}	
+}
+guix_children_single = {
+	scope = character
+
+	is_shown = {
+		OR = {
+			# SHOW SINGLE ROW OF CHILDREN IF
+			AND = {
+				any_child = { count > 0 even_if_dead = yes } # some children
+				any_child = { count <= 7 even_if_dead = yes } # but only a few
+			}
+			# SHOW SINGLE ROW OF CHILDREN IF
+			AND = {	
+				any_child = { count > 7 even_if_dead = yes } # many children (1)
+				any_sibling = { count > 0 even_if_dead = yes } # but there are siblings (1)
+				# some consorts (1)
+				OR = {
+					any_concubine = { count > 0 }
+					any_spouse = { count > 1 }
+					AND = {
+						any_spouse = { count = 1 }
+						is_betrothed = yes
+					}
+				}
+			}			
+		}
+	}
+}
+guix_children_double = {
+	scope = character
+
+	is_shown = {
+		OR = {
+			# SHOW DOUBLE ROW OF CHILDREN IF
+			AND = {
+				any_child = { count > 7 even_if_dead = yes } # many children (2)
+				any_sibling = { count = 0 even_if_dead = yes } # no siblings (0)
+			}
+			# SHOW DOUBLE ROW OF CHILDREN IF
+			AND = {
+				any_child = { count > 7 even_if_dead = yes } # many children (2)
+				any_sibling = { count > 0 even_if_dead = yes } # some siblings (1)
+				# but no consorts (0)
+				AND = {
+					any_concubine = { count = 0 }
+					OR = {
+						any_spouse = { count <= 1 }
+						AND = {
+							any_spouse = { count = 0 }
+							is_betrothed = yes
+						}
+					}
+				}
+			}
+		}
+	}	
+}
+guix_secondary_spouses_row = {
+	scope = character
+
+	is_shown = {
+		# show SECONDARY SPOUSES only if the char has more than 1 spouse or betrothed
+		OR = {
+			any_spouse = { count > 1 }
+			AND = {
+				any_spouse = { count > 0 even_if_dead = yes }
+				exists = betrothed
+			}
+		}
+		# and they can have secondary spouses - GreaterThan_int32( Character.GetMaxSpouses, '(int32)1' )
+	}
+}
+guix_show_concubines_row = {
+	scope = character
+
+	is_shown = {
+		# show CONCUBINES only if the char has a concubine
+		any_concubine = { count > 0 }		
+		# and they can have concubines - GreaterThan_int32( Character.GetMaxSpouses, '(int32)1' )
+	}
+}
+
+####################################################################################################
+# GUIX # used to show "no relation" or "no family" text if RELATIONS or FAMILY datamodels are empty
+####################################################################################################
+guix_no_relations = {
+	scope = character
+
+	is_shown = {
+		NOT = {
+			any_relation = { type = ward }
+			any_relation = { type = guardian }
+			any_relation = { type = lover }
+			any_relation = { type = crush }
+			any_relation = { type = friend }
+			any_relation = { type = rival }
+			any_relation = { type = bully }
+			any_relation = { type = victim }
+		}
+	}
+}
+guix_no_family = {
+	scope = character
+
+	is_shown = {
+			any_parent = { count = 0 }
+			any_sibling = { count = 0 }
+			any_child = { count = 0 }
+	}
+}
+
+####################################################################################################
+# GUIX # determine which characters to show when highlight button on COURT or VASSALS is pushed
+####################################################################################################
+guix_character_is_employed = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		OR = {		
+			is_councillor_of = scope:other_character
+			has_any_court_position = yes
+		}
+	}
+}
+
+guix_character_is_captive_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		OR = {
+			is_hostage_of = scope:other_character
+			is_imprisoned_by = scope:other_character
+		}
+	}
+}
+
+guix_is_any_family = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		OR = {
+			is_close_or_extended_family_of = scope:other_character
+			root.dynasty = scope:other_character.dynasty
+		}		
+	}
+}
+
+guix_is_any_relation = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		OR = {
+			is_diarch = yes
+			any_relation = {
+				type = friend
+				type = lover				
+				type = rival
+				type = guardian
+				type = ward
+				type = mentor
+				type = student
+				type = best_friend
+				type = soulmate
+				type = nemesis
+				type = bully
+				type = victim
+				type = crush
+				this = scope:other_character 
+			}
+		}
+	}
+}
+
+####################################################################################################
+# GUIX # determine what TEXT to show on the DIPLOMACY tab eg: "Allied to", "Defending against" etc.
+####################################################################################################
+# GUIX # ALLY
+guix_diplomacy_ally = {
+	scope = character
+	saved_scopes = {
+		target
+	}
+	is_shown = {
+		is_allied_to = scope:target  
+	}
+}
+
+# GUIX # TRUCE
+guix_diplomacy_truce = {
+	scope = character
+	saved_scopes = {
+		target
+	}
+	is_shown = {
+		OR = {
+			# cw_char has a signed truce with the diplomacy item char
+			has_truce = scope:target
+			# or either one is holding a hostage
+			any_home_court_hostage = { warden = scope:target }
+			scope:target = {
+				any_home_court_hostage = { is_hostage_of = root }
+			}
+		}
+	}
+}
+
+# GUIX # ATTACKER
+guix_diplomacy_attacking = {
+	scope = character
+	saved_scopes = {
+		target
+	}
+	is_shown = {
+		AND = {
+			is_at_war_with = scope:target
+			is_at_war_as_attacker = yes
+			any_character_war = {
+				any_war_defender = { this = scope:target }
+			}
+
+		}
+		NOT = {
+			is_allied_to = scope:target
+		}
+	}
+}
+
+# GUIX # DEFENDER
+guix_diplomacy_defending = {
+	scope = character
+	saved_scopes = {
+		target
+	}
+	is_shown = {
+		AND = {
+			is_at_war_with = scope:target
+			is_at_war_as_defender = yes
+			any_character_war = {
+				any_war_attacker = { this = scope:target }
+			}
+		}
+		NOT = {
+			is_allied_to = scope:target
+		}
+	}
+}
+
+# GUIX # RAIDING & RAIDED (scope set on guix_lists.gui to determine raiding or raided)
+guix_diplomacy_raids = {
+	scope = character
+	saved_scopes = {
+		target
+	}
+	is_shown = {
+		is_causing_raid_hostility_towards = scope:target
+	}
+}
+
+# GUIX # STRUGGLE
+guix_diplomacy_struggle = {
+	scope = struggle
+	is_shown = {
+		is_struggle_type = iberian_struggle
+	}
+}
+
+####################################################################################################
+# GUIX # determine what RULER ICON to show on the DIPLOMACY tab
+####################################################################################################
+guix_warlike = {
+	scope = character
+	is_shown = {
+		ai_has_warlike_personality = yes
+	}
+}
+guix_cautious = {
+	scope = character
+	is_shown = {
+		ai_has_cautious_personality = yes
+	}
+}
+guix_economical_boom = {
+	scope = character
+	is_shown = {
+		ai_has_economical_boom_personality = yes
+	}
+}
+guix_unpredictable = {
+	scope = character
+	is_shown = {
+		NOR = {
+			ai_has_warlike_personality = yes
+			ai_has_cautious_personality = yes
+			ai_has_economical_boom_personality = yes
+		}
+	}
+}
+
+####################################################################################################
+# GUIX # determine what liege/vassal icon to display in DIPLOMACY tab
+####################################################################################################
+guix_character_is_liege_of = {
+	scope = character
+	saved_scopes = {
+		target
+	}
+	is_shown = {
+		AND = {
+			is_vassal_of = scope:target
+		}
+	}
+}
+guix_character_is_vassal_of = {
+	scope = character
+	saved_scopes = {
+		target
+	}
+	is_shown = {
+		AND = {
+			is_liege_or_above_of = scope:target
+		}
+	}
+}
+
+# GUIX # vassal at war
+guix_vassal_at_war = {
+	scope = character
+	saved_scopes = {
+		target
+	}
+	is_shown = {
+		AND = {
+			exists = root.liege
+			is_vassal_of = scope:target
+			is_at_war_with = scope:target
+		}
+	}
+}
+
+# GUIX # vassal alliance
+guix_vassal_alliance = {
+	scope = character
+	saved_scopes = {
+		target
+	}
+	is_shown = {
+		AND = {
+			exists = root.liege
+			is_vassal_of = scope:target
+			is_allied_to = scope:target
+		}
+	}
+}
+
+####################################################################################################
+# GUIX # determine what liege/vassal icon to display in DIPLOMACY tab
+####################################################################################################
+# GUIX # councillor or court position
+guix_character_is_employed = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		OR = {		
+			is_councillor_of = scope:other_character
+			has_any_court_position = yes
+		}
+	}
+}
+
+# hostage & prisoner
+guix_character_is_captive_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		OR = {
+			is_hostage_of = scope:other_character
+			is_imprisoned_by = scope:other_character
+		}
+	}
+}
+
+# GUIX # hostage
+guix_character_is_hostage_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		is_hostage_of = scope:other_character
+	}
+}
+
+# GUIX # prisoner
+guix_character_is_prisoner_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		is_imprisoned_by = scope:other_character
+	}
+}
+
+# GUIX # primary heir
+guix_character_is_primary_heir_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		AND = {
+			is_primary_heir_of = scope:other_character
+		}
+	}
+}
+
+# GUIX # secondary heir
+guix_character_is_heir_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		AND = {
+			is_heir_of = scope:other_character
+			NOT = {
+				is_primary_heir_of = scope:other_character
+			}
+		}
+	}
+}
+
+# GUIX # patrilineal spouse
+guix_character_is_patrilineal_spouse_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		scope:other_character.primary_spouse = root
+		matrilinear_marriage = no
+	}
+}
+
+# GUIX # matrilineal spouse
+guix_character_is_matrilineal_spouse_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		scope:other_character.primary_spouse = root
+		matrilinear_marriage = yes
+	}
+}
+
+# GUIX # patrilineal bethrothed
+guix_character_is_patrilineal_betrothed_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		betrothed = scope:other_character
+		matrilinear_betrothal = no
+	}
+}
+
+# GUIX # matrilineal bethrothed
+guix_character_is_matrilineal_betrothed_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		betrothed = scope:other_character
+		matrilinear_betrothal = yes
+	}
+}
+
+# GUIX # spouses
+guix_character_is_secondary_spouse_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		AND = {
+			is_alive = yes
+			is_imprisoned = no
+			is_spouse_of = scope:other_character
+			NOT = { scope:other_character.primary_spouse = root  }
+		}
+	}
+}
+
+# GUIX # concubines
+guix_character_is_concubine_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		is_concubine_of = scope:other_character
+	}
+}
+
+# GUIX # counciller
+guix_character_has_council_position = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		is_councillor_of = scope:other_character
+	}
+}
+
+# GUIX # has any court position
+guix_character_has_court_position = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		has_any_court_position = yes
+	}
+}
+
+# GUIX # knight
+guix_character_is_knight_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		is_knight_of = scope:other_character
+	}
+}
+
+# GUIX # guest
+guix_character_is_guest_of = {
+	scope = character
+	saved_scopes = {
+		other_character
+	}
+	is_shown = {
+		AND = {
+			is_alive = yes
+			is_imprisoned = no
+			OR = {
+				is_pool_guest_of = scope:other_character
+				is_foreign_court_guest_of = scope:other_character
+			}		
+		}
+	}
+}
+
+####################################################################################################
+# GUIX # FAMILY TIES - determine what custom FAMILY ICON to show based on how closely related charaters are
+####################################################################################################
+
+# GUIX # red family icon
+guix_is_family_not_dynasty = {
+	scope = character
+	saved_scopes = {
+		main_char
+	}
+	is_shown = {
+		AND = {
+			is_close_or_extended_family_of = scope:main_char
+			NOT = {
+				has_trait = bastard
+				root.dynasty = scope:main_char.dynasty
+				scope:main_char.house.house_head = root
+				scope:main_char.dynasty.dynast = root
+			}		
+		}
+	}
+}
+
+# GUIX # gray family icon
+guix_is_dynasty_not_family = {
+	scope = character
+	saved_scopes = {
+		main_char
+	}
+	is_shown = {
+		AND = {
+			root.dynasty = scope:main_char.dynasty
+			NOT = {
+				has_trait = bastard
+				is_close_or_extended_family_of = scope:main_char				
+				scope:main_char.house.house_head = root
+				scope:main_char.dynasty.dynast = root
+			}	
+		}
+	}
+}
+
+# GUIX # green family icon
+guix_is_family_and_dynasty = {
+	scope = character
+	saved_scopes = {
+		main_char
+	}
+	is_shown = {
+		AND = {			
+			is_close_or_extended_family_of = scope:main_char
+			root.dynasty = scope:main_char.dynasty
+			NOT = {
+				has_trait = bastard
+				scope:main_char.house.house_head = root
+				scope:main_char.dynasty.dynast = root
+			}
+		}
+	}
+}
+
+# GUIX # blue family icon
+guix_is_bastard_dynasty = {
+	scope = character
+	saved_scopes = {
+		main_char
+	}
+	is_shown = {
+		AND = {
+			has_trait = bastard
+			root.dynasty = scope:main_char.dynasty
+			NOT = {
+				scope:main_char.house.house_head = root
+				scope:main_char.dynasty.dynast = root
+			}
+		}
+	}
+}
+
+# GUIX # blue family icon
+guix_is_bastard_not_dynasty = {
+	scope = character
+	saved_scopes = {
+		main_char
+	}
+	is_shown = {
+		AND = {
+			has_trait = bastard
+			NOT = {
+				root.dynasty = scope:main_char.dynasty
+				scope:main_char.house.house_head = root
+				scope:main_char.dynasty.dynast = root
+			}
+		}
+	}
+}
+
+# GUIX # gold family icon
+guix_is_dynasty_head = {
+	scope = character
+	saved_scopes = {
+		main_char
+	}
+	is_shown = {
+		AND = {
+			scope:main_char.dynasty.dynast = root
+			NOT = {
+				has_trait = bastard
+				scope:main_char.house.house_head = root
+			}
+		}
+	}
+}
+
+# GUIX # gold family icon
+guix_is_house_head = {
+	scope = character
+	saved_scopes = {
+		main_char
+	}
+	is_shown = {
+		AND = {
+			scope:main_char.house.house_head = root
+			NOT = {
+				has_trait = bastard
+				scope:main_char.dynasty.dynast = root
+			}
+		}
+	}
+}
+
+# GUIX # gold family icon
+guix_is_dynasty_and_house_head = {
+	scope = character
+	saved_scopes = {
+		main_char
+	}
+	is_shown = {
+		AND = {
+			scope:main_char.house.house_head = root
+			scope:main_char.dynasty.dynast = root
+			NOT = {
+				has_trait = bastard
+			}
+		}
+	}
+}
+
+####################################################################################################
+# GUIX # title tiers used to color the REALM TEXT
+####################################################################################################
+guix_tier_empire = {
+	scope = title
+	is_shown = {
+		tier = tier_empire
+	}
+}
+guix_tier_kingdom = {
+	scope = title
+	is_shown = {
+		tier = tier_kingdom
+	}
+}
+guix_tier_duchy = {
+	scope = title
+	is_shown = {
+		tier = tier_duchy
+	}
+}
+guix_tier_county = {
+	scope = title
+	is_shown = {
+		tier = tier_county
+	}
+}
+guix_tier_barony = {
+	scope = title
+	is_shown = {
+		tier = tier_barony
+	}
+}
+
+####################################################################################################
+# GUIX # determine what SUCCESSION LAWS to show on the TITLES & CLAIMS expanded lists
+####################################################################################################
+guix_has_any_title_law = {
+	scope = title
+	is_shown = {
+		OR = {
+			has_title_law = male_only_law
+			has_title_law = male_preference_law
+			has_title_law = equal_law
+			has_title_law = female_preference_law
+			has_title_law = female_only_law
+			has_title_law = single_heir_succession_law
+			has_title_law = single_heir_succession_law_youngest
+			has_title_law = single_heir_dynasty_house
+			has_title_law = partition_succession_law
+			has_title_law = high_partition_succession_law
+			has_title_law = confederate_partition_succession_law
+			has_title_law = temporal_head_of_faith_succession_law
+			has_title_law = feudal_elective_succession_law
+			has_title_law = scandinavian_elective_succession_law
+			has_title_law = princely_elective_succession_law
+			has_title_law = saxon_elective_succession_law
+			has_title_law = gaelic_elective_succession_law
+		}
+	}
+}
+
+guix_has_gender_and_succession_title_law = {
+	scope = title
+	is_shown = {
+		AND = {
+			OR = {
+				has_title_law = male_only_law
+				has_title_law = male_preference_law
+				has_title_law = equal_law
+				has_title_law = female_preference_law
+				has_title_law = female_only_law
+			}
+			OR = {
+				has_title_law = single_heir_succession_law
+				has_title_law = single_heir_succession_law_youngest
+				has_title_law = single_heir_dynasty_house
+				has_title_law = partition_succession_law
+				has_title_law = high_partition_succession_law
+				has_title_law = confederate_partition_succession_law
+				has_title_law = temporal_head_of_faith_succession_law
+				has_title_law = feudal_elective_succession_law
+				has_title_law = scandinavian_elective_succession_law
+				has_title_law = princely_elective_succession_law
+				has_title_law = saxon_elective_succession_law
+				has_title_law = gaelic_elective_succession_law
+			}			
+		}	
+	}
+}
+
+# GUIX # HAS ANY MALE OR FEMALE LAW
+guix_has_any_natic_law = {
+	scope = character
+	saved_scopes = { title }
+	is_shown = {
+		AND = {
+			OR = {
+				has_realm_law = male_only_law
+				has_realm_law = male_preference_law
+				has_realm_law = equal_law
+				has_realm_law = female_preference_law
+				has_realm_law = female_only_law
+			}
+			scope:title = {
+				NOR = {
+					has_title_law = male_only_law
+					has_title_law = male_preference_law
+					has_title_law = equal_law
+					has_title_law = female_preference_law
+					has_title_law = female_only_law
+				}
+			}
+		}
+	}
+}
+
+# GUIX # MALE ONLY
+guix_title_male_only_law = {
+	scope = title
+	is_shown = {
+		has_title_law = male_only_law
+	}
+}
+guix_realm_male_only_law = {
+	scope = character
+	saved_scopes = { title }
+	is_shown = {
+		has_realm_law = male_only_law
+		scope:title = {
+			NOR = {
+				has_title_law = male_only_law
+				has_title_law = male_preference_law
+				has_title_law = equal_law
+				has_title_law = female_preference_law
+				has_title_law = female_only_law
+			}
+		}
+	}
+}
+
+# GUIX # MALE PREFERENCE
+guix_title_male_preference_law = {
+	scope = title
+	is_shown = {
+		has_title_law = male_preference_law
+	}
+}
+guix_realm_male_preference_law = {
+	scope = character
+	saved_scopes = { title }
+	is_shown = {
+		has_realm_law = male_preference_law
+			scope:title = {
+			NOR = {
+				has_title_law = male_only_law
+				has_title_law = male_preference_law
+				has_title_law = equal_law
+				has_title_law = female_preference_law
+				has_title_law = female_only_law
+			}
+		}
+	}
+}
+
+# GUIX # EQUAL
+guix_title_equal_law = {
+	scope = title
+	is_shown = {
+		has_title_law = equal_law
+	}
+}
+guix_realm_equal_law = {
+	scope = character
+	saved_scopes = { title }
+	is_shown = {
+		has_realm_law = equal_law
+			scope:title = {
+			NOR = {
+				has_title_law = male_only_law
+				has_title_law = male_preference_law
+				has_title_law = equal_law
+				has_title_law = female_preference_law
+				has_title_law = female_only_law
+			}
+		}
+	}
+}
+
+# GUIX # FEMALE ONLY
+guix_title_female_only_law = {
+	scope = title
+	is_shown = {
+		has_title_law = female_only_law
+	}
+}
+guix_realm_female_only_law = {
+	scope = character
+	saved_scopes = { title }
+	is_shown = {
+		has_realm_law = female_only_law
+			scope:title = {
+			NOR = {
+				has_title_law = male_only_law
+				has_title_law = male_preference_law
+				has_title_law = equal_law
+				has_title_law = female_preference_law
+				has_title_law = female_only_law
+			}
+		}
+	}
+}
+
+# GUIX # FEMALE PREFERENCE
+guix_title_female_preference_law = {
+	scope = title
+	is_shown = {
+		has_title_law = female_preference_law
+	}
+}
+guix_realm_female_preference_law = {
+	scope = character
+	saved_scopes = { title }
+	is_shown = {
+		has_realm_law = female_preference_law
+			scope:title = {
+			NOR = {
+				has_title_law = male_only_law
+				has_title_law = male_preference_law
+				has_title_law = equal_law
+				has_title_law = female_preference_law
+				has_title_law = female_only_law
+			}
+		}
+	}
+}
+
+# GUIX # PARTITION LAWS
+####################################################################################################
+
+guix_has_any_partition_law = {
+	scope = character
+	saved_scopes = { title }
+	is_shown = {
+		OR = {
+			has_realm_law = single_heir_succession_law
+			has_realm_law = single_heir_succession_law_youngest
+			has_realm_law = single_heir_dynasty_house
+			has_realm_law = partition_succession_law
+			has_realm_law = high_partition_succession_law
+			has_realm_law = confederate_partition_succession_law
+			has_realm_law = temporal_head_of_faith_succession_law
+			scope:title = {
+				OR = {
+					has_title_law = single_heir_succession_law
+					has_title_law = single_heir_succession_law_youngest
+					has_title_law = single_heir_dynasty_house
+					has_title_law = partition_succession_law
+					has_title_law = high_partition_succession_law
+					has_title_law = confederate_partition_succession_law
+					has_title_law = temporal_head_of_faith_succession_law
+					has_title_law = feudal_elective_succession_law
+					has_title_law = scandinavian_elective_succession_law
+					has_title_law = princely_elective_succession_law
+					has_title_law = saxon_elective_succession_law
+					has_title_law = gaelic_elective_succession_law
+				}
+			}
+		}
+	}
+}
+
+guix_title_single_heir_succession_law = {
+	scope = title
+	is_shown = {
+		has_title_law = single_heir_succession_law
+	}
+}
+guix_realm_single_heir_succession_law = {
+	scope = character
+	saved_scopes = { title }
+	is_shown = {
+		has_realm_law = single_heir_succession_law
+		scope:title = {
+			NOR = {
+				has_title_law = single_heir_succession_law
+				has_title_law = single_heir_succession_law_youngest
+				has_title_law = single_heir_dynasty_house
+				has_title_law = partition_succession_law
+				has_title_law = high_partition_succession_law
+				has_title_law = confederate_partition_succession_law
+				has_title_law = temporal_head_of_faith_succession_law
+				has_title_law = feudal_elective_succession_law
+				has_title_law = scandinavian_elective_succession_law
+				has_title_law = princely_elective_succession_law
+				has_title_law = saxon_elective_succession_law
+				has_title_law = gaelic_elective_succession_law
+			}
+		}
+	}
+}
+
+guix_title_partition_succession_law = {
+	scope = title
+	is_shown = {
+		has_title_law = partition_succession_law
+	}
+}
+guix_realm_partition_succession_law = {
+	scope = character
+	saved_scopes = { title }
+	is_shown = {
+		has_realm_law = partition_succession_law
+		scope:title = {
+			NOR = {
+				has_title_law = single_heir_succession_law
+				has_title_law = single_heir_succession_law_youngest
+				has_title_law = single_heir_dynasty_house
+				has_title_law = partition_succession_law
+				has_title_law = high_partition_succession_law
+				has_title_law = confederate_partition_succession_law
+				has_title_law = temporal_head_of_faith_succession_law
+				has_title_law = feudal_elective_succession_law
+				has_title_law = scandinavian_elective_succession_law
+				has_title_law = princely_elective_succession_law
+				has_title_law = saxon_elective_succession_law
+				has_title_law = gaelic_elective_succession_law
+			}
+		}
+	}
+}
+
+guix_title_high_partition_succession_law = {
+	scope = title
+	is_shown = {
+		has_title_law = high_partition_succession_law
+	}
+}
+guix_realm_high_partition_succession_law = {
+	scope = character
+	saved_scopes = { title }
+	is_shown = {
+		has_realm_law = high_partition_succession_law
+		scope:title = {
+			NOR = {
+				has_title_law = single_heir_succession_law
+				has_title_law = single_heir_succession_law_youngest
+				has_title_law = single_heir_dynasty_house
+				has_title_law = partition_succession_law
+				has_title_law = high_partition_succession_law
+				has_title_law = confederate_partition_succession_law
+				has_title_law = temporal_head_of_faith_succession_law
+				has_title_law = feudal_elective_succession_law
+				has_title_law = scandinavian_elective_succession_law
+				has_title_law = princely_elective_succession_law
+				has_title_law = saxon_elective_succession_law
+				has_title_law = gaelic_elective_succession_law
+			}
+		}
+	}
+}
+
+guix_title_confederate_partition_succession_law = {
+	scope = title
+	is_shown = {
+		has_title_law = confederate_partition_succession_law
+	}
+}
+guix_realm_confederate_partition_succession_law = {
+	scope = character
+	saved_scopes = { title }
+	is_shown = {
+		has_realm_law = confederate_partition_succession_law
+		scope:title = {
+			NOR = {
+				has_title_law = single_heir_succession_law
+				has_title_law = single_heir_succession_law_youngest
+				has_title_law = single_heir_dynasty_house
+				has_title_law = partition_succession_law
+				has_title_law = high_partition_succession_law
+				has_title_law = confederate_partition_succession_law
+				has_title_law = temporal_head_of_faith_succession_law
+				has_title_law = feudal_elective_succession_law
+				has_title_law = scandinavian_elective_succession_law
+				has_title_law = princely_elective_succession_law
+				has_title_law = saxon_elective_succession_law
+				has_title_law = gaelic_elective_succession_law
+			}
+		}
+	}
+}
+
+# GUIX # FAITH BASED
+##################################################
+guix_title_temporal_head_of_faith_succession_law = {
+	scope = title
+	is_shown = {
+		has_title_law = temporal_head_of_faith_succession_law
+	}
+}
+guix_realm_same_faith_succession_law = {
+	scope = character
+	is_shown = {
+		has_realm_law = same_faith_succession_law
+	}
+}
+guix_realm_same_faith_theocratic_succession_law = {
+	scope = character
+	is_shown = {
+		has_realm_law = same_faith_theocratic_succession_law
+	}
+}
+
+# GUIX # ELECTIVE LAWS
+##################################################
+guix_feudal_elective_succession_law = {
+	scope = title
+	is_shown = {
+		has_title_law = feudal_elective_succession_law
+	}
+}
+guix_scandinavian_elective_succession_law = {
+	scope = title
+	is_shown = {
+		has_title_law = scandinavian_elective_succession_law
+	}
+}
+guix_princely_elective_succession_law = {
+	scope = title
+	is_shown = {
+		has_title_law = princely_elective_succession_law
+	}
+}
+
+guix_saxon_elective_succession_law = {
+	scope = title
+	is_shown = {
+		has_title_law = saxon_elective_succession_law
+	}
+}
+
+guix_gaelic_elective_succession_law = {
+	scope = title
+	is_shown = {
+		has_title_law = gaelic_elective_succession_law
+	}
+}
+
+####################################################################################################
+# GUIX # determine if a char is a COMMONER which hides the lowborn_trades motto
+####################################################################################################
+show_trade_coa_commoner = {
+	scope = character
+	is_shown = {
+		NAND = {
+			is_lowborn = yes
+			is_adult = yes
+			prowess < high_skill_rating
+			diplomacy < high_skill_rating
+			martial < high_skill_rating
+			stewardship < high_skill_rating
+			intrigue < high_skill_rating
+			learning < high_skill_rating
+			NOT = {
+				any_held_title = {
+					is_mercenary_company = yes
+				}
+			}
+			NOR = {
+				AND = {
+					highest_skill = diplomacy
+					highest_skill = martial
+				}
+				AND = {
+					highest_skill = diplomacy
+					highest_skill = stewardship
+				}
+				AND = {
+					highest_skill = diplomacy
+					highest_skill = intrigue
+				}
+				AND = {
+					highest_skill = diplomacy
+					highest_skill = learning
+				}
+				AND = {
+					highest_skill = martial
+					highest_skill = stewardship
+				}
+				AND = {
+					highest_skill = martial
+					highest_skill = intrigue
+				}
+				AND = {
+					highest_skill = martial
+					highest_skill = learning
+				}
+				AND = {
+					highest_skill = stewardship
+					highest_skill = intrigue
+				}
+				AND = {
+					highest_skill = stewardship
+					highest_skill = learning
+				}
+				AND = {
+					highest_skill = intrigue
+					highest_skill = learning
+				}
+			 }
+		}
+	}
+}

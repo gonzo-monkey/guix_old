@@ -1,0 +1,11 @@
+﻿# GUIX # INHERIT CLAIM
+##################################################
+texticon = {
+	icon = guix_heir_icon
+	iconsize = {
+		texture = "gfx/interface/icons/portraits/heir_small.dds"
+		size = { 25 25 }
+		offset = { 0 6 }
+		fontsize = 16
+	}
+}

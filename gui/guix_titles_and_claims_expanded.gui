@@ -1,0 +1,834 @@
+types Lists
+{
+	##################################################
+	# GUIX # this is the TITLE and HEIR/HOLDER label, used by TITLES EXPANDED and CLAIMS EXPANDED
+	##################################################
+	type guix_text_title_header = text_single {
+		using = Font_Size_Medium
+		autoresize = yes
+		fontsize = 18
+		align = bottom
+		max_width = 385
+		block "title_header" {}
+	}
+
+	##################################################
+	# GUIX # this is the DYNASTY FLAG, used by TITLES EXPANDED and CLAIMS EXPANDED
+	##################################################
+	type guix_dynasty_flag = widget {
+		coat_of_arms_icon = {
+			position = { 280 -30 }
+			size = { 200 160 }
+
+			coat_of_arms = "[Character.GetDynasty.GetDynastyCoA.GetTexture('(int32)256','(int32)256')]"
+			coat_of_arms_slot = "[Character.GetDynasty.GetDynastyCoA.GetSlot('(int32)256','(int32)256')]"
+			coat_of_arms_mask = "gfx/interface/frontend/mask_coa_flag.dds"
+			alpha = 0.75
+			
+			modify_texture = {
+				texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+				blend_mode = overlay
+				spritetype = corneredTiled
+				alpha = 0.25
+			}
+			modify_texture = {
+				texture = "gfx/interface/component_masks/mask_fade_horizontal_middle.dds"
+				blend_mode = alphamultiply
+				alpha = 1
+			}
+		}
+	}
+
+	##################################################
+	# GUIX # TITLES LIST ITEM, used by TITLES EXPANDED
+	##################################################
+    type guix_title_list_item = widget {
+        datacontext = "[TitleItem.GetTitle]"
+        size = { 580 120 }
+		scissor = yes
+		
+        vbox = {
+            layoutpolicy_vertical = expanding
+
+            # GUIX # BACKGROUND
+            background = {
+                using = Background_Area_With_Header
+                margin = { 8 2 }
+                margin_left = 15
+                using = Mask_Rough_Edges
+			}
+
+            # GUIX # NAME
+            ##################################################
+            hbox = {
+				datacontext = "[TitleItem.GetTitle]"
+				datacontext = "[TitleItem.GetTitle.GetHeir]"
+                layoutpolicy_horizontal = expanding
+                minimumsize = { 300 25 }
+				margin_left = 10
+
+				# GUIX # TITLE NAME - BARONY
+				guix_text_title_header = {
+					blockoverride "title_header" {
+						visible = "[GetScriptedGui( 'guix_tier_barony' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+						text = "[Title.GetNameNoTooltip]"
+						default_format = "#tier0"
+					}
+				}
+
+				# GUIX # TITLE NAME - COUNTY
+				guix_text_title_header = {
+					blockoverride "title_header" {
+						visible = "[GetScriptedGui( 'guix_tier_county' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+						text = "[Title.GetNameNoTooltip]"
+						default_format = "#tier1"
+					}
+				}
+				
+				# GUIX # TITLE NAME - DUCHY
+				guix_text_title_header = {
+					blockoverride "title_header" {
+						visible = "[GetScriptedGui( 'guix_tier_duchy' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+						text = "[Title.GetNameNoTooltip]"
+						default_format = "#tier2"
+					}
+				}
+				
+				# GUIX # TITLE NAME - KINGDOM
+				guix_text_title_header = {
+					blockoverride "title_header" {
+						visible = "[GetScriptedGui( 'guix_tier_kingdom' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+						text = "[Title.GetNameNoTooltip]"
+						default_format = "#tier3"
+					}
+				}				
+
+                # GUIX # TITLE NAME - EMPIRE
+				guix_text_title_header = {
+					blockoverride "title_header" {
+						visible = "[GetScriptedGui( 'guix_tier_empire' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+						text = "[Title.GetNameNoTooltip]"
+						default_format = "#tier4"
+					}
+				}
+
+				expand = {}
+				
+				# GUIX # HEIR NAME
+				text_single = {
+					visible = "[GetScriptedGui( 'guix_title_has_heir' ).IsShown( GuiScope.SetRoot( TitleItem.GetTitle.GetHolder.MakeScope ).End )]"
+                    margin_right = 10
+                    text = "[Character.GetShortUINameNoTooltip]"
+                    using = Font_Size_Medium
+                    autoresize = yes
+                    fontsize = 16
+                    align = bottom|right
+                    max_width = 385
+                }
+
+				# GUIX # NO HEIR
+                text_single = {
+					visible = "[Not(Character.IsValid)]"
+                    margin_right = 20
+                    text = "GUIX_NO_HEIR"
+                    using = Font_Size_Medium
+                    autoresize = yes
+                    fontsize = 16
+                    align = bottom|right
+                    max_width = 385
+                }           
+            }
+
+			spacer = {
+				size = { 0 5 }
+			}
+
+            # GUIX # EVERYTHING WRAP
+            ##################################################
+			hbox = {
+				# GUIX # .GetHeir ensures the heir portrait shows
+				datacontext = "[TitleItem.GetTitle]"
+                layoutpolicy_horizontal = expanding
+				scissor = yes
+				margin_left = 10
+				
+				# GUIX # title coa
+				guix_coa_realm_titles = {
+					datacontext = "[TitleItem.GetTitle]"
+					using = tooltip_ne
+						blockoverride "crown" {}
+
+					icon = {
+						name = "has_laws"
+						visible = "[TitleItem.GetTitle.HasLaws]"
+						size = { 30 30 }
+						parentanchor = bottom|right
+						position = { 5 5 }
+						texture = "gfx/interface/icons/title_status/icon_title_law.dds"
+					}
+				}
+
+				# GUIX # dynasty flag
+				guix_dynasty_flag = {
+					datacontext = "[TitleItem.GetTitle.GetHeir]"
+				}
+
+				vbox = {
+					datacontext = "[TitleItem.GetTitle]"
+					
+					margin_left = 10
+
+					# GUIX # DE JURE (row 2)
+					##################################################
+					hbox = {
+						layoutpolicy_horizontal = expanding
+	
+						# GUIX # located in guix_lists_titles_claims_sgui.gui file
+						guix_title_list_item_de_jure = {}
+
+						expand = {}
+					}		
+
+					# GUIX # TITLE LAWS
+					##################################################
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						margin_left = -5
+						guix_title_list_item_title_laws = {}
+
+						expand = {}
+					}
+
+					# GUIX # ALL REALM LAWS
+					####################################################################################################
+					hbox = {
+						layoutpolicy_horizontal = expanding
+
+						guix_title_list_item_realm_laws = {}
+
+						expand = {}
+					}
+				}
+				# GUIX # PORTRAIT
+				##################################################
+				hbox = {
+					datacontext = "[TitleItem.GetTitle.GetHeir]"
+					layoutpolicy_horizontal = expanding
+					margin_right = 5
+					expand = {}
+
+					guix_portrait_head_small = {
+						blockoverride "portrait_transformation"
+						{
+							portrait_scale = { -1 1 }
+							portrait_offset = { 1 0 }
+						}						
+					}
+				}
+            }
+			expand = {}
+        }
+    }
+
+	##################################################
+	# GUIX # CLAIMS LIST ITEM, used by CLAIMS EXPANDED
+	##################################################
+    type guix_claim_list_item = widget {
+        size = { 580 120 }
+		scissor = yes
+		datacontext = "[Claim.GetTitle]"
+
+        vbox = {
+            layoutpolicy_vertical = expanding
+
+			# GUIX # BACKGROUND
+            background = {
+                using = Background_Area_With_Header
+                margin = { 8 2 }
+                margin_left = 15
+                using = Mask_Rough_Edges
+			}
+
+            # GUIX # NAME
+            ##################################################
+            hbox = {
+				#datacontext = "[Claim.GetTitle.GetClaimant]"
+                layoutpolicy_horizontal = expanding
+                minimumsize = { 300 25 }
+				margin_left = 10
+
+				# GUIX # TITLE NAME - BARONY
+				guix_text_title_header = {
+					blockoverride "title_header" {
+						visible = "[GetScriptedGui( 'guix_tier_barony' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+						text = "[Title.GetNameNoTooltip]"
+						default_format = "#tier0"
+					}
+				}
+
+				# GUIX # TITLE NAME - COUNTY
+				guix_text_title_header = {
+					blockoverride "title_header" {
+						visible = "[GetScriptedGui( 'guix_tier_county' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+						text = "[Title.GetNameNoTooltip]"
+						default_format = "#tier1"
+					}
+				}
+				
+				# GUIX # TITLE NAME - DUCHY
+				guix_text_title_header = {
+					blockoverride "title_header" {
+						visible = "[GetScriptedGui( 'guix_tier_duchy' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+						text = "[Title.GetNameNoTooltip]"
+						default_format = "#tier2"
+					}
+				}
+				
+				# GUIX # TITLE NAME - KINGDOM
+				guix_text_title_header = {
+					blockoverride "title_header" {
+						visible = "[GetScriptedGui( 'guix_tier_kingdom' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+						text = "[Title.GetNameNoTooltip]"
+						default_format = "#tier3"
+					}
+				}				
+
+                # GUIX # TITLE NAME - EMPIRE
+				guix_text_title_header = {
+					blockoverride "title_header" {
+						visible = "[GetScriptedGui( 'guix_tier_empire' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+						text = "[Title.GetNameNoTooltip]"
+						default_format = "#tier4"
+					}
+				}
+
+				hbox = {
+					margin_bottom = -6
+					spacer = {
+						size = { 5 0 }
+					}
+
+					icon = {
+						visible = "[Not(Title.GetHolder.IsValid)]"
+						texture = "gfx/interface/icons/symbols/icon_alert.dds"
+						size = { 22 22 }
+						tooltip = "GUIX_TITLE_NOT_CREATED"
+					}
+					
+					spacer = {
+						size = { 5 0 }
+					}					
+	
+				}
+
+				expand = {}
+				
+				hbox = {
+					datacontext = "[Title.GetHolder]"
+					margin_right = 12
+
+					# GUIX # HEIR NAME
+					text_single = {
+						visible = "[Title.GetHolder.IsValid]"
+						text = "[Character.GetShortUINameNoTooltip]"
+						autoresize = yes
+						fontsize = 16
+						align = right
+						max_width = 385
+					}
+
+					# GUIX # NO HEIR
+					text_single = {
+						datacontext = "[Title.GetHolder]"
+						visible = "[Not(Title.GetHolder.IsValid)]"
+						text = "GUIX_NO_HOLDER"
+						autoresize = yes
+						fontsize = 16
+						align = right
+						max_width = 385
+					}					
+				}
+            }
+
+			spacer = {
+				size = { 0 5 }
+			}
+
+            # GUIX # EVERYTHING WRAP
+            ##################################################
+			hbox = {
+				datacontext = "[Claim.GetTitle]"
+				
+                layoutpolicy_horizontal = expanding
+				scissor = yes
+				margin_left = 10
+				
+				guix_coa_realm_titles = {
+					
+					datacontext = "[Claim.GetTitle]"
+					using = tooltip_ne
+						blockoverride "crown" {}
+
+					icon = {
+						name = "has_laws"
+						visible = "[Claim.GetTitle.HasLaws]"
+						size = { 30 30 }
+						parentanchor = bottom|right
+						position = { 5 5 }
+						texture = "gfx/interface/icons/title_status/icon_title_law.dds"
+					}
+				}
+
+				# GUIX # dynasty flag
+				guix_dynasty_flag = {
+					datacontext = "[Claim.GetTitle.GetHolder]"
+					visible = "[Title.GetHolder.IsValid]"
+				}
+
+				# GUIX # 4 rows of claim/title details
+				####################################################################################################
+				vbox = {
+					# GUIX # this datacontext allows the following lists to be repurpesed for claims (list are located in guix_lists_titles_claims_sgui.gui file)
+					# GUIX # guix_title_list_item_de_jure 
+					# GUIX # guix_title_list_item_title_laws
+					# GUIX # guix_title_list_item_realm_laws
+					datacontext = "[Claim.GetTitle]"
+					
+					margin_left = 10
+
+					# GUIX # CLAIM TYPES (row 1)
+					##################################################
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						margin_left = -5
+
+						guix_claim_list_item_claim_type = {}
+
+						expand = {}
+					}
+
+					# GUIX # DE JURE (row 2)
+					##################################################
+					hbox = {
+						layoutpolicy_horizontal = expanding
+	
+						# GUIX # located in guix_lists_titles_claims_sgui.gui file
+						guix_title_list_item_de_jure = {}
+
+						expand = {}
+					}		
+
+					# GUIX # TITLE LAWS (row 3)
+					##################################################
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						margin_left = -5
+						
+						# GUIX # located in guix_lists_titles_claims_sgui.gui file
+						guix_title_list_item_title_laws = {}
+
+						expand = {}
+					}
+
+					# GUIX # ALL REALM LAWS (row 4)
+					##################################################
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						visible = "[Title.GetHolder.IsValid]"
+						# GUIX # located in guix_lists_titles_claims_sgui.gui file
+						guix_title_list_item_realm_laws = {}
+
+						expand = {}
+					}
+
+				}	
+
+				# GUIX # PORTRAIT
+				##################################################
+				hbox = {
+					datacontext = "[Claim.GetTitle.GetHolder]"
+					layoutpolicy_horizontal = expanding
+					margin_right = 5
+					expand = {}
+
+					guix_portrait_head_small = {
+						blockoverride "portrait_transformation"
+						{
+							portrait_scale = { -1 1 }
+							portrait_offset = { 1 0 }
+						}						
+					}
+				}
+            }
+			expand = {}
+        }
+    }
+
+	# GUIX # COA REALM TITLES
+	##################################################
+	type guix_coa_realm_titles = button_group {
+		using = CoA_Title_Defaults
+
+		flowcontainer = {
+			margin = { 0 0 }
+			direction = vertical
+			spacing = -6
+			ignoreinvisible = yes
+
+			icon = {
+				name = "crown"
+				parentanchor = hcenter
+				texture = "gfx/interface/coat_of_arms/crown_strip_115.dds"
+				frame = "[Title.GetTierFrame]"
+				framesize = { 80 56 }
+				size = { 60 40  }
+
+				block "crown" {
+					visible = no
+				}
+			}
+
+			widget = {
+				parentanchor = hcenter
+				size = { 50 50 }
+
+				coat_of_arms_icon = {
+					parentanchor = center
+					size = { 44 44 }
+					coat_of_arms = "[Title.GetTitleCoA.GetTexture('(int32)88','(int32)88')]"
+					coat_of_arms_slot = "[Title.GetTitleCoA.GetSlot('(int32)88','(int32)88')]"
+					coat_of_arms_mask = "gfx/interface/coat_of_arms/title_mask.dds"
+
+					using = CoA_Title_Hover_Glow
+
+					coa_title_frame = {
+						texture = "gfx/interface/coat_of_arms/title_44.dds"
+						size = { 50 50 }
+					}
+
+					coa_title_frame_no_holder = {
+						texture = "gfx/interface/coat_of_arms/title_no_holder_44.dds"
+						size = { 50 50 }
+					}
+				}
+			}
+		}
+	}
+
+	# GUIX # COA REALM CLAIMS
+	##################################################
+	type guix_coa_realm_claims = button_group {
+		using = CoA_Title_Defaults
+
+		flowcontainer = {
+			margin = { 0 0 }
+			direction = vertical
+			spacing = -6
+			ignoreinvisible = yes
+
+			icon = {
+				name = "crown"
+				parentanchor = hcenter
+				texture = "gfx/interface/coat_of_arms/crown_strip_62.dds"
+				frame = "[Title.GetTierFrame]"
+				framesize = { 42 31 }
+
+				block "crown" {
+					visible = no
+				}
+			}
+
+			widget = {
+				parentanchor = hcenter
+				size = { 36 35 }
+
+				coat_of_arms_icon = {
+					parentanchor = center
+					size = { 28 28 }
+					coat_of_arms = "[Title.GetTitleCoA.GetTexture('(int32)56','(int32)56')]"
+					coat_of_arms_slot = "[Title.GetTitleCoA.GetSlot('(int32)56','(int32)56')]"
+					coat_of_arms_mask = "gfx/interface/coat_of_arms/title_mask.dds"
+
+					using = CoA_Title_Hover_Glow
+
+					block "coa_icon" {}
+
+					coa_title_frame = {
+						parentanchor = center
+						texture = "gfx/interface/coat_of_arms/title_28.dds"
+						size = { 34 34 }
+					}
+
+					coa_title_frame_no_holder = {
+						parentanchor = center
+						texture = "gfx/interface/coat_of_arms/title_no_holder_28.dds"
+						size = { 36 36 }
+					}
+				}
+			}
+		}
+	}
+
+	##################################################
+	# GUIX # The contents of the list items for TITLES LIST ITEM and CLAIMS LIST ITEM, uses common/scripted_guis/guix_scripted_guis
+	# GUIX # claim_type (CLAIMS LIST ITEM only)
+	# GUIX # de_jure
+	# GUIX # title_laws
+	# GUIX # realm_laws
+	##################################################
+	type guix_claim_list_item_claim_type = hbox {
+		ignoreinvisible = yes
+		
+		text_single = {
+			name = "guix_will_inherit"
+			datacontext = "[GetScriptedGui( 'guix_will_inherit' )]"
+			visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('title_heir', Title.GetHeir.MakeScope ).End )]"
+			text = "[guix_heir_icon_i] [heir|e]"
+		}
+
+		text_single = {
+			name = "pressed_claim"
+			visible = "[And(Claim.IsPressed, Not(Claim.IsImplicit))]"
+			text = "[pressed_claim_i][pressed_claim|E]"
+		}
+
+		text_single = {
+			name = "unpressed_claim"
+			visible = "[And(Not(Claim.IsPressed), Not(Claim.IsImplicit))]"
+			text = "[unpressed_claim_i][unpressed_claim|E]"
+		}
+
+		text_single = {
+			name = "implicit_claim"
+			visible = "[Claim.IsImplicit]"
+			text = "[implicit_claim_i][implicit_claim|E]"
+		}		
+	}
+
+	type guix_title_list_item_de_jure = hbox {
+		ignoreinvisible = yes
+
+		text_single = {
+			visible = "[Not(Title.GetDeJureLiege.IsValid)]"
+			text = "GUIX_TITLE_NOT_DE_JURE"
+		}				
+	
+		text_single = {
+			visible = "[And(Title.GetDeJureLiege.GetHolder.IsValid,Title.GetDeJureLiege.IsValid)]"
+			text = "GUIX_TITLE_DE_JURE_CREATED_YES"
+		}
+	
+		hbox = {
+			text_single = {
+				visible = "[And(Not(Title.GetDeJureLiege.GetHolder.IsValid),Title.GetDeJureLiege.IsValid)]"
+				text = "GUIX_TITLE_DE_JURE_CREATED_NO"
+			}
+			hbox = {
+				margin_bottom = -6
+				spacer = {
+					size = { 5 0 }
+				}
+
+				icon = {
+					visible = "[And(Not(Title.GetDeJureLiege.GetHolder.IsValid),Title.GetDeJureLiege.IsValid)]"
+					texture = "gfx/interface/icons/symbols/icon_alert.dds"
+					size = { 22 22 }
+					tooltip = "GUIX_TITLE_NOT_CREATED"
+				}
+				
+				spacer = {
+					size = { 5 0 }
+				}					
+
+			}
+		}									
+	}
+	
+	type guix_title_list_item_title_laws = flowcontainer {
+		visible = "[GetScriptedGui( 'guix_has_any_title_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+		ignoreinvisible = yes
+		spacing = 5
+
+		# GUIX # header text
+		text_single = {
+			raw_text = "@title_succession! [title_laws|e]"
+			align = nobaseline
+		}
+		
+		# GUIX # MALE ONLY
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_title_male_only_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_MALE_ONLY_LAW"
+			tooltip = "male_only_law_effects"
+		}
+		# GUIX # MALE PREFERENCE
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_title_male_preference_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_MALE_PREFERENCE_LAW"
+			tooltip = "male_preference_law_effects"
+		}
+		# GUIX # EQUAL
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_title_equal_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_EQUAL_LAW"
+			tooltip = "equal_law_effects"
+		}
+		# GUIX # FEMALE ONLY
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_title_female_only_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_FEMALE_ONLY_LAW"
+			tooltip = "female_only_law_effects"
+		}
+
+		# GUIX # FEMALE PREFERENCE
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_title_female_preference_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_FEMALE_PREFERENCE_LAW"
+			tooltip = "female_preference_law_effects"
+		}
+		# GUIX # SINGLE HEIR
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_title_single_heir_succession_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_SINGLE_HEIR_SUCCESSSION_LAW"
+			tooltip = "single_heir_succession_law_effects"
+		}
+		# GUIX # PARTITION
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_title_partition_succession_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_PARTITION_SUCCESSSION_LAW"
+			tooltip = "partition_succession_law_effects"
+		}
+		# GUIX # HIGH PARTITION
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_title_high_partition_succession_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_HIGH_PARTITION_SUCCESSSION_LAW"
+			tooltip = "high_partition_succession_law_effects"
+		}			
+		# GUIX # CONFED PARTITION
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_title_confederate_partition_succession_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_CONFEDERATE_PARTITION_SUCCESSSION_LAW"
+			tooltip = "confederate_partition_succession_law_effects"
+		}
+		# GUIX # TEMPORAL
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_title_temporal_head_of_faith_succession_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_TEMPORAL_HEAD_OF_FAITH_SUCCESSSION_LAW"
+			tooltip = "temporal_head_of_faith_succession_law_effects"
+		}
+		# GUIX # FEUDAL
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_feudal_elective_succession_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_FEUDAL_ELECTIVE_SUCCESSSION_LAW"
+			tooltip = "feudal_elective_succession_law_effects"
+		}
+		# GUIX # PRINCELY
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_princely_elective_succession_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_PRINCELY_ELECTIVE_SUCCESSSION_LAW"
+			tooltip = "princely_elective_succession_law_effects"
+		}			
+		# GUIX # GAELIC
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_gaelic_elective_succession_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_GAELIC_ELECTIVE_SUCCESSSION_LAW"
+			tooltip = "gaelic_elective_succession_law_effects"
+		}						
+		# GUIX # SAXON
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_saxon_elective_succession_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_SAXON_ELECTIVE_SUCCESSSION_LAW"
+			tooltip = "saxon_elective_succession_law_effects"
+		}
+		# GUIX # SCANDANAVIAN
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_scandinavian_elective_succession_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End )]"
+			text = "GUIX_SCANDINAVIAN_ELECTIVE_SUCCESSSION_LAW"
+			tooltip = "scandinavian_elective_succession_law_effects"
+		}
+	}
+
+	type guix_title_list_item_realm_laws = flowcontainer {
+		# GUIX # does not have title laws
+		visible = "[Not(GetScriptedGui( 'guix_has_gender_and_succession_title_law' ).IsShown( GuiScope.SetRoot( Title.MakeScope ).End ))]"
+		ignoreinvisible = yes
+		spacing = 5
+
+		# GUIX # header text
+		text_single = {
+			text = "succession_order_laws"
+		}
+		
+		# GUIX # natic (male/female) laws
+		##################################################
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_realm_male_only_law' ).IsShown( GuiScope.SetRoot( Title.GetHolder.MakeScope ).AddScope('title', Title.MakeScope ).End )]"
+			text = "GUIX_MALE_ONLY_LAW"
+			tooltip = "male_only_law_effects"
+		}
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_realm_male_preference_law' ).IsShown( GuiScope.SetRoot( Title.GetHolder.MakeScope ).AddScope('title', Title.MakeScope ).End )]"
+			text = "GUIX_MALE_PREFERENCE_LAW"
+			tooltip = "male_preference_law_effects"
+		}
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_realm_equal_law' ).IsShown( GuiScope.SetRoot( Title.GetHolder.MakeScope ).AddScope('title', Title.MakeScope ).End )]"
+			text = "GUIX_EQUAL_LAW"
+			tooltip = "equal_law_effects"
+		}
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_realm_female_only_law' ).IsShown( GuiScope.SetRoot( Title.GetHolder.MakeScope ).AddScope('title', Title.MakeScope ).End )]"
+			text = "GUIX_FEMALE_ONLY_LAW"
+			tooltip = "female_only_law_effects"
+		}
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_realm_female_preference_law' ).IsShown( GuiScope.SetRoot( Title.GetHolder.MakeScope ).AddScope('title', Title.MakeScope ).End )]"
+			text = "GUIX_FEMALE_PREFERENCE_LAW"
+			tooltip = "female_preference_law_effects"
+		}
+
+		# GUIX # partition laws
+		##################################################
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_realm_single_heir_succession_law' ).IsShown( GuiScope.SetRoot( Title.GetHolder.MakeScope ).AddScope('title', Title.MakeScope ).End )]"
+			text = "GUIX_SINGLE_HEIR_SUCCESSSION_LAW"
+			tooltip = "single_heir_succession_law_effects"
+		}
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_realm_partition_succession_law' ).IsShown( GuiScope.SetRoot( Title.GetHolder.MakeScope ).AddScope('title', Title.MakeScope ).End )]"
+			text = "GUIX_PARTITION_SUCCESSSION_LAW"
+			tooltip = "partition_succession_law_effects"
+		}
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_realm_high_partition_succession_law' ).IsShown( GuiScope.SetRoot( Title.GetHolder.MakeScope ).AddScope('title', Title.MakeScope ).End )]"
+			text = "GUIX_HIGH_PARTITION_SUCCESSSION_LAW"
+			tooltip = "high_partition_succession_law_effects"
+		}
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_realm_confederate_partition_succession_law' ).IsShown( GuiScope.SetRoot( Title.GetHolder.MakeScope ).AddScope('title', Title.MakeScope ).End )]"
+			text = "GUIX_CONFEDERATE_PARTITION_SUCCESSSION_LAW"
+			tooltip = "confederate_partition_succession_law_effects"
+		}
+
+		# GUIX # faith laws
+		##################################################
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_realm_same_faith_succession_law' ).IsShown( GuiScope.SetRoot( Title.GetHolder.MakeScope ).End )]"
+			text = "GUIX_SAME_FAITH"
+			tooltip = "same_faith_only_law_effects"
+		}
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_realm_same_faith_theocratic_succession_law' ).IsShown( GuiScope.SetRoot( Title.GetHolder.MakeScope ).End )]"
+			text = "GUIX_SAME_FAITH"
+			tooltip = "same_faith_only_law_effects"
+		}													
+		
+		# GUIX # theocratic law
+		text_single = {
+			visible = "[GetScriptedGui( 'guix_realm_same_faith_theocratic_succession_law' ).IsShown( GuiScope.SetRoot( Title.GetHolder.MakeScope ).End )]"
+			text = "GUIX_THEOCRATIC"
+			tooltip = "bishop_theocratic_succession_law_effects"
+		}													
+	}	
+	
+}

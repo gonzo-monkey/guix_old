@@ -1,0 +1,265 @@
+﻿# The .dds files for scripted illustrations are stored in gfx\interface\illustrations\<insert_folder_name>
+# The folder name must match the script below, for example gfx\interface\illustrations\lowborn_coa
+
+lowborn_coa = {
+
+	# GUIX # MESSENGER (high diplomacy)
+	texture = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				highest_skill = diplomacy
+				OR = {
+					AND = {
+						diplomacy >= high_skill_rating
+						NOR = {
+							any_held_title = {
+								is_mercenary_company = yes
+							}
+							prowess >= high_skill_rating
+							highest_skill = martial
+							highest_skill = stewardship
+							highest_skill = intrigue
+							highest_skill = learning
+						}
+					}
+					diplomacy >= extremely_high_skill_rating					
+				}
+			}
+		}
+		reference = "lowborn_coa/lowborn_messenger.dds"
+	}
+
+	# GUIX # WARRIOR (high martial)
+	texture = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				highest_skill = martial
+				OR = {
+					AND = {
+						martial >= high_skill_rating
+						NOR = {
+							any_held_title = {
+								is_mercenary_company = yes
+							}
+							prowess >= high_skill_rating
+							highest_skill = diplomacy
+							highest_skill = stewardship
+							highest_skill = intrigue
+							highest_skill = learning
+						}
+					}
+					martial >= extremely_high_skill_rating
+				}
+			}
+		}
+		reference = "lowborn_coa/lowborn_warrior.dds"
+	}
+
+	# GUIX # MERCHANT (high stewardship)
+	texture = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				highest_skill = stewardship
+				OR = {
+					AND = {
+						stewardship >= high_skill_rating
+						NOR = {
+							any_held_title = {
+								is_mercenary_company = yes
+							}
+							prowess >= high_skill_rating
+							highest_skill = martial
+							highest_skill = diplomacy
+							highest_skill = intrigue
+							highest_skill = learning
+						}
+					}
+					stewardship >= extremely_high_skill_rating
+				}
+			}
+		}
+		reference = "lowborn_coa/lowborn_merchant.dds"
+	}
+	
+	# GUIX # SPY (high intrigue)
+	texture = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				highest_skill = intrigue
+				OR = {
+					AND = {
+						intrigue >= high_skill_rating
+						NOR = {
+							any_held_title = {
+								is_mercenary_company = yes
+							}
+							prowess >= high_skill_rating
+							highest_skill = martial
+							highest_skill = diplomacy
+							highest_skill = stewardship
+							highest_skill = learning
+						}
+					}
+					intrigue >= extremely_high_skill_rating
+				}
+			}
+		}
+		reference = "lowborn_coa/lowborn_spy.dds"
+	}
+
+	# GUIX # SCHOLAR (high learning)
+	texture = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				highest_skill = learning
+				OR = {
+					AND = {
+						learning >= high_skill_rating
+						NOR = {
+							any_held_title = {
+								is_mercenary_company = yes
+							}
+							prowess >= high_skill_rating
+							highest_skill = martial
+							highest_skill = diplomacy
+							highest_skill = stewardship
+							highest_skill = intrigue
+						}
+					}
+					learning >= extremely_high_skill_rating
+				}	
+			}
+		}
+		reference = "lowborn_coa/lowborn_scholar.dds"
+	}
+
+	# GUIX # KINGHT_ERRANT (high prowess)
+	texture = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				prowess >= high_skill_rating
+			}
+			NOT = { 
+				OR = {
+					any_held_title = {
+						is_mercenary_company = yes
+					}
+					diplomacy >= extremely_high_skill_rating
+					martial >= extremely_high_skill_rating
+					diplomacy >= extremely_high_skill_rating
+					stewardship >= extremely_high_skill_rating
+					intrigue >= extremely_high_skill_rating
+				}
+			}
+		}
+		reference = "lowborn_coa/lowborn_knight_errant.dds"
+	}
+
+	# GUIX # CONSUL (more than 1 high skill)
+	texture = {		
+		trigger = {
+			OR = {
+				diplomacy >= high_skill_rating
+				martial >= high_skill_rating
+				stewardship >= high_skill_rating
+				intrigue >= high_skill_rating
+				learning >= high_skill_rating
+			}
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				OR = {
+					AND = {
+						highest_skill = diplomacy
+						highest_skill = martial
+					}
+					AND = {
+						highest_skill = diplomacy
+						highest_skill = stewardship
+					}
+					AND = {
+						highest_skill = diplomacy
+						highest_skill = intrigue
+					}
+					AND = {
+						highest_skill = diplomacy
+						highest_skill = learning
+					}
+					AND = {
+						highest_skill = martial
+						highest_skill = stewardship
+					}
+					AND = {
+						highest_skill = martial
+						highest_skill = intrigue
+					}
+					AND = {
+						highest_skill = martial
+						highest_skill = learning
+					}
+					AND = {
+						highest_skill = stewardship
+						highest_skill = intrigue
+					}
+					AND = {
+						highest_skill = stewardship
+						highest_skill = learning
+					}
+					AND = {
+						highest_skill = intrigue
+						highest_skill = learning
+					}
+				 }
+			}
+			NOT = {
+				any_held_title = {
+					is_mercenary_company = yes
+				}
+				prowess >= high_skill_rating
+			}			
+		}
+		reference = "lowborn_coa/lowborn_consul.dds"
+	}
+
+	# GUIX # MERCENARY
+	texture = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = yes
+				any_held_title = {
+					is_mercenary_company = yes
+				}
+			}
+		}
+		reference = "lowborn_coa/lowborn_mercenary.dds"		
+	}
+
+	# GUIX # CHILD
+	texture = {
+		trigger = {
+			AND = {
+				is_lowborn = yes
+				is_adult = no
+			}
+		}
+		reference = "lowborn_coa/lowborn_child.dds"		
+	}
+
+	# GUIX # EVERYONE ELSE
+	texture = {
+		reference = "lowborn_coa/lowborn_commoner.dds"
+	}	
+}

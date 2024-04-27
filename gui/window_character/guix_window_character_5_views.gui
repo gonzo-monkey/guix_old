@@ -1,0 +1,3822 @@
+##################################################
+# GUIX # SECTION 5 --- VIEWS
+##################################################
+
+types CharacterWindow {
+	type guix_window_character_5_views = widget {
+		layoutpolicy_vertical = preferred
+		layoutpolicy_horizontal = expanding
+		size = { 0 350 }
+		scissor = yes
+		using = Animation_Tab_Switch
+
+		##################################################
+		# GUIX # FAMILY - Default
+		##################################################
+		# GUIX # Father House Flag
+		widget = {
+			name = "realm_coa_background_father"
+			parentanchor = top|left
+			visible = "[And(GetVariableSystem.HasValue('guix_tab','family'),Not(Or(CharacterWindow.IsRelationExpanded( 'children' ), CharacterWindow.IsRelationExpanded( 'siblings' ) )))]"
+			
+			coat_of_arms_icon = {
+				datacontext = "[Character.GetFather.GetDynasty]"
+				parentanchor = top|left
+				position = {-15 -40 }
+				size = { 330 350 }
+				alpha = 0.75
+
+				coat_of_arms = "[Character.GetFather.GetDynasty.GetDynastyCoA.GetTexture( '(int32)256', '(int32)256' )]"
+				coat_of_arms_slot = "[Character.GetFather.GetDynasty.GetDynastyCoA.GetSlot( '(int32)256', '(int32)256' )]"
+				coat_of_arms_mask = "gfx/interface/frontend/mask_coa_flag.dds"
+
+				modify_texture = {
+					texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+					blend_mode = overlay
+					spritetype = corneredTiled
+					alpha = 0.25
+				}
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick_vertical.dds"
+					blend_mode = alphamultiply
+				}
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
+					blend_mode = alphamultiply
+				}
+			}
+		}
+
+		# GUIX # Mother House Flag
+		widget = {
+			name = "realm_coa_background_mother"
+			parentanchor = top|left
+			visible = "[And(GetVariableSystem.HasValue('guix_tab','family'),Not(Or(CharacterWindow.IsRelationExpanded( 'children' ), CharacterWindow.IsRelationExpanded( 'siblings' ) )))]"
+
+			coat_of_arms_icon = {
+				datacontext = "[Character.GetMother.GetDynasty]"
+				parentanchor = top|left
+				position = { 280 -40 }
+				size = { 330 350 }
+				alpha = 0.75
+				mirror = horizontal
+
+				coat_of_arms = "[Character.GetMother.GetDynasty.GetDynastyCoA.GetTexture( '(int32)256', '(int32)256' )]"
+				coat_of_arms_slot = "[Character.GetMother.GetDynasty.GetDynastyCoA.GetSlot( '(int32)256', '(int32)256' )]"
+				coat_of_arms_mask = "gfx/interface/frontend/mask_coa_flag.dds"
+
+				modify_texture = {
+					texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+					blend_mode = overlay
+					spritetype = corneredTiled
+					alpha = 0.25
+				}
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick_vertical.dds"
+					blend_mode = alphamultiply
+					mirror = horizontal
+				}
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
+					blend_mode = alphamultiply
+					mirror = horizontal
+				}
+			}
+		}
+
+		##################################################
+		# GUIX # FAMILY - Default
+		##################################################
+		widget = {
+			name = "family"
+			visible = "[GetVariableSystem.HasValue('guix_tab','family')]"
+			size = { 100% 100% }
+			
+			using = Animation_Tab_Switch
+
+			vbox = {
+				name = "family_main_view"
+				visible = "[Not( Or(CharacterWindow.IsRelationExpanded( 'children' ), CharacterWindow.IsRelationExpanded( 'siblings' ) ) )]"
+				layoutpolicy_vertical = expanding
+				layoutpolicy_horizontal = expanding
+					
+				# GUIX # PARENTS & GRANDPARENTS
+				hbox = {
+					name = "parents_grandparents"
+					layoutpolicy_horizontal = expanding
+					
+					# GUIX #: PATERNAL GRANDPARENTS
+					guix_vbox_character_row_item_family = {
+						name = "paternal_grandparents"
+						visible = yes
+
+						blockoverride "portrait_datamodel" {}
+						
+						# GUIX #: get paternal portraits only, regardless of whether they exist or not
+						hbox = {
+							# GUIX #: Father's Father
+							guix_portrait_head_small = {
+								datacontext = "[CharacterWindow.GetCharacter.GetFather.GetFather]"
+								blockoverride "empty_character" {
+									visible = "[CharacterWindow.GetCharacter.GetFather.GetFather.IsValid]"
+								}
+							}
+
+							# GUIX #: Father's Mother
+							guix_portrait_head_small = {
+								datacontext = "[CharacterWindow.GetCharacter.GetFather.GetMother]"
+								blockoverride "empty_character" {
+									visible = "[CharacterWindow.GetCharacter.GetFather.GetMother.IsValid]"
+								}
+							}
+						}				
+
+						blockoverride "label_items_default" {
+							visible = no
+						}
+
+						blockoverride "label_items_one" {
+							visible = no
+						}
+
+						blockoverride "label_items_many" {
+							text = "GUIX_PATERNAL_GRANDPARENTS"
+						}
+
+						blockoverride "expand_button" {}
+					}
+
+					# GUIX #: PARENTS
+					guix_vbox_character_row_item_family = {
+						name = "parents"
+
+						blockoverride "portrait_datamodel" {}
+
+						# GUIX #: get parent portraits, regardless of whether they exist or not, and have them face each other
+						hbox = {
+
+							# GUIX #: father
+							guix_portrait_head_small = {
+								datacontext = "[CharacterWindow.GetCharacter.GetFather]"
+								blockoverride "empty_character" {
+									visible = "[CharacterWindow.GetCharacter.GetFather.IsValid]"
+								}
+							}
+							
+							# GUIX #: mother
+							guix_portrait_head_small = {
+								datacontext = "[CharacterWindow.GetCharacter.GetMother]"
+								blockoverride "empty_character" {
+									visible = "[CharacterWindow.GetCharacter.GetMother.IsValid]"
+								}
+								blockoverride "portrait_transformation"
+								{
+									portrait_scale = { -1 1 }
+									portrait_offset = { 1 0 }
+								}
+							}			
+						}	
+				
+						blockoverride "label_items_default" {
+							visible = no
+						}
+
+						blockoverride "label_items_one" {
+							visible = no
+						}
+
+						blockoverride "label_items_many" {
+							text = "PARENTS"
+						}
+
+						blockoverride "expand_button" {}
+					}
+
+					# GUIX #: MATERNAL GRANDPARENTS
+					guix_vbox_character_row_item_family = {
+						name = "maternal_grandparents"
+						visible = yes
+
+						blockoverride "portrait_datamodel" {}
+
+						# GUIX #: get maternal portraits only, regardless of whether they exist or not
+						hbox = {
+							# GUIX #: Mother's Father
+							guix_portrait_head_small = {
+								datacontext = "[CharacterWindow.GetCharacter.GetMother.GetFather]"
+								blockoverride "empty_character" {
+									visible = "[CharacterWindow.GetCharacter.GetMother.GetFather.IsValid]"
+								}
+								blockoverride "portrait_transformation"
+								{
+									portrait_scale = { -1 1 }
+									portrait_offset = { 1 0 }
+								}
+							}
+
+							# GUIX #: Mother's Mother
+							guix_portrait_head_small = {
+								datacontext = "[CharacterWindow.GetCharacter.GetMother.GetMother]"
+								blockoverride "empty_character" {
+									visible = "[CharacterWindow.GetCharacter.GetMother.GetMother.IsValid]"
+								}								
+								blockoverride "portrait_transformation"
+								{
+									portrait_scale = { -1 1 }
+									portrait_offset = { 1 0 }
+								}
+							}						
+						}
+
+						blockoverride "label_items_default" {
+							visible = no
+						}
+
+						blockoverride "label_items_one" {
+							visible = no
+						}
+
+						blockoverride "label_items_many" {
+							text = "GUIX_MATERNAL_GRANDPARENTS"
+						}
+
+						blockoverride "expand_button" {}
+					}
+				}
+
+				# GUIX # SIBLINGS - SINGLE
+				hbox = {
+					name = "siblings_single"
+					visible = "[GetScriptedGui( 'guix_siblings_single' ).IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+					layoutpolicy_horizontal = expanding
+
+					scissor = yes
+
+					vbox_character_row_item = {
+						name = "siblings"
+
+						blockoverride "portrait_datamodel" {
+							datamodel = "[CharacterWindow.GetSiblings]"
+						}
+
+						blockoverride "header_text"
+						{
+							visible = "[LessThanOrEqualTo_int32( GetDataModelSize(CharacterWindow.GetSiblings), '(int32)7' )]"
+							text = "CV_SIBLINGS_HEADING"
+						}
+
+						blockoverride "header_text_clickable"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetSiblings), '(int32)7' )]"
+							text = "GUIX_SIBLINGS_HEADING"
+							
+						}
+
+						blockoverride "expand_button_inside" {
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetSiblings), '(int32)7' )]"
+							onclick = "[CharacterWindow.ToggleExpandedRelation( 'siblings' )]"
+						}
+					}
+				}		
+
+				# GUIX # SIBLINGS - DOUBLE
+				hbox = {
+					name = "siblings_double"
+					visible = "[GetScriptedGui( 'guix_siblings_double' ).IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+					
+					layoutpolicy_horizontal = expanding
+
+					scissor = yes
+
+					vbox_character_row_item = {
+						name = "siblings"
+
+						blockoverride "gridbox" {
+							fixedgridbox = {
+								flipdirection = yes
+								addcolumn = 85
+								addrow = 91
+								datamodel_wrap = 7
+			
+								maxverticalslots = 2
+								
+			
+								datamodel = "[CharacterWindow.GetSiblings]"	
+			
+								item = {
+									guix_portrait_head_small = {
+										blockoverride "portrait_button"
+										{
+											using = tooltip_ne
+										}
+										blockoverride "glow_visible"
+										{
+											visible = no
+										}
+									}
+								}
+							}
+						}
+
+						blockoverride "header_text"
+						{
+							# not needed as you cant have a double row with less than 7
+							visible = no
+						}
+
+						blockoverride "header_text_clickable"
+						{
+							text = "GUIX_SIBLINGS_HEADING"
+							
+						}
+
+						blockoverride "expand_button_inside" {
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetSiblings), '(int32)7' )]"
+							onclick = "[CharacterWindow.ToggleExpandedRelation( 'siblings' )]"
+						}
+					}
+				}
+
+				# GUIX # CHILDREN - SINGLE
+				hbox = {
+					name = "children_single"
+					visible = "[GetScriptedGui( 'guix_children_single' ).IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+					layoutpolicy_horizontal = expanding
+					
+					scissor = yes
+
+					vbox_character_row_item = {
+						name = "children"
+
+						blockoverride "portrait_datamodel" {
+							datamodel = "[CharacterWindow.GetChildren]"
+						}
+
+						blockoverride "header_text"
+						{
+							visible = "[LessThanOrEqualTo_int32( GetDataModelSize(CharacterWindow.GetChildren), '(int32)7' )]"
+							text = "CV_CHILDREN_HEADING"
+						}
+
+						blockoverride "header_text_clickable"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetChildren), '(int32)7' )]"
+							text = "GUIX_CHILDREN_HEADING"
+							
+						}
+
+						blockoverride "expand_button_inside" {
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetChildren), '(int32)7' )]"
+							onclick = "[CharacterWindow.ToggleExpandedRelation( 'children' )]"
+						}
+					}
+				}
+
+				# GUIX # CHILDREN - DOUBLE
+				hbox = {
+					name = "children_double"
+					visible = "[GetScriptedGui( 'guix_children_double' ).IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+					layoutpolicy_horizontal = expanding
+					
+					scissor = yes
+
+					vbox_character_row_item = {
+						name = "children"
+
+						blockoverride "gridbox" {
+							fixedgridbox = {
+								flipdirection = yes
+								addcolumn = 85
+								addrow = 91
+								datamodel_wrap = 7
+			
+								maxverticalslots = 2
+								
+			
+								datamodel = "[CharacterWindow.GetChildren]"	
+			
+								item = {
+									guix_portrait_head_small = {
+										blockoverride "portrait_button"
+										{
+											using = tooltip_ne
+										}
+										blockoverride "glow_visible"
+										{
+											visible = no
+										}
+									}
+								}
+							}
+						}
+
+						blockoverride "header_text"
+						{
+							# not needed as you cant have a double row with less than 7
+							visible = no
+						}
+
+						blockoverride "header_text_clickable"
+						{
+							text = "GUIX_CHILDREN_HEADING"
+							
+						}
+
+						blockoverride "expand_button_inside" {
+							visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetChildren), '(int32)7' )]"
+							onclick = "[CharacterWindow.ToggleExpandedRelation( 'children' )]"
+						}
+					}
+				}
+
+				# GUIX # SECONDARY SPOUSES
+				hbox = {
+					name = "secondary_spouses"
+					visible = "[And(GreaterThan_int32( Character.GetMaxSpouses, '(int32)1' ),GetScriptedGui( 'guix_secondary_spouses_row' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).End ))]"
+					layoutpolicy_horizontal = expanding
+
+					vbox_character_row_item = {
+						name = "secondary_spouses"
+
+						blockoverride "portrait_datamodel" {
+							datamodel = "[CharacterWindow.GetSecondarySpouses]"
+						}
+	
+						blockoverride "header_text"
+						{
+							text = "SECONDARY_SPOUSES"
+						}					
+	
+						blockoverride "expand_button" {}
+	
+						blockoverride "find_partner"
+						{
+							fixedgridbox = {
+								name = "potential"
+								datamodel = "[GetNullCharacterDataModel( Character.CalcUnusedSecondarySpouseSlots )]"
+								visible = "[Character.IsPlayerInteractionShown('marry_off_interaction')]"
+
+								flipdirection = yes
+								addcolumn = 85
+								addrow = 91
+	
+								item = {
+									container = {
+										guix_portrait_head_small = {
+											visible = "[Not( ObjectsEqual( GetPlayer, CharacterWindow.GetCharacter ) )]"
+	
+											blockoverride "portrait_button_template_onclick"
+											{
+												onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('marry_off_interaction')]"
+											}
+											blockoverride "portrait_button_template_tooltip"
+											{
+												tooltip = "CHARACTER_WINDOW_FIND_SPOUSE"
+											}
+											blockoverride "onclick"
+											{
+												onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('marry_off_interaction')]"
+	
+												button_icon = {
+													parentanchor = center
+													alwaystransparent = yes
+													size = { 20 20 }
+													position = {-5 -5}
+													texture = "gfx/interface/icons/flat_icons/plus.dds"
+												}
+											}
+										}
+	
+										guix_portrait_head_small = {
+											visible = "[ObjectsEqual( GetPlayer, CharacterWindow.GetCharacter )]"
+											blockoverride "portrait_button_template_onclick"
+											{
+												onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('marry_off_interaction')]"
+											}
+											blockoverride "portrait_button_template_tooltip"
+											{
+												tooltip = "CHARACTER_WINDOW_FIND_SPOUSE_SELF"
+											}
+											blockoverride "onclick"
+											{
+												onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('marry_off_interaction')]"
+	
+												button_icon = {
+													parentanchor = center
+													alwaystransparent = yes
+													size = { 26 26 }
+													position = {-5 0}
+													texture = "gfx/interface/icons/flat_icons/plus.dds"
+												}
+											}
+										}																	
+									}
+								}
+							}						
+						}
+
+					}
+				}
+
+				# GUIX # CONCUBINES		
+				hbox = {
+					name = "concubines"
+					visible = "[And(GreaterThan_int32( Character.GetMaxConsorts, '(int32)0' ),GetScriptedGui( 'guix_show_concubines_row' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).End ))]"
+					layoutpolicy_horizontal = expanding
+
+					vbox_character_row_item = {
+						name = "consorts"
+	
+						blockoverride "portrait_datamodel" {
+							datamodel = "[CharacterWindow.GetConcubines]"
+						}
+
+						blockoverride "header_text"
+						{
+							text = "CONCUBINES"
+						}
+	
+						blockoverride "expand_button" {}
+	
+						blockoverride "find_partner"
+						{
+							fixedgridbox = {
+								name = "potential"
+								datamodel = "[GetNullCharacterDataModel( Character.CalcUnusedConsortSlots )]"
+								visible = "[Character.IsPlayerInteractionShown('find_concubine')]"
+
+								flipdirection = yes
+								addcolumn = 85
+								addrow = 91
+								maxverticalslots = 1
+
+								item = {
+									container = {
+										guix_portrait_head_small = {
+											blockoverride "portrait_button_template_onclick"
+											{
+												onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction('find_concubine')]"
+												enabled = "[CharacterWindow.GetCharacter.IsPlayerInteractionValid('find_concubine')]"
+
+												button_plus = {
+													parentanchor = center
+													alwaystransparent = yes
+												}
+											}
+											blockoverride "portrait_button_template_tooltip"
+											{
+												tooltip = "[CharacterWindow.GetCharacter.GetPlayerInteractionTooltip('find_concubine')]"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}			
+
+				expand = {
+					name = "everybody up!"
+				}
+			}
+		}
+
+		### SIBLINGS EXPANDED
+		scrollbox = {
+			name = "family_siblings_expanded"
+			visible = "[And(CharacterWindow.IsRelationExpanded( 'siblings' ),Or(GetVariableSystem.HasValue('guix_tab','family'),GetVariableSystem.HasValue('guix_tab','family_expanded')))]"
+			size = { 100% 100% }
+
+			blockoverride "scrollbox_replace_vbox" {
+				vbox_character_row_item = {
+					name = "siblings"
+
+					blockoverride "portrait_datamodel" {
+						datamodel = "[CharacterWindow.GetSiblings]"
+					}
+
+					blockoverride "header_text"
+					{
+						# not needed as you cant expand with less than 7
+						visible = no
+					}
+
+					blockoverride "header_text_clickable"
+					{
+						text = "GUIX_SIBLINGS_HEADING"
+						
+					}
+
+					blockoverride "expand_button_inside" {
+						visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetSiblings), '(int32)7' )]"
+						onclick = "[CharacterWindow.ToggleExpandedRelation( 'siblings' )]"
+					}
+
+					blockoverride "gridbox_slots" {}
+				}
+			}
+		}
+
+		### CHILDREN EXPANDED
+		scrollbox = {
+			name = "family_children_expanded"
+			visible = "[And(CharacterWindow.IsRelationExpanded( 'children' ),Or(GetVariableSystem.HasValue('guix_tab','family'),GetVariableSystem.HasValue('guix_tab','family_expanded')))]"
+			size = { 100% 100% }
+
+			blockoverride "scrollbox_replace_vbox" {
+				vbox_character_row_item = {
+					name = "children"
+
+					blockoverride "portrait_datamodel" {
+						datamodel = "[CharacterWindow.GetChildren]"
+					}
+
+					blockoverride "header_text"
+					{
+						# not needed as you cant expand with less than 7
+						visible = no
+					}
+
+					blockoverride "header_text_clickable"
+					{
+						text = "GUIX_CHILDREN_HEADING"
+						
+					}
+
+					blockoverride "expand_button_inside" {
+						visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetChildren), '(int32)7' )]"
+						onclick = "[CharacterWindow.ToggleExpandedRelation( 'children' )]"
+					}
+
+					blockoverride "gridbox_slots" {}
+				}
+			}
+		}
+
+		##################################################
+		# GUIX # FAMILY - Extended List View
+		##################################################
+		vbox_character_list = {
+			name = "family_extended"
+			visible = "[And(GetVariableSystem.HasValue('guix_tab','family_expanded'),Not(Or(CharacterWindow.IsRelationExpanded( 'siblings' ),CharacterWindow.IsRelationExpanded( 'children' ))))]"
+			datacontext = "[CharacterWindow.GetCharacter]"
+			
+			blockoverride "sort_buttons"
+			{
+				guix_hbox_list_dummy_buttons = {}
+			}
+
+			blockoverride "sort_dropdown" {}
+
+			blockoverride "scrollbox_margins" {
+				margin = { 2 5 }
+				margin_right = 10
+			}
+
+			blockoverride "container_implementation" {
+				# GUIX # SPOUSE (uses GUIX_character_list_spouses since GetPrimarySpouse doesn't work)
+				vbox = {
+					datamodel = "[Character.MakeScope.GetList( 'GUIX_character_list_spouses' )]"
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							minimumsize = { 580 120 }
+							allow_outside = yes
+							guix_widget_character_list_item = {
+								datacontext = "[Scope.GetCharacter]"
+								blockoverride "traits_for_characterlistitem" {}
+								blockoverride "court_only_icons" {}
+								blockoverride "vassals_only_icons" {}
+							}
+						}
+					}	
+				}
+
+				# GUIX # CONCUBINES
+				vbox = {
+					datamodel = "[CharacterWindow.GetConcubines]"
+					layoutpolicy_horizontal = expanding
+					item = {	
+						widget = {
+							minimumsize = { 580 120 }
+							allow_outside = yes
+							guix_widget_character_list_item = {
+								datacontext = "[Scope.GetCharacter]"
+								blockoverride "traits_for_characterlistitem" {}
+								blockoverride "court_only_icons" {}
+								blockoverride "vassals_only_icons" {}
+							}
+						}
+					}	
+				}
+				# GUIX # CHILDREN
+				vbox = {
+					datamodel = "[CharacterWindow.GetChildren]"
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							minimumsize = { 580 120 }
+							allow_outside = yes
+							guix_widget_character_list_item = {
+								datacontext = "[Scope.GetCharacter]"
+								blockoverride "traits_for_characterlistitem" {}
+								blockoverride "court_only_icons" {}
+								blockoverride "vassals_only_icons" {}
+							}
+						}
+					}	
+				}
+				# GUIX # SIBLINGS
+				vbox = {
+					datamodel = "[CharacterWindow.GetSiblings]"
+					layoutpolicy_horizontal = expanding
+					item = {	
+						widget = {
+							minimumsize = { 580 120 }
+							allow_outside = yes
+							guix_widget_character_list_item = {
+								datacontext = "[Scope.GetCharacter]"
+								blockoverride "traits_for_characterlistitem" {}
+								blockoverride "court_only_icons" {}
+								blockoverride "vassals_only_icons" {}
+							}
+						}
+					}	
+				}
+				# GUIX # PARENTS
+				vbox = {
+					datamodel = "[CharacterWindow.GetParents]"
+					layoutpolicy_horizontal = expanding
+					item = {	
+						widget = {
+							minimumsize = { 580 120 }
+							allow_outside = yes
+							guix_widget_character_list_item = {
+								datacontext = "[Scope.GetCharacter]"
+								blockoverride "traits_for_characterlistitem" {}
+								blockoverride "court_only_icons" {}
+								blockoverride "vassals_only_icons" {}
+							}
+						}
+					}	
+				}				
+				# GUIX # GRANDPARENTS
+				vbox = {
+					datamodel = "[CharacterWindow.GetGrandparents]"
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							minimumsize = { 580 120 }
+							allow_outside = yes
+							guix_widget_character_list_item = {
+								datacontext = "[Scope.GetCharacter]"
+								blockoverride "traits_for_characterlistitem" {}
+								blockoverride "court_only_icons" {}
+								blockoverride "vassals_only_icons" {}
+							}
+						}
+					}	
+				}																			
+			}
+
+			blockoverride "scrollbox_empty_visibility"
+			{
+				layoutpolicy_vertical = expanding
+				visible = "[GetScriptedGui('guix_no_family').IsShown(GuiScope.SetRoot(CharacterWindow.GetCharacter.MakeScope).End)]"
+				text = "NO_CHARACTERS_TO_SELECT"
+			}
+			
+			blockoverride "character_count" {}
+		}
+
+		##################################################
+		# GUIX # RELATIONS - Default
+		##################################################
+		widget = {
+			name = "relations"
+			visible = "[GetVariableSystem.HasValue('guix_tab','relations')]"
+			size = { 100% 100% }
+
+			using = Animation_Tab_Switch
+
+			vbox = {
+				name = "relations_main_view"
+				visible = "[Not(CharacterWindow.AreRelationsExpanded( 'friends', 'rivals', 'lovers' ) ) ]"
+				margin_top = -2
+				
+				# GUIX # WARDS | GUARDIANS | DIARCH
+				##################################################
+				widget = {
+					name = "first_row"
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					minimumsize = { 0 112 }
+					maximumsize = { -1 112 }
+					scissor = yes
+
+					# GUIX # WARDS, GUARDIANS, DIARCH
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						# GUIX # WARDS
+						vbox_character_row_item = {
+							name = "wards"
+							visible = "[CharacterWindow.GetCharacter.IsAdult]"
+							layoutpolicy_vertical = expanding
+
+
+							blockoverride "portrait_datamodel" {
+								datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'ward' ) )]"
+							}
+
+							blockoverride "header_text"
+							{
+								text = "WARDS_LABEL"
+							}
+
+							blockoverride "expand_button" {}
+
+							### WARD FINDER
+							blockoverride "find_partner"
+							{
+
+								### FIND WARD FOR ME
+								fixedgridbox = {
+									name = "educate_ward"
+									datamodel = "[GetNullCharacterDataModel( CharacterWindow.CalcUnusedRelationSlots( GetRelation( 'ward' ), '(int32)2' ) )]"
+									visible = "[Character.IsPlayerInteractionShown('educate_child_interaction')]"
+
+									flipdirection = yes
+									addcolumn = 85
+									addrow = 91
+									maxverticalslots = 1
+
+									item = {
+										container = {
+											guix_portrait_head_small = {
+												blockoverride "portrait_button_template_onclick"
+												{
+													onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction( 'educate_child_interaction' )]"
+
+													button_icon = {
+														parentanchor = center
+														alwaystransparent = yes
+														size = { 26 26 }
+														position = {-2 -4}
+														texture = "gfx/interface/icons/flat_icons/plus.dds"
+													}
+												}
+												blockoverride "portrait_button_template_tooltip"
+												{
+													tooltip = "[CharacterWindow.GetCharacter.GetPlayerInteractionTooltip( 'educate_child_interaction' )]"
+												}
+											}
+										}
+									}
+								}
+
+								### FIND WARD FOR COURTIER
+								fixedgridbox = {
+									name = "find_ward"
+									datamodel = "[GetNullCharacterDataModel( CharacterWindow.CalcUnusedRelationSlots( GetRelation( 'ward' ), '(int32)2' ) )]"
+									visible = "[Character.IsPlayerInteractionShown('offer_ward_interaction')]"
+
+									flipdirection = yes
+									addcolumn = 85
+									addrow = 91
+									maxverticalslots = 1
+
+									item = {
+										container = {
+											guix_portrait_head_small = {
+												blockoverride "portrait_button_template_onclick"
+												{
+													onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction( 'offer_ward_interaction' )]"
+													enabled = "[CharacterWindow.GetCharacter.IsPlayerInteractionValid( 'offer_ward_interaction' )]"
+
+													button_icon = {
+														parentanchor = center
+														alwaystransparent = yes
+														size = { 20 20 }
+														position = {-2 -5}
+														texture = "gfx/interface/icons/flat_icons/plus.dds"
+													}
+												}
+												blockoverride "portrait_button_template_tooltip"
+												{
+													tooltip = "[CharacterWindow.GetCharacter.GetPlayerInteractionTooltip( 'offer_ward_interaction' )]"
+												}
+											}
+										}
+									}									
+								}								
+							}
+							blockoverride "expand_left" {
+								expand = {}
+							}
+						}
+						
+						# GUIX # GUARDIANS
+						vbox_character_row_item = {
+							name = "guardian"
+							visible = "[Not(CharacterWindow.GetCharacter.IsAdult)]"
+							layoutpolicy_vertical = expanding
+
+							blockoverride "portrait_datamodel" {
+								datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'guardian' ) )]"
+							}
+
+							blockoverride "header_text"
+							{
+								text = "GUARDIAN_LABEL"
+							}
+
+							blockoverride "expand_button" {}
+
+							### GUARDIAN FINDER
+							blockoverride "find_partner"
+							{
+								### FIND GUARDIAN FOR ME
+								fixedgridbox = {
+									name = "educate_child"
+									datamodel = "[GetNullCharacterDataModel( CharacterWindow.CalcUnusedRelationSlots( GetRelation( 'guardian' ), '(int32)1' ) )]"
+									visible = "[Character.IsPlayerInteractionShown( 'educate_child_interaction' )]"
+
+									flipdirection = yes
+									addcolumn = 85
+									addrow = 91
+									maxverticalslots = 1
+
+									item = {
+										container = {
+											guix_portrait_head_small = {
+												blockoverride "portrait_button_template_onclick"
+												{
+													onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction( 'educate_child_interaction' )]"
+
+													button_icon = {
+														parentanchor = center
+														alwaystransparent = yes
+														size = { 20 20 }
+														position = {-2 -5}
+														texture = "gfx/interface/icons/flat_icons/plus.dds"
+													}
+												}
+												blockoverride "portrait_button_template_tooltip"
+												{
+													tooltip = "[CharacterWindow.GetCharacter.GetPlayerInteractionTooltip( 'educate_child_interaction' )]"
+												}
+											}
+										}
+									}
+								}
+
+								### GUARDIAN FINDER FOR COURTIER
+								fixedgridbox = {
+									name = "find_guardian"
+									datamodel = "[GetNullCharacterDataModel( CharacterWindow.CalcUnusedRelationSlots( GetRelation( 'guardian' ), '(int32)1' ) )]"
+									visible = "[Character.IsPlayerInteractionShown( 'offer_guardianship_interaction' )]"
+
+									flipdirection = yes
+									addcolumn = 85
+									addrow = 91
+									maxverticalslots = 1
+
+									item = {
+										container = {
+											guix_portrait_head_small = {
+												blockoverride "portrait_button_template_onclick"
+												{
+													onclick = "[CharacterWindow.GetCharacter.OpenPlayerInteraction( 'offer_guardianship_interaction' )]"
+													enabled = "[CharacterWindow.GetCharacter.IsPlayerInteractionValid( 'offer_guardianship_interaction' )]"
+													button_icon = {
+														parentanchor = center
+														alwaystransparent = yes
+														size = { 26 26 }
+														position = {-2 -4}
+														texture = "gfx/interface/icons/flat_icons/plus.dds"
+													}
+												}
+												blockoverride "portrait_button_template_tooltip"
+												{
+													tooltip = "[CharacterWindow.GetCharacter.GetPlayerInteractionTooltip( 'offer_guardianship_interaction' )]"
+												}
+											}
+										}
+									}
+								}
+							}
+
+							blockoverride "min_width" {
+								min_width = 90
+							}
+
+							blockoverride "expand_left" {
+								expand = {}
+							}
+						}		
+
+						expand = {}
+						
+						# GUIX # DIARCH
+						vbox_character_row_item = {
+							name = "diarch"
+							datacontext = "[CharacterWindow.GetCharacter.GetDiarchy.GetDiarch]"
+							visible = "[CharacterWindow.GetCharacter.HasActiveDiarchy]"
+							layoutpolicy_vertical = expanding
+							margin_right = 8
+							blockoverride "gridbox" {
+								guix_portrait_head_small = {
+
+									blockoverride "portrait_button"
+									{
+										using = tooltip_ne
+									}
+									blockoverride "glow_visible"
+									{
+										visible = no
+									}
+								}
+							}
+
+							blockoverride "header_text"
+							{
+								text = "[CharacterWindow.GetCharacter.GetDiarchTitle|E]"
+								tooltip = "[diarch|E]"
+							}
+							blockoverride "expand_button_inside" {
+								visible = no
+							}
+							blockoverride "expand_right" {
+								expand = {}
+							}
+							blockoverride "min_width" {
+								min_width = 90
+							}
+						}
+					}
+				}
+
+				# GUIX # LOVERS
+				widget = {
+					name = "second_row"
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					minimumsize = { 0 112 }
+					maximumsize = { -1 112 }
+					scissor = yes
+
+					# GUIX # LOVERS OR CRUSHES
+					hbox = {
+						# GUIX # LOVERS
+						vbox_character_row_item = {
+							name = "lovers"
+							visible = "[CharacterWindow.GetCharacter.IsAdult]"
+							layoutpolicy_vertical = expanding
+
+							blockoverride "portrait_datamodel" {
+								datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) )]"
+							}
+
+							blockoverride "header_text"
+							{
+								text = "LOVERS_LABEL"
+							}
+
+							blockoverride "remaining_items"
+							{
+								visible = "[GreaterThan_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) ) ), '(int32)5' )]"
+								margin = { 167 }
+								text = "[GetNumberAbove_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) ) ), '(int32)5' )|=]"
+
+							}
+
+							blockoverride "expand_button_inside" {
+								visible = "[GreaterThan_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) ) ), '(int32)5' )]"
+								onclick = "[CharacterWindow.ToggleExpandedRelation( 'lovers' )]"
+							}
+							blockoverride "expand_left" {
+								expand = {}
+							}
+						}
+
+						# GUIX # CRUSHES
+						vbox_character_row_item = {
+							name = "crushes"
+							visible = "[Not(CharacterWindow.GetCharacter.IsAdult)]"
+							layoutpolicy_vertical = expanding
+
+							blockoverride "portrait_datamodel" {
+								datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'crush' ) )]"
+							}
+
+							blockoverride "header_text"
+							{
+								text = "CRUSHES_LABEL"
+							}
+
+							blockoverride "expand_button" {}
+							blockoverride "expand_left" {
+								expand = {}
+							}
+						}
+						expand = {}
+					}
+				}
+
+				# GUIX # FRIENDS & VICTIMS
+				widget = {
+					name = "third_row"
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					minimumsize = { 0 112 }
+					maximumsize = { -1 112 }
+					scissor = yes
+
+					hbox = {
+						# GUIX # FRIENDS
+						vbox_character_row_item = {
+							name = "friends"
+							layoutpolicy_vertical = expanding
+
+							blockoverride "portrait_datamodel" {
+								datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'friend' ) )]"
+							}
+
+							blockoverride "header_text"
+							{
+								text = "FRIENDS_LABEL"
+								align = left|nobaseline
+							}
+
+							blockoverride "remaining_items"
+							{
+								visible = "[GreaterThan_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'friend' ) ) ), '(int32)7' )]"
+								text = "[GetNumberAbove_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'friend' ) ) ), '(int32)7' )|=]"
+							}
+
+							blockoverride "expand_button_inside" {
+								visible = "[GreaterThan_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'friend' ) ) ), '(int32)7' )]"
+								onclick = "[CharacterWindow.ToggleExpandedRelation( 'friends' )]"
+							}
+							blockoverride "expand_left" {
+								expand = {}
+							}
+						}
+						expand = {}
+
+						# GUIX # VICTIMS
+						vbox_character_row_item = {
+							name = "victims"
+							visible = "[Not( CharacterWindow.GetCharacter.IsAdult )]"
+							layoutpolicy_vertical = expanding
+							margin_right = 8
+							blockoverride "portrait_datamodel" {
+								datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'victim' ) )]"
+							}
+
+							blockoverride "header_text"
+							{
+								text = "VICTIMS_LABEL"
+								align = right|nobaseline
+							}
+
+							blockoverride "expand_button" {}
+							blockoverride "expand_right" {
+								expand = {}
+							}
+						}
+					}
+					expand = {}
+				}				
+
+				# GUIX # RIVALS & BULLIES
+				widget = {
+					name = "fourth_row"
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					minimumsize = { 0 112 }
+					maximumsize = { -1 112 }
+					scissor = yes
+
+					hbox = {
+						# GUIX # RIVALS
+						vbox_character_row_item = {
+							name = "rivals"
+							layoutpolicy_vertical = expanding
+
+							blockoverride "portrait_datamodel" {
+								datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'rival' ) )]"
+							}
+
+							blockoverride "header_text"
+							{
+								text = "RIVALS_LABEL"
+								align = left|nobaseline
+							}
+
+							blockoverride "remaining_items"
+							{
+								visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetRelationsOfType( GetRelation( 'rival' ) )), '(int32)7' )]"
+								text = "[GetNumberAbove_int32( GetDataModelSize(CharacterWindow.GetRelationsOfType( GetRelation( 'rival' ) )), '(int32)7' )|=]"
+							}
+
+							blockoverride "expand_button_inside" {
+								visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetRelationsOfType( GetRelation( 'rival' ) )), '(int32)7' )]"
+								onclick = "[CharacterWindow.ToggleExpandedRelation( 'rivals' )]"
+							}
+							blockoverride "expand_left" {
+								expand = {}
+							}
+						}
+
+						expand = {}
+
+						# GUIX # BULLIES
+						vbox_character_row_item = {
+							name = "bullies"
+							visible = "[Not( CharacterWindow.GetCharacter.IsAdult )]"
+							layoutpolicy_vertical = expanding
+
+							margin_right = 8
+							blockoverride "portrait_datamodel" {
+								datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'bully' ) )]"
+							}
+
+							blockoverride "header_text"
+							{
+								text = "BULLIES_LABEL"
+								align = right|nobaseline
+							}
+
+							blockoverride "expand_button" {}
+
+							blockoverride "expand_right" {
+								expand = {}
+							}
+						}
+					}
+				}
+
+				expand = {}
+			}
+
+			### RIVALS EXPANDED
+			scrollbox = {
+				name = "rivals_expanded"
+				visible = "[CharacterWindow.IsRelationExpanded( 'rivals' )]"
+				size = { 100% 100% }
+
+				blockoverride "scrollbox_replace_vbox" {
+					vbox_character_row_relationship_item = {
+						name = "rivals"
+						margin_top = 10
+						spacing = 5
+
+
+						blockoverride "portrait_datamodel" {
+							datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'rival' ) )]"
+						}
+
+						blockoverride "header_text"
+						{
+							text = "RIVALS_LABEL"
+						}
+
+						blockoverride "remaining_items"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'rival' ) ) ), '(int32)7' )]"
+							margin = { 167 }
+							text = "[GetNumberAbove_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'rival' ) ) ), '(int32)7' )|=]"
+
+						}
+
+						blockoverride "expand_button_inside" {
+							onclick = "[CharacterWindow.ToggleExpandedRelation( 'rivals' )]"
+							down = "[CharacterWindow.IsRelationExpanded( 'rivals' )]"
+						}
+
+						blockoverride "gridbox_slots" {}
+					}
+				}
+			}
+
+			### FRIENDS EXPANDED
+			scrollbox = {
+				name = "friends_expanded"
+				visible = "[CharacterWindow.IsRelationExpanded( 'friends' )]"
+				size = { 100% 100% }
+
+				blockoverride "scrollbox_replace_vbox" {
+					vbox_character_row_relationship_item = {
+						name = "friends"
+						margin_top = 10
+						spacing = 5
+
+
+						blockoverride "portrait_datamodel" {
+							datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'friend' ) )]"
+						}
+
+						blockoverride "header_text"
+						{
+							text = "FRIENDS_LABEL"
+						}
+
+						blockoverride "expand_button_inside" {
+							onclick = "[CharacterWindow.ToggleExpandedRelation( 'friends' )]"
+							down = "[CharacterWindow.IsRelationExpanded( 'friends' )]"
+						}
+
+						blockoverride "gridbox_slots" {}
+					}
+				}
+			}
+
+			### LOVERS EXPANDED
+			scrollbox = {
+				name = "lovers_expanded"
+				visible = "[CharacterWindow.IsRelationExpanded( 'lovers' )]"
+				size = { 100% 100% }
+
+				blockoverride "scrollbox_replace_vbox" {
+					vbox_character_row_relationship_item = {
+						name = "friends"
+						margin_top = 10
+						spacing = 5
+
+						blockoverride "portrait_datamodel" {
+							datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) )]"
+						}
+
+						blockoverride "header_text"
+						{
+							text = "LOVERS_LABEL"
+						}
+
+						blockoverride "expand_button_inside" {
+							onclick = "[CharacterWindow.ToggleExpandedRelation( 'lovers' )]"
+							down = "[CharacterWindow.IsRelationExpanded( 'lovers' )]"
+						}
+
+						blockoverride "gridbox_slots" {}
+					}
+				}
+			}
+		}
+
+		##################################################
+		# GUIX # RELATIONS - Extended List View
+		##################################################
+		vbox_character_list = {
+			name = "relations_extended"
+			visible = "[GetVariableSystem.HasValue('guix_tab','relations_expanded')]"
+			
+			blockoverride "sort_buttons"
+			{
+				guix_hbox_list_dummy_buttons = {}
+			}
+
+			blockoverride "sort_dropdown" {}
+
+			blockoverride "scrollbox_margins" {
+				margin = { 2 5 }
+				margin_right = 10
+			}
+
+			blockoverride "container_implementation" {
+				# GUIX # WARD
+				container_implementation_vbox = {
+					blockoverride "datamodel" {
+						datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'ward' ) )]"
+					}
+				}		
+				# GUIX # GUARDIAN
+				container_implementation_vbox = {
+					blockoverride "datamodel" {
+						datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'guardian' ) )]"
+					}
+				}	
+				# GUIX # DIARCH (uses GUIX_character_list_relations since there is no GetRelation for Diarch)
+				container_implementation_vbox = {
+					blockoverride "datamodel" {
+						datamodel = "[Character.MakeScope.GetList( 'GUIX_character_list_relations' )]"
+					}
+				}	
+				# GUIX # LOVER
+				container_implementation_vbox = {
+					blockoverride "datamodel" {
+						datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) )]"
+					}
+				}
+				# GUIX # CRUSH
+				container_implementation_vbox = {
+					blockoverride "datamodel" {
+						datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'crush' ) )]"
+					}
+				}			
+				# GUIX # FRIEND
+				container_implementation_vbox = {
+					blockoverride "datamodel" {
+						datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'friend' ) )]"
+					}
+				}
+				# GUIX # RIVAL
+				container_implementation_vbox = {
+					blockoverride "datamodel" {
+						datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'rival' ) )]"
+					}
+				}
+				# GUIX # BULLY
+				container_implementation_vbox = {
+					blockoverride "datamodel" {
+						datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'bully' ) )]"
+					}
+				}
+				# GUIX # VICTIM
+				container_implementation_vbox = {
+					blockoverride "datamodel" {
+						datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'victim' ) )]"
+					}
+				}																			
+			}
+
+			blockoverride "scrollbox_empty_visibility"
+			{
+				layoutpolicy_vertical = expanding
+				visible = "[GetScriptedGui('guix_no_relations').IsShown(GuiScope.SetRoot(CharacterWindow.GetCharacter.MakeScope).End)]"
+				text = "NO_CHARACTERS_TO_SELECT"
+			}
+			
+			blockoverride "character_count" {}
+		}
+
+		##################################################
+		# GUIX # COURT - Default & Extended List Views
+		##################################################
+		vbox_character_list = {
+			name = "court"
+			visible = "[Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded'))]"
+			datacontext = "[CharacterWindow.GetCourt]"
+
+			blockoverride "sort_dropdown" {
+				dropdown_sort_characterlist = {
+					# unique name needed to distinct from vassal sort options
+					name = "court_sort_options"
+				}
+			}
+
+			blockoverride "scrollbox_margins" {
+				margin = { 1 5 }
+			}
+
+			blockoverride "container_implementation" {
+				# GUIX # Default Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_default"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','default'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# SHOW ALL
+							guix_widget_character_list_item = {
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+						}						
+					}
+				}
+
+				# GUIX # Council Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_council"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_employed'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS COUNCIL
+							guix_widget_character_list_item = {
+								visible = "[Character.IsCouncillor]"
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+							# NOT COUNCIL
+							guix_widget_character_list_item = {
+								visible = "[Not(Character.IsCouncillor)]"
+								alpha = 0.25
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								#blockoverride "vassals_only_icons" {}
+							}
+						}						
+					}
+				}				
+
+				# GUIX # Knights Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_knights"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_knights'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS KNIGHT
+							guix_widget_character_list_item = {
+								visible = "[Character.IsKnight]"
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+							# NOT KNIGHT
+							guix_widget_character_list_item = {
+								visible = "[Not(Character.IsKnight)]"
+								alpha = 0.25
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+						}						
+					}
+				}
+
+				# GUIX # Captives (Hostages & Prisoners) Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_captives"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_captives'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS CAPTIVE
+							guix_widget_character_list_item = {
+								visible = "[GetScriptedGui( 'guix_character_is_captive_of' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+							# NOT CAPTIVE
+							guix_widget_character_list_item = {
+								visible = "[Not(GetScriptedGui( 'guix_character_is_captive_of' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+						}						
+					}
+				}
+
+				# GUIX # Guests Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_guests"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_guests'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS GUEST
+							guix_widget_character_list_item = {
+								visible = "[Character.IsGuest]"
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+							# NOT GUEST
+							guix_widget_character_list_item = {
+								visible = "[Not(Character.IsGuest)]"
+								alpha = 0.25
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+						}						
+					}
+				}
+
+				# GUIX # Family Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_family"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_family'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS FAMILY
+							guix_widget_character_list_item = {
+								visible = "[GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+							# NOT FAMILY
+							guix_widget_character_list_item = {
+								visible = "[Not(GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								#blockoverride "vassals_only_icons" {}
+							}
+						}						
+					}
+				}
+
+				# GUIX # Relations Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_relations"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_relations'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS FAMILY
+							guix_widget_character_list_item = {
+								visible = "[GetScriptedGui( 'guix_has_relations' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+							# NOT FAMILY
+							guix_widget_character_list_item = {
+								visible = "[Not(GetScriptedGui( 'guix_has_relations' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								#blockoverride "vassals_only_icons" {}
+							}
+						}						
+					}
+				}				
+
+				# GUIX # Default
+				fixedgridbox = {
+					name = "characters_grid_deafult"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','default'))]"
+					
+					layoutpolicy_horizontal = expanding
+					expand = {}
+					
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							name = "default"
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								alpha = 1
+							}
+						}
+					}
+				}
+				
+				# GUIX # Council
+				fixedgridbox = {
+					name = "characters_grid_council"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_employed'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS COUNCIL OR COURT POSITION
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[GetScriptedGui( 'guix_character_is_employed' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+							}
+							# NOT COUNCIL OR COURT POSITION
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(GetScriptedGui( 'guix_character_is_employed' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+							}							
+						}
+					}
+				}
+
+				# GUIX # Knights
+				fixedgridbox = {
+					name = "characters_grid_knights"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_knights'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS KNIGHT
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Character.IsKnight]"
+								alpha = 1
+							}							
+							# NOT KNIGHT
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(Character.IsKnight)]"
+								alpha = 0.25
+							}										
+						}
+					}
+				}
+
+				# GUIX # Captives (Hostages & Prisoners)
+				fixedgridbox = {
+					name = "characters_grid_captives"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_captives'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS CAPTIVE
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[GetScriptedGui( 'guix_character_is_captive_of' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+							}							
+							# NOT CAPTIVE
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(GetScriptedGui( 'guix_character_is_captive_of' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+							}		
+						}
+					}
+				}
+
+				# GUIX # Guests
+				fixedgridbox = {
+					name = "characters_grid_guests"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_guests'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# NOT GUEST
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(Character.IsGuest)]"
+								alpha = 0.25
+							}
+							# IS GUEST
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Character.IsGuest]"
+								alpha = 1
+							}										
+						}
+					}
+				}
+				
+				# GUIX # Family
+				fixedgridbox = {
+					name = "characters_grid_family"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_family'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS FAMILY
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+							}
+							# NOT FAMILY							
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+							}		
+						}
+					}
+				}
+
+				# GUIX # Relations
+				fixedgridbox = {
+					name = "characters_grid_relations"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_relations'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS RELATION
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[GetScriptedGui( 'guix_is_any_relation' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+							}
+							# NOT RELATION							
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(GetScriptedGui( 'guix_is_any_relation' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+							}		
+						}
+					}
+				}				
+			}
+
+			blockoverride "character_count"
+			{
+				hbox = {
+					layoutpolicy_horizontal = growing
+					margin = { 15 0 }
+					margin_bottom = 5
+					spacing = 5
+
+					block "bottom_bar" {}
+
+					expand = {}
+
+					widget = {
+						size = { 20 15 }
+
+						warning_icon = {
+							size = { 20 20 }
+							visible = "[Not( CharacterSelectionList.IsAllDefault )]"
+							tooltip = "CHARACTER_FINDER_FILTER_SET"
+						}
+					}
+
+					text_single = {
+						name = "character_count"
+						datacontext = "[CharacterSelectionList]"
+						text = "CHARACTER_FINDER_COUNT"
+						default_format = "#low"
+					}
+				}
+			}
+		}
+
+		##################################################
+		# GUIX # VASSALS - Default & Extended List Views
+		##################################################
+		vbox_character_list = {
+			name = "vassals"
+			datacontext = "[CharacterWindow.GetVassals]"
+			visible = "[Or(GetVariableSystem.HasValue('guix_tab','vassals'), GetVariableSystem.HasValue('guix_tab','vassals_expanded'))]"
+
+			blockoverride "sort_dropdown" {
+				dropdown_sort_characterlist = {
+					# unique name needed to distinct from court sort options
+					name = "vassal_sort_options"
+				}
+			}
+
+			blockoverride "scrollbox_margins" {
+				margin = { 1 5 }
+			}
+
+			blockoverride "container_implementation" {
+				# GUIX # Default Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_default"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','vassals_expanded'),GetVariableSystem.HasValue('guix_vassals_highlight','default'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# SHOW ALL
+							guix_widget_character_list_item = {
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {
+										blockoverride "vassal_at_war_alliance" {
+											vassal_at_war_alliance = {}
+										}
+									}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "court_only_icons" {}
+							}
+						}						
+					}
+				}
+				
+				# GUIX # Council Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_council"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','vassals_expanded'),GetVariableSystem.HasValue('guix_vassals_highlight','show_council'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS COUNCIL
+							guix_widget_character_list_item = {
+								visible = "[Character.IsCouncillor]"
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {
+										blockoverride "vassal_at_war_alliance" {
+											vassal_at_war_alliance = {}
+										}
+									}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "court_only_icons" {}
+							}
+							# NOT COUNCIL
+							guix_widget_character_list_item = {
+								visible = "[Not(Character.IsCouncillor)]"
+								alpha = 0.25
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {
+										blockoverride "vassal_at_war_alliance" {
+											vassal_at_war_alliance = {}
+										}
+									}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "court_only_icons" {}
+							}
+						}						
+					}					
+				}				
+
+				# GUIX # Knights Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_knight"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','vassals_expanded'),GetVariableSystem.HasValue('guix_vassals_highlight','show_knights'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS KNIGHT
+							guix_widget_character_list_item = {
+								visible = "[Character.IsKnight]"
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {
+										blockoverride "vassal_at_war_alliance" {
+											vassal_at_war_alliance = {}
+										}
+									}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "court_only_icons" {}
+							}
+							# NOT KNIGHT
+							guix_widget_character_list_item = {
+								visible = "[Not(Character.IsKnight)]"
+								alpha = 0.25
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {
+										blockoverride "vassal_at_war_alliance" {
+											vassal_at_war_alliance = {}
+										}
+									}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "court_only_icons" {}
+							}
+						}						
+					}					
+				}
+
+				# GUIX # Family Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_family"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','vassals_expanded'),GetVariableSystem.HasValue('guix_vassals_highlight','show_family'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS FAMILY
+							guix_widget_character_list_item = {
+								visible = "[GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {
+										blockoverride "vassal_at_war_alliance" {
+											vassal_at_war_alliance = {}
+										}
+									}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "court_only_icons" {}
+							}
+							# NOT FAMILY
+							guix_widget_character_list_item = {
+								visible = "[Not(GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {
+										blockoverride "vassal_at_war_alliance" {
+											vassal_at_war_alliance = {}
+										}
+									}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "court_only_icons" {}
+							}
+						}						
+					}			
+				}
+
+				# GUIX # Relations Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_relations"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','vassals_expanded'),GetVariableSystem.HasValue('guix_vassals_highlight','show_relations'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS RELATION
+							guix_widget_character_list_item = {
+								visible = "[GetScriptedGui( 'guix_is_any_relation' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {
+										blockoverride "vassal_at_war_alliance" {
+											vassal_at_war_alliance = {}
+										}
+									}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+							# NOT RELATION
+							guix_widget_character_list_item = {
+								visible = "[Not(GetScriptedGui( 'guix_is_any_relation' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {
+										blockoverride "vassal_at_war_alliance" {
+											vassal_at_war_alliance = {}
+										}
+									}
+								}
+								blockoverride "traits_for_variable_list" {}
+								#blockoverride "vassals_only_icons" {}
+							}
+						}						
+					}
+				}
+
+				# GUIX # Default
+				fixedgridbox = {
+					name = "characters_grid_deafult"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_vassals_highlight','default'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							name = "default"
+							# SHOW ALL
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								alpha = 1
+								blockoverride "vassal_at_war_alliance" {
+									vassal_at_war_alliance = {}
+								}
+							}									
+						}
+					}
+				}
+
+				# GUIX # Council
+				fixedgridbox = {
+					name = "characters_grid_council"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_vassals_highlight','show_council'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS COUNCIL
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Character.IsCouncillor]"
+								alpha = 1
+								blockoverride "vassal_at_war_alliance" {
+									vassal_at_war_alliance = {}
+								}
+							}
+							# NOT COUNCIL				
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(Character.IsCouncillor)]"
+								alpha = 0.25
+								blockoverride "vassal_at_war_alliance" {
+									vassal_at_war_alliance = {}
+								}
+							}									
+						}
+					}
+				}
+
+				# GUIX # Knights
+				fixedgridbox = {
+					name = "characters_grid_knights"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_vassals_highlight','show_knights'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS KNIGHT
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Character.IsKnight]"
+								alpha = 1
+								blockoverride "vassal_at_war_alliance" {
+									vassal_at_war_alliance = {}
+								}
+							}
+							# NOT KNIGHT
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(Character.IsKnight)]"
+								alpha = 0.25
+								blockoverride "vassal_at_war_alliance" {
+									vassal_at_war_alliance = {}
+								}
+							}												
+						}
+					}
+				}
+				
+				# GUIX # Family
+				fixedgridbox = {
+					name = "characters_grid_family"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_vassals_highlight','show_family'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS FAMILY
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+								blockoverride "vassal_at_war_alliance" {
+									vassal_at_war_alliance = {}
+								}
+							}
+							# NOT FAMILY
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+								blockoverride "vassal_at_war_alliance" {
+									vassal_at_war_alliance = {}
+								}
+							}
+						}
+					}
+				}
+
+				# GUIX # Relations
+				fixedgridbox = {
+					name = "characters_grid_relations"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_vassals_highlight','show_relations'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS RELATION
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[GetScriptedGui( 'guix_is_any_relation' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+								blockoverride "vassal_at_war_alliance" {
+									vassal_at_war_alliance = {}
+								}
+							}
+							# NOT RELATION							
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(GetScriptedGui( 'guix_is_any_relation' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+								blockoverride "vassal_at_war_alliance" {
+									vassal_at_war_alliance = {}
+								}
+							}		
+						}
+					}
+				}
+			}
+
+			blockoverride "character_count"
+			{
+				hbox = {
+					layoutpolicy_horizontal = growing
+					margin = { 15 0 }
+					margin_bottom = 5
+					spacing = 5
+
+					block "bottom_bar" {}
+
+					expand = {}
+
+					widget = {
+						size = { 20 15 }
+
+						warning_icon = {
+							size = { 20 20 }
+							visible = "[Not( CharacterSelectionList.IsAllDefault )]"
+							tooltip = "CHARACTER_FINDER_FILTER_SET"
+						}
+					}
+
+					text_single = {
+						name = "character_count"
+						datacontext = "[CharacterSelectionList]"
+						text = "CHARACTER_FINDER_COUNT"
+						default_format = "#low"
+					}
+				}
+			}
+		}
+
+		##################################################
+		# GUIX # DIPLOMACY - Default
+		##################################################
+		widget = {
+			name = "diplomacy"
+			visible = "[GetVariableSystem.HasValue('guix_tab','diplomacy')]"
+			size = { 100% 100% }
+
+			using = Animation_Tab_Switch
+
+			vbox = {
+				scrollarea = {
+					layoutpolicy_vertical = expanding
+		
+					scrollbarpolicy_horizontal = always_off
+		
+					scrollbar_vertical = {
+						using = Scrollbar_Vertical
+					}
+
+					text_single = {
+						visible = "[IsDataModelEmpty( CharacterWindow.GetDiplomacyItems )]"
+						parentanchor = center
+						text = "GUIX_DIPLOMACY_NONE"
+						default_format = "#low;italic"
+					}
+					# GUIX # diplomacy scrollbox
+					##################################################
+					scrollwidget = {					
+						
+						fixedgridbox = {
+							name = "title_grid"
+							datamodel = "[CharacterWindow.GetDiplomacyItems]"
+							addcolumn = 590
+							addrow = 120
+							setitemsizefromcell = yes
+	
+							item = {
+								flowcontainer = {
+									scissor = yes
+									# GUIX # BACKGROUND
+									background = {
+										using = Background_Area_With_Header_Dark
+										margin = { 8 0 }
+										margin_left = 15
+	
+										using = Mask_Rough_Edges
+									}
+	
+									hbox = {
+										layoutpolicy_horizontal = expanding
+	
+										guix_diplomacy_list_item = {}
+									}															
+								}
+							}
+						}
+					}	
+				}
+			}
+		}
+
+		##################################################
+		# GUIX # DIPLOMACY - Extended List View
+		##################################################
+		widget = {
+			name = "diplomacy_expanded"
+			visible = "[GetVariableSystem.HasValue('guix_tab','diplomacy_expanded')]"
+			size = { 100% 100% }
+			vbox = {
+				layoutpolicy_vertical = expanding
+				layoutpolicy_horizontal = expanding
+	
+				scrollbox = {
+					layoutpolicy_vertical = expanding
+					layoutpolicy_horizontal = expanding				
+					using = Animation_Tab_Switch
+
+					text_single = {
+						visible = "[IsDataModelEmpty( CharacterWindow.GetDiplomacyItems )]"
+						parentanchor = center
+						text = "GUIX_DIPLOMACY_NONE"
+						default_format = "#low;italic"
+					}
+
+					blockoverride "scrollbox_content"
+					{
+						vbox = {
+							name = "diplomacy_items"
+							datamodel = "[CharacterWindow.GetDiplomacyItems]"
+							layoutpolicy_horizontal = expanding
+							margin_top = -10
+							margin_left = -10
+	
+							item = {
+								hbox = {
+									layoutpolicy_horizontal = expanding
+						
+									guix_diplomacy_list_item_expanded = {}
+									expand = {}
+								}
+							}
+						}
+					}
+				}			
+			}
+		}
+
+		##################################################
+		# GUIX # TITLES - Default & Extended List Views
+		##################################################
+		vbox = {
+			name = "titles_expanded"
+			visible = "[Or(GetVariableSystem.HasValue('guix_tab','titles'),GetVariableSystem.HasValue('guix_tab','titles_expanded'))]"
+			layoutpolicy_vertical = expanding
+			layoutpolicy_horizontal = expanding		
+
+			scrollbox = {
+				layoutpolicy_vertical = expanding
+				layoutpolicy_horizontal = expanding
+	
+				using = Animation_Tab_Switch
+	
+				blockoverride "scrollbox_content"
+				{
+					margin_left = -2
+					margin_top = 0
+	
+					fixedgridbox = {
+						name = "title_grid"
+						datamodel = "[CharacterWindow.GetTitles]"
+						addcolumn = 590
+						addrow = 120
+						setitemsizefromcell = yes
+		
+						item = {
+							flowcontainer = {
+								scissor = yes
+								# GUIX # BACKGROUND
+								background = {
+									using = Background_Area_With_Header_Dark
+									margin = { 8 0 }								
+		
+									using = Mask_Rough_Edges
+								}
+		
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									
+									# GUIX # custom title list
+									guix_title_list_item = {}
+								}															
+							}
+						}
+					}
+				}
+				expand = {}
+			}			
+
+		}
+
+		##################################################
+		# GUIX # CLAIMS - Default & Extended List Views
+		##################################################
+		vbox = {
+			name = "claims_expanded"
+			visible = "[Or(GetVariableSystem.HasValue('guix_tab','claims'),GetVariableSystem.HasValue('guix_tab','claims_expanded'))]"
+			layoutpolicy_vertical = expanding
+			layoutpolicy_horizontal = expanding
+
+			scrollbox = {
+				layoutpolicy_vertical = expanding
+				layoutpolicy_horizontal = expanding
+	
+				using = Animation_Tab_Switch
+	
+				blockoverride "scrollbox_content"
+				{
+					margin_top = 2
+					margin_left = -0
+	
+					fixedgridbox = {
+						name = "claim_grid"
+						datamodel = "[CharacterWindow.GetClaims]"
+						addcolumn = 590
+						addrow = 120
+						setitemsizefromcell = yes
+		
+						item = {
+							flowcontainer = {
+								scissor = yes
+								# GUIX # BACKGROUND
+								background = {
+									using = Background_Area_With_Header_Dark
+									margin = { 8 0 }
+	
+									using = Mask_Rough_Edges
+								}
+		
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									
+									# GUIX # custom title list
+									guix_claim_list_item = {}
+								}															
+							}
+						}
+					}
+				}
+			}
+		}
+
+		##################################################
+		# GUIX # TRAITS - Default & Extended List Views
+		##################################################
+		vbox = {
+			name = "traits_expanded"
+			visible = "[Or(GetVariableSystem.HasValue('guix_tab','traits'),GetVariableSystem.HasValue('guix_tab','traits_expanded'))]"
+			layoutpolicy_vertical = expanding
+			layoutpolicy_horizontal = expanding
+
+			scrollbox = {
+				layoutpolicy_vertical = expanding
+				layoutpolicy_horizontal = expanding
+
+				using = Animation_Tab_Switch
+	
+				blockoverride "scrollbox_content"
+				{
+					vbox = {
+						layoutpolicy_vertical = expanding
+						layoutpolicy_horizontal = expanding
+	
+						# GUIX # PERSONALITY TRAITS
+						##################################################
+						vbox = {
+							spacing = 5
+							datamodel = "[TraitArrays.GetPersonalityTraits]"
+							datacontext = "[CharacterWindow.GetTraitArrays]"
+							layoutpolicy_horizontal = expanding
+
+							margin_top = -10
+							margin_left = -10
+							item = {
+								hbox = {
+									size = { 580 70 }
+									layoutpolicy_horizontal = expanding
+									background = {
+										using = Background_Area_Dark
+										alpha = 0.75
+										margin = { 16 5 }
+									}
+
+									vbox = {
+										layoutpolicy_horizontal = expanding
+										layoutpolicy_vertical = expanding
+	
+										hbox = {
+											layoutpolicy_horizontal = expanding
+											layoutpolicy_vertical = expanding
+	
+											icon_trait = {
+												blockoverride "icon_size" {
+													size = { 70 70 }
+												}
+												blockoverride "glow_radius" {
+													glow_radius = 3
+												}
+											}
+	
+											hbox = {
+												layoutpolicy_horizontal = expanding
+												
+												vbox = {
+													layoutpolicy_horizontal = expanding
+													hbox = {
+														layoutpolicy_horizontal = expanding
+														text_single = {
+															text = "[Trait.GetNameNoTooltip(Character.Self)]"
+															default_format = "#high"
+															align = left|nobaseline
+															layoutpolicy_horizontal = expanding	
+														}											
+														expand = {}	
+														text_single  = {
+															text = "[Trait.GetTraitCategoryLabel]"
+															align = right|nobaseline
+															layoutpolicy_horizontal = expanding	
+														}
+													}
+													layoutpolicy_vertical = expanding
+													margin_left = 8
+								
+													hbox = {
+														layoutpolicy_horizontal = expanding	
+														text_multi = {
+															text = "[Trait.GetDescription( Character.Self )]"
+															autoresize = yes
+															align = left|nobaseline
+															max_width = 480
+															layoutpolicy_horizontal = expanding	
+														}
+														expand = {}
+													}
+													
+												}
+												expand = {}																					
+											}										
+										}
+									}
+									tooltip = "[Trait.GetFullDescription( Character.Self, Character.GetFaith )]"
+								}
+							}
+						}
+	
+						spacer = {
+							size = { 0 8 }
+						}
+	
+						# GUIX # TRAITS
+						##################################################
+						vbox = {
+							spacing = 5
+							datamodel = "[TraitArrays.GetTraits]"
+							datacontext = "[CharacterWindow.GetTraitArrays]"
+							layoutpolicy_horizontal = expanding
+							
+							margin_top = -2
+							margin_left = -10
+							item = {
+								
+								hbox = {
+									size = { 580 70 }
+									layoutpolicy_horizontal = expanding
+
+									background = {
+										using = Background_Area_Dark
+										alpha = 0.5
+										margin = { 16 5 }
+									}
+	
+									vbox = {
+										layoutpolicy_horizontal = expanding
+										layoutpolicy_vertical = expanding
+	
+										hbox = {
+											layoutpolicy_horizontal = expanding
+											layoutpolicy_vertical = expanding
+	
+											icon_trait = {
+												blockoverride "icon_size" {
+													size = { 70 70 }
+												}
+												blockoverride "glow_radius" {
+													glow_radius = 3
+												}
+											}
+	
+											hbox = {
+												layoutpolicy_horizontal = expanding
+												
+												vbox = {
+													layoutpolicy_horizontal = expanding
+													hbox = {
+														layoutpolicy_horizontal = expanding
+														text_single = {
+															text = "[Trait.GetNameNoTooltip(Character.Self)]"
+															default_format = "#high"
+															align = left|nobaseline
+															layoutpolicy_horizontal = expanding	
+														}											
+														expand = {}	
+														text_single  = {
+															text = "[Trait.GetTraitCategoryLabel]"
+															align = right|nobaseline
+															layoutpolicy_horizontal = expanding	
+														}
+													}
+													layoutpolicy_vertical = expanding
+													margin_left = 8
+								
+													hbox = {
+														layoutpolicy_horizontal = expanding	
+														text_multi = {
+															text = "[Trait.GetDescription( Character.Self )]"
+															autoresize = yes
+															align = left|nobaseline
+															max_width = 480
+															layoutpolicy_horizontal = expanding	
+														}
+														expand = {}
+													}
+													
+												}
+												expand = {}																					
+											}										
+										}
+									}
+									tooltip = "[Trait.GetFullDescription( Character.Self, Character.GetFaith )]"
+								}
+							}
+						}
+
+						expand = {}
+					}
+					vbox = {
+						layoutpolicy_vertical = expanding
+						datamodel = "[TraitArrays.GetPersonalityTraits]"
+						datacontext = "[CharacterWindow.GetTraitArrays]"					
+						text_single = {
+							visible = "[IsDataModelEmpty( TraitArrays.GetPersonalityTraits )]"
+							text = "GUIX_NO_TRAITS"
+							default_format = "#low;italic"
+							autoresize = yes
+						}
+					}
+				}
+			}			
+		}
+
+		##################################################
+		# GUIX # MODIFIERS - Default & Extended List Views
+		##################################################
+		scrollbox = {
+			name = "modifiers_expanded"
+			visible = "[Or(GetVariableSystem.HasValue('guix_tab','modifiers'),GetVariableSystem.HasValue('guix_tab','modifiers_expanded'))]"
+			size = { 100% 100% }
+			using = Animation_Tab_Switch			
+
+			blockoverride "scrollbox_content"
+			{
+				vbox = {
+					layoutpolicy_horizontal = expanding
+					datamodel = "[CharacterWindow.GetTimedModifiers]"					
+					margin_top = -10
+
+					item = {
+						vbox = {
+							layoutpolicy_horizontal = expanding							
+							hbox = {
+								layoutpolicy_horizontal = expanding
+								margin_right = 10
+								margin_top = 8
+								margin_left = -4
+
+								vbox = {
+									text_single = {
+										layoutpolicy_horizontal = expanding
+										text = "[ModifierItem.GetStaticModifier.GetName]"
+										default_format = "#high"									
+									}
+
+									textbox = {
+										layoutpolicy_horizontal = expanding
+										visible = "[ModifierItem.HasTooltipDataByTag('single_modifier')]"
+										datacontext = "[ModifierItem.GetSingleModifierTooltipData]"
+										max_width = 500
+										using = DefaultTooltipText
+										multiline = yes
+										text = "[TimedModifierSingleItem.GetDesc]"
+										alwaystransparent = no
+									}
+
+									vbox = {
+										visible = "[ModifierItem.HasTooltipDataByTag('preview_list')]"
+										datacontext = "[ModifierItem.GetPreviewList]"
+										layoutpolicy_horizontal = expanding
+		
+										textbox = {
+											layoutpolicy_horizontal = expanding
+											max_width = 500
+											using = DefaultTooltipText
+											multiline = yes
+											text = "[TimedModifierPreviewList.GetScaledDesc]"
+											alwaystransparent = no
+										}
+		
+										vbox = {
+											datamodel = "[TimedModifierPreviewList.GetItems]"
+											layoutpolicy_horizontal = expanding
+											max_width = 500
+		
+											item = {
+												vbox = {
+													layoutpolicy_horizontal = expanding
+		
+													text_single = {
+														layoutpolicy_horizontal = expanding
+														text = "[TimedModifierPreviewItem.GetTitle]"
+													}
+		
+													text_single = {
+														layoutpolicy_horizontal = expanding
+														text = "[TimedModifierPreviewItem.GetExpirationDate]"
+													}
+		
+													expand = {}
+												}
+											}
+										}
+									}
+		
+									vbox = {
+										layoutpolicy_horizontal = expanding
+										visible = "[ModifierItem.HasTooltipDataByTag('scaled_single_modifier')]"
+										datacontext = "[ModifierItem.GetScaledSingleModifierTooltipData]"
+		
+										textbox = {
+											layoutpolicy_horizontal = expanding
+											max_width = 500
+											using = DefaultTooltipText
+											multiline = yes
+											text = "[TimedModifierScaledSingleItem.GetDesc]"
+											alwaystransparent = no
+										}
+		
+										vbox = {
+											layoutpolicy_horizontal = expanding
+											datamodel = "[TimedModifierScaledSingleItem.GetEffectItems]"
+		
+											item = {
+												textbox = {
+													layoutpolicy_horizontal = expanding
+													max_width = 500
+													margin_top = 5
+													margin_left = 10
+													margin_right = 5
+													margin_bottom = 10
+													using = DefaultTooltipText
+													using = Background_Area
+													text = "[CString.GetString]"
+													alwaystransparent = no
+												}
+											}
+										}
+		
+										text_single = {
+											layoutpolicy_horizontal = growing
+											max_width = 500
+											text = "[TimedModifierScaledSingleItem.GetExpirationDate]"
+										}
+									}									
+								}
+
+								expand = {}
+
+								icon = {
+									size = { 60 60 }
+									texture = "[ModifierItem.GetIcon]"
+								}
+							}
+
+							spacer = {
+								size = { 2 10 }
+							}
+
+							divider_light = {
+								layoutpolicy_horizontal = expanding
+								# Don't show divider after the last item in the datamodel
+								visible = "[Not( EqualTo_int32( PdxGuiWidget.GetIndexInDataModel, Subtract_int32( GetDataModelSize( CharacterWindow.GetTimedModifiers ), '(int32)1' ) ) )]"
+							}					
+						}
+					}
+				}
+				vbox = {
+					layoutpolicy_vertical = expanding
+					text_single = {
+						visible = "[IsDataModelEmpty(CharacterWindow.GetTimedModifiers)]"
+						text = "CV_NO_MODIFIERS"
+						default_format = "#low;italic"
+						autoresize = yes
+					}
+				}
+			}
+		}
+	}
+	
+	##################################################
+	# GUIX # used for displaying portrait rows of SIBLINGS and CHILDREN and RELATIONS
+	##################################################	
+	type vbox_character_row_item = vbox {
+		# GUIX # the black header bar
+		widget = {
+			layoutpolicy_horizontal = expanding
+			size = { 0 25 }
+
+			block "expand_button" {
+				button_standard_hover = {
+					size = { 100% 100% }
+
+					block "expand_button_inside" {}
+				}
+			}
+
+			hbox = {
+				margin = { 10 0 }
+				block "min_width" {
+					min_width = 170
+				}
+				background = {
+					using = Text_Label_Background
+					alpha = 1
+					margin = { 0 -2 }
+				}
+
+				text_single = {
+					align = nobaseline
+					fontsize = 16
+
+					block "header_text"
+					{
+						raw_text = "#D NEEDS TEXT#!"
+					}
+				}
+
+				text_single = {
+					align = nobaseline
+					fontsize = 16
+
+					block "header_text_clickable"
+					{
+						visible = no
+					}
+				}
+			}
+		}
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			margin_top = -2
+
+			block "min_width" {
+				min_width = 170
+			}
+			using = Animation_Character_Window_Refresh
+			
+			# use with expand = {} to expand left
+			block "expand_right" {}
+
+			block "gridbox" {
+				fixedgridbox = {
+					flipdirection = yes
+					addcolumn = 85
+					addrow = 92
+					datamodel_wrap = 7
+
+					block "gridbox_slots"
+					{
+						maxverticalslots = 1
+					}
+
+					block "portrait_datamodel" {
+						datamodel = "[CharacterWindow.GetParents]"
+					}
+
+					item = {
+						guix_portrait_head_small = {
+							blockoverride "portrait_button"
+							{
+								using = tooltip_ne
+							}
+							blockoverride "glow_visible"
+							{
+								visible = no
+							}
+						}
+					}
+				}
+			}
+			block "find_partner" {}
+
+			# use with expand = {} to expand left
+			block "expand_left" {}
+		}
+		expand = {}
+	}
+
+	##################################################
+	# GUIX # used for displaying item contents of SIBLINGS and CHILDREN and RELATIONS
+	##################################################
+	type container_implementation_vbox = vbox {
+		block "datamodel" {}		
+		layoutpolicy_horizontal = expanding
+		item = {
+			widget = {
+				minimumsize = { 575 120 }
+				allow_outside = yes
+				guix_widget_character_list_item = {
+					datacontext = "[Scope.GetCharacter]"
+					blockoverride "traits_for_characterlistitem" {}
+					blockoverride "court_only_icons" {}
+					blockoverride "vassals_only_icons" {}
+				}
+			}
+		}	
+	}
+
+	# GUIX #: used for displaying character rows for SIBLINGS and CHILDREN
+	##################################################
+	type guix_vbox_character_row_item_family = vbox {
+		spacing = -3
+
+		guix_vbox_character_row_item_label = {}
+
+		hbox = {
+			using = Animation_Character_Window_Refresh
+
+			block "gridbox" {
+				fixedgridbox = {
+					flipdirection = yes
+					addcolumn = 85
+					addrow = 91
+					block "datamodel_wrap" {
+						datamodel_wrap = 7
+					}
+
+					block "gridbox_slots"
+					{
+						maxverticalslots = 1
+					}
+
+					block "portrait_datamodel" {
+						datamodel = "[CharacterWindow.GetParents]"
+					}
+
+					item = {
+						guix_portrait_head_small = {
+							blockoverride "portrait_button"
+							{
+								using = tooltip_ne
+							}
+							blockoverride "glow_visible"
+							{
+								visible = no
+							}
+						}
+					}
+				}
+			}
+
+			text_single = {
+				align = nobaseline
+				default_format = "#weak"
+				margin_top = 30
+				margin_bottom = 40
+
+				block "no_items" {
+					visible = no
+				}
+			}
+			
+			block "find_partner" {}
+		}
+	}
+
+	# GUIX #: button label used on character rows for (SIBLINGS and CHILDREN)
+	##################################################
+	type guix_vbox_character_row_item_label = widget {
+
+		layoutpolicy_horizontal = expanding
+		size = { 0 25 }
+		min_width = 85
+
+		block "expand_button" {
+			button_standard_hover = {
+				size = { 100% 100% }
+				
+				block "expand_button_inside" {}
+			}
+		}
+
+		hbox = {
+			layoutpolicy_vertical = expanding
+			block "item_label" {
+				name = "guix_header_labels"
+	
+				background = {
+					using = Text_Label_Background
+					alpha = 1
+					margin = { 10 2 }
+				}
+
+				# GUIX #: No Items Label
+				text_single = {
+					align = nobaseline
+					fontsize = 15
+					default_format = "#medium"
+	
+					block "label_items_default"
+					{
+						raw_text = "#D DEFAULT ITEM#!"
+					}
+				}
+				
+				# GUIX #: One Item Label
+				text_single = {
+					align = nobaseline
+					fontsize = 15
+					default_format = "#medium"
+
+					block "label_items_one"
+					{
+						raw_text = "#D ONE ITEM#!"
+					}
+				}
+				
+				# GUIX #: Many Items Label
+				text_single = {
+					align = nobaseline
+					fontsize = 15
+					default_format = "#medium"
+					
+					block "label_items_many"
+					{
+						raw_text = "#D MANY ITEMS#!"
+					}
+				}
+			}
+		}
+	}
+
+	####################################################################################################
+	# GUIX # DIPLOMACY - Everything below is the for the custom Diplomacy
+	####################################################################################################
+
+    # GUIX # custom diplomacy list
+    ##################################################
+    type guix_diplomacy_list_item = widget {
+        datacontext = "[DiplomacyItem.GetTargetCharacter]"
+        size = { 590 120 }
+		scissor = yes
+
+        vbox = {
+            # GUIX # SHARED CONTENTS (same for default and extended)
+            ##################################################
+            guix_diplomacy_contents = {
+                layoutpolicy_horizontal = expanding
+            }
+
+            # GUIX # guix_hud_frame.dds
+            hbox = {
+                margin_top = 0
+                alpha = 0.75
+                widget = {
+                    size = { 590 8 }
+                    background = {
+                    texture = "gfx/interface/skinned/guix_hud_frame.dds"
+                    }
+                }
+            } 
+        }
+    }
+
+    # GUIX # custom diplomacy list expanded
+    ##################################################
+    type guix_diplomacy_list_item_expanded = vbox {
+        datacontext = "[DiplomacyItem.GetTargetCharacter]"
+        #scissor = yes
+        
+        hbox = {
+            layoutpolicy_horizontal = expanding
+
+            vbox = {
+                layoutpolicy_vertical = expanding
+                minimumsize = { 590 0 }
+                
+                # GUIX # BACKGROUND
+                background = {
+                    using = Background_Area_With_Header
+                    margin = { 0 8 }
+                    margin_left = 15
+    
+                    using = Mask_Rough_Edges
+                    
+                }
+    
+                # GUIX # SHARED CONTENTS (same for default and extended)
+                ##################################################
+                guix_diplomacy_contents = {
+                    layoutpolicy_horizontal = expanding
+                }
+
+                # GUIX # expanded lower section
+                ##################################################
+                vbox = {
+                    layoutpolicy_horizontal = expanding
+                    margin_right = 15
+
+                    spacer = {
+                        size = { 0 10 }
+                    }
+
+                    text_multi = {
+                        visible = "[Not(DiplomacyItem.HasReasonCharacters)]"
+                        text = "[DiplomacyItem.GetInfo]"
+                        layoutpolicy_horizontal = expanding
+                        autoresize = yes
+                        max_width = 560
+                    }
+    
+                    hbox = {
+                        margin_left = 10
+                        layoutpolicy_horizontal = expanding
+                        text_multi = {
+                            visible = "[DiplomacyItem.HasReasonCharacters]"
+                            text = "[DiplomacyItem.GetInfo]"
+                            autoresize = yes
+                            max_width = 390
+                        }
+                        
+                        expand = {}
+
+                        hbox = {
+                            name = "reason_characters"
+                            visible = "[DiplomacyItem.HasReasonCharacters]"
+        
+                            guix_portrait_head_small = {
+                                name = "reason_character_left"
+                                datacontext = "[DiplomacyItem.GetLeftReasonCharacter]"
+                                blockoverride "opinion_box" {}
+                                blockoverride "status_icons" {}
+                            }
+        
+                            guix_portrait_head_small = {
+                                name = "reason_character_right"
+                                datacontext = "[DiplomacyItem.GetRightReasonCharacter]"
+                                blockoverride "opinion_box" {}
+                                blockoverride "status_icons" {}
+        
+                                blockoverride "portrait_transformation"
+                                {
+                                    portrait_scale = { -1 1 }
+                                    portrait_offset = { 1 0 }
+                                }
+                            }
+                        }
+                    }
+                }
+                # GUIX # guix_hud_frame.dds
+                hbox = {
+                    margin_top = 2
+                    margin_left = -10
+                    alpha = 0.75
+                    widget = {
+                        size = { 590 8 }
+                        background = {
+                        texture = "gfx/interface/skinned/guix_hud_frame.dds"
+                        }
+                    }
+                }
+                expand = {}
+            }
+            expand = {}
+        }
+    }
+
+    # GUIX # SHARED CONTENTS (same for default and extended)
+    ##################################################
+    type guix_diplomacy_contents = vbox {
+        layoutpolicy_vertical = expanding
+        margin_left = 5
+
+        expand = {}
+
+        # GUIX # BACKGROUND
+        background = {
+            using = Background_Area_With_Header
+            margin = { 8 2 }
+            margin_left = 15
+
+            using = Mask_Rough_Edges
+            
+        }
+
+        # GUIX # NAME
+        ##################################################
+        guix_diplomacy_name = {
+            margin_left = 8
+        }
+
+        # GUIX # EVERYTHING WRAP
+        ##################################################
+        hbox = {
+            layoutpolicy_horizontal = expanding
+            #scissor = yes
+
+            # GUIX # PORTRAIT
+            guix_portrait_head_small = {}
+       
+            # GUIX # CONTENTS
+            ##################################################
+            hbox = {
+                layoutpolicy_horizontal = expanding
+
+                # GUIX # VASSAL ICONS - ALWAYS SHOWING
+                block "vassals_only_icons" {
+                    vbox = {
+                        name = "VASSAL ICONS"
+                        layoutpolicy_vertical = expanding
+
+                        # GUIX # COA | RULER TYPE | REALM SIZE | DOMAIN LIMIT | MILITARY STRENGTH
+                        hbox = {
+                            layoutpolicy_horizontal = expanding
+
+                            ### COA
+                            widget = {
+                                size = { 50 50 }
+
+                                coa_house_small = {
+                                    datacontext = "[Character.GetHouse]"
+                                    parentanchor = center
+                                    scale = 0.8
+                                }
+                            }           
+                            divider_light = {
+                                size = { 3 40 }
+                            }
+                            spacer = {
+                                size = { 5 0 }
+                            }
+                            hbox = {
+                                layoutpolicy_horizontal = expanding
+                                spacing = 5
+                                # GUIX # IS PLAYER STAR
+                                icon = {
+                                    name = "guix_player"
+                                    visible = "[Character.IsPlayer]"
+                                    size = { 30 30 }
+                                    texture = "gfx/interface/icons/portraits/me.dds"
+                                    tooltip = "FRAME_RELATION_ME"
+                                }
+                                # GUIX # RULER TYPE
+                                container = {
+                                    icon = {
+                                        datacontext = "[GetScriptedGui('guix_warlike')]"
+                                        visible = "[And( ScriptedGui.IsShown( GuiScope.SetRoot( DiplomacyItem.GetTargetCharacter.MakeScope ).End), Not(Character.IsPlayer) ))]"
+                                        texture = "gfx/interface/icons/vassal_stances/warlike.dds"
+                                        size = { 30 30 }
+                                        tooltip = "game_concept_ai_warlike_personality_desc"
+                                    }
+                                    icon = {
+                                        datacontext = "[GetScriptedGui('guix_cautious')]"
+                                        visible = "[And( ScriptedGui.IsShown( GuiScope.SetRoot( DiplomacyItem.GetTargetCharacter.MakeScope ).End), Not(Character.IsPlayer) ))]"
+                                        texture = "gfx/interface/icons/vassal_stances/cautious.dds"
+                                        size = { 30 30 }
+                                        tooltip = "game_concept_ai_cautious_personality_desc"
+                                    }							
+                                    icon = {
+                                        datacontext = "[GetScriptedGui('guix_economical_boom')]"
+                                        visible = "[And( ScriptedGui.IsShown( GuiScope.SetRoot( DiplomacyItem.GetTargetCharacter.MakeScope ).End), Not(Character.IsPlayer) ))]"
+                                        texture = "gfx/interface/icons/vassal_stances/builder.dds"
+                                        size = { 30 30 }
+                                        tooltip = "game_concept_ai_economical_boom_personality_desc"
+                                    }		
+                                    icon = {
+                                        datacontext = "[GetScriptedGui('guix_unpredictable')]"
+                                        visible = "[And( ScriptedGui.IsShown( GuiScope.SetRoot( DiplomacyItem.GetTargetCharacter.MakeScope ).End), Not(Character.IsPlayer) ))]"
+                                        texture = "gfx/interface/icons/vassal_stances/unpredictable.dds"
+                                        size = { 30 30 }
+                                        tooltip = "game_concept_ai_economical_unpredictable_personality_desc"
+                                    }
+                                }									
+                                # GUIX # REALM SIZE
+                                vbox = {
+                                    spacing = -8
+                                    text_single = {
+                                        text = "GUIX_REALM_WINDOW_SIZE_ICON"
+                                        tooltip = "REALM_WINDOW_SIZE_TT"
+                                        align = nobaseline
+                                    }
+                                    text_single = {
+                                        text = "GUIX_REALM_WINDOW_SIZE_NUMBER"
+                                        tooltip = "REALM_WINDOW_SIZE_TT"
+                                        align = nobaseline
+                                    }
+                                }
+                                # GUIX # DOMAIN
+                                hbox = {
+                                    icon = {
+                                        name = "domain_icon"
+                                        size = { 30 30 }
+                                        texture = "gfx/interface/icons/icon_domain.dds"
+                                        tooltip = "[Character.GetDomainLimitTooltip]"
+                                    }
+
+                                    text_single = {
+                                        name = "domain_limit"
+                                        text = "[Character.GetDomainSize]/[Character.GetDomainLimit]"
+                                        default_format = "#high"
+                                        align = center|nobaseline
+                                        tooltip = "[Character.GetDomainLimitTooltip]"
+                                    }
+                                }																
+                                # GUIX # MILITARY STRENGTH
+                                hbox = {
+                                    name = "MILITARY STRENGTH"
+                                    spacing = 3
+                                    tooltip = "GUIX_MILITARY_STRENGTH"
+                                    icon = {
+                                        size = { 30 30 }
+                                        texture = "gfx/interface/icons/icon_soldier.dds"
+                                    }
+
+                                    text_single = {
+                                        text = "[Character.GetMilitaryStrengthText]"
+                                        align = nobaseline
+                                        default_format = "#high"
+                                    }
+                                } 
+                                expand = {}                               
+                            }                      
+                        }
+
+                        hbox = {
+                            name = "RELATION TO"
+                            layoutpolicy_horizontal = expanding
+                            margin_left = 5
+                            text_single = {
+                                text = "[Character.GetRelationToString(CharacterWindow.GetCharacter)]"
+                                tooltip = "EXTENDED_RELATIONS_TOOLTIP"
+                                #default_format = "#low"
+                                autoresize = yes
+                                max_width = 300
+                            }
+                            expand = {}
+                        }							
+                    }								
+                }
+                expand = {}
+            }
+
+            # GUIX # REALM FLAG BACKGROUND
+            widget = {
+                parentanchor = top|left
+                name = "realm_coa_background"
+                minimumsize = { 100 90 }
+
+                coat_of_arms_icon = {
+                    datacontext = "[Character.GetDynasty]"
+                    parentanchor = top|right
+                    position = { 8 -30 }
+                    size = { 180 140 }
+    
+                    coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)256','(int32)256')]"
+                    coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)256','(int32)256')]"
+                    coat_of_arms_mask = "gfx/interface/frontend/mask_coa_flag.dds"
+    
+                    modify_texture = {
+                        texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+                        blend_mode = overlay
+                        spritetype = corneredTiled
+                        alpha = 0.25
+                    }
+                    modify_texture = {
+                        texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+                        blend_mode = alphamultiply
+                        alpha = 1
+                    }
+                }
+
+                # GUIX # DIPLOMACY COA / STRUGGLE ICON
+                hbox = {
+                    margin_left = -70
+                    guix_diplomacy_icon = {}
+                }
+            }            
+        }
+    }
+
+    # GUIX # guix_diplomacy_icon
+    ##################################################
+    type guix_diplomacy_icon = container {
+        onmousehierarchyenter = "[DiplomacyItem.MouseEnter]"
+        onmousehierarchyleave = "[DiplomacyItem.MouseLeave]"
+        # GUIX # show "liege" icon if diplomacy item character is a vassal of the court owner
+        icon = {
+            datacontext = "[GetScriptedGui('guix_character_is_liege_of')]"
+            visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End )]"
+            parentanchor = bottom|hcenter
+            #position = { 0 0 }
+            #size = { 60 60 }
+            position = { 0 -5 }
+            size = { 90 90 }
+            texture = "gfx/interface/icons/icon_liege.dds"
+            tooltip = "[Character.GetRelationToString( CharacterWindow.GetCourtOwner )]"
+        }        # GUIX # show "vassal" icon if diplomacy item character is a vassal of the court owner
+        icon = {
+            datacontext = "[GetScriptedGui('guix_character_is_vassal_of')]"
+            visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End )]"
+            #parentanchor = bottom|hcenter
+            position = { 0 -5 }
+            size = { 90 90 }
+            texture = "gfx/interface/icons/icon_vassal.dds"
+            tooltip = "[Character.GetRelationToString( CharacterWindow.GetCourtOwner )]"
+        }
+        button = {
+            visible = "[Not(DiplomacyItem.IsStruggle)]"
+            parentanchor = top|hcenter
+            texture = "gfx/interface/icons/diplomatic_icons.dds"
+            frame = "[DiplomacyItem.GetDiplomacyFrame]"
+            framesize = { 120 120 }
+            size = { 70 70 }
+            tooltip = "[DiplomacyItem.GetTooltip]"
+            onclick = "[DiplomacyItem.OnClick]"
+
+            state = {
+                name = _mouse_hierarchy_enter
+                start_sound = {
+                    soundeffect = "event:/SFX/UI/Generic/sfx_ui_generic_icon_pointer_over"
+                }
+            }     
+            text_single = {
+                name = "warscore"
+                visible = "[DiplomacyItem.HasWarScore]"
+                parentanchor = top|hcenter
+                position = { 0 15 }
+                text = "[DiplomacyItem.GetWarScoreFraction|0%=+]"
+                fontsize = 16
+            }        
+        }
+
+        button = {
+            datacontext = "[DiplomacyItem.GetStruggle]"
+            visible = "[DiplomacyItem.IsStruggle]"
+            position = { 20 5 }
+            size = { 50 60 }
+            onclick = "[DiplomacyItem.OnClick]"
+
+            datacontext = "[DiplomacyItem.GetTargetCharacter]"
+            tooltipwidget = struggle_tooltip;
+            using = tooltip_es
+            tooltip_offset = { 0 22 }
+
+			# GUIX # Legacy of Persia 1.11 - "struggle icon" widget was aadded to window_character.gui
+			widget_struggle_icon = {}
+        }
+    }
+
+    # GUIX # guix_diplomacy_name
+    ##################################################
+    type guix_diplomacy_name = hbox {
+        name = "BACKGROUND | NAME | SKILLS"
+        datacontext = "[DiplomacyItem.GetTargetCharacter]"
+        layoutpolicy_horizontal = expanding
+        minimumsize = { -1 25 }
+        margin_left = 5
+
+        # GUIX # ATTACKING DIPLOMACY CHARACTER
+        hbox = {
+            datacontext = "[GetScriptedGui('guix_diplomacy_attacking')]"
+            visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End )]"
+            text_single = {
+                text = "GUIX_DIPLOMACY_ATTACKING"
+                align = bottom
+            }
+        }
+        
+
+        # GUIX # DEFENDING AGAINST DIPLOMACY CHARACTER
+        hbox = {
+            datacontext = "[GetScriptedGui('guix_diplomacy_defending')]"
+            visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End )]"
+            text_single = {
+                text = "GUIX_DIPLOMACY_DEFENDING"
+                align = bottom
+            }
+        }
+
+        # GUIX # ALLIED TO DIPLOMACY CHARACTER
+        hbox = {
+            datacontext = "[GetScriptedGui('guix_diplomacy_ally')]"
+            visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End )]"
+            text_single = {
+                text = "GUIX_DIPLOMACY_ALLIANCE"
+                align = bottom
+            }
+        }
+
+        # GUIX # TRUCE WITH DIPLOMACY CHARACTER
+        hbox = {
+            datacontext = "[GetScriptedGui('guix_diplomacy_truce')]"
+            visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End )]"
+            text_single = {
+                text = "GUIX_DIPLOMACY_TRUCE"
+                align = bottom
+            }
+        }
+
+        # GUIX # RAIDING DIPLOMACY CHARACTER (reversed scope of raided by)
+        hbox = {
+            datacontext = "[GetScriptedGui('guix_diplomacy_raids')]"
+            visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End )]"
+            text_single = {
+                text = "GUIX_DIPLOMACY_RAIDING"
+                align = bottom
+            }
+        }
+
+        # GUIX # RAIDED BY DIPLOMACY CHARACTER (reversed scope of raiding)
+        hbox = {
+            datacontext = "[GetScriptedGui('guix_diplomacy_raids')]"
+            visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( DiplomacyItem.GetTargetCharacter.MakeScope ).AddScope('target', CharacterWindow.GetCharacter.MakeScope ).End )]"
+            text_single = {
+                text = "GUIX_DIPLOMACY_RAIDED"
+                align = bottom
+            }
+        }         
+
+        # GUIX # STRUGGLE - INVOLVED
+        hbox = {
+            datacontext = "[DiplomacyItem.GetStruggle]"
+            visible = "[Struggle.IsInvolvedCharacter(Character.Self)]"
+            text_single = {
+                datacontext = "[StrugglePhase.GetStruggle]"
+                text = "GUIX_STRUGGLE_INVOLVED"
+                align = bottom
+            }
+            button = {
+                datacontext = "[StrugglePhase.GetStruggle]"
+                onclick = "[DiplomacyItem.OnClick]"
+                tooltipwidget = struggle_tooltip
+                text = "GUIX_STRUGGLE"
+                default_format = "#clickable"
+                align = bottom
+            }
+        }
+
+        # GUIX # STRUGGLE - INTERLOPER
+        hbox = {
+            margin_left = 5
+            margin_right = -4
+            datacontext = "[DiplomacyItem.GetStruggle]"
+            visible = "[Struggle.IsInterloperCharacter(Character.Self)]"
+            text_single = {
+                datacontext = "[StrugglePhase.GetStruggle]"
+                text = "GUIX_STRUGGLE_INTERLOPER"
+                align = bottom
+            }
+            button = {
+                datacontext = "[StrugglePhase.GetStruggle]"
+                onclick = "[DiplomacyItem.OnClick]"
+                tooltipwidget = struggle_tooltip
+                text = "GUIX_STRUGGLE"
+                default_format = "#clickable"
+                align = bottom
+            }
+        }
+
+        # GUIX # NAME
+        text_single = {
+            visible = "[Not(DiplomacyItem.IsStruggle)]"
+            margin_left = 4
+            text = "[Character.GetUINameNoTooltip]"
+            using = Font_Size_Small
+            autoresize = yes
+            align = bottom
+            max_width = 460
+        }
+        expand = {}     
+    }
+}
+	

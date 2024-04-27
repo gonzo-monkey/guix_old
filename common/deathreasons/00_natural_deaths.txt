@@ -1,0 +1,3 @@
+﻿# GUIX # moved all deaths into 00_all_deaths.txt
+# GUIX # this file needs to exist and be empty otherwise
+# GUIX # the game will read from it's vanilla equivilent

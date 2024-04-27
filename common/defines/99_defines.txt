@@ -1,0 +1,4 @@
+﻿NCharacter = {
+	MAX_HEIR_TO_SHOWN = 21
+	# How many "Heir To" titles should we show?
+}

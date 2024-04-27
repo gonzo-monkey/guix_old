@@ -1,0 +1,87 @@
+﻿# GUIX # FAMILY LIST
+##################################################
+GUIX_list_builder_spouses = {
+	scope = character
+
+	effect = {
+		clear_variable_list = GUIX_character_list_spouses
+
+		if = {
+			limit = {
+				any_spouse = { count >= 1 }		
+			}
+			# GUIX # add spouse...
+			every_spouse = {
+				root = {
+					add_to_variable_list = {
+						name = GUIX_character_list_spouses
+						target = prev
+					}
+				}
+			}
+		}
+		else = {
+			limit = {
+				is_betrothed = yes			
+			}
+			# GUIX # add betrothed...
+			betrothed = {
+				root = {
+					add_to_variable_list = {
+						name = GUIX_character_list_spouses
+						target = prev
+					}
+				}	
+			}
+		}		
+	}
+}
+
+GUIX_list_builder_relations = {
+	scope = character
+	effect = {
+		clear_variable_list = GUIX_character_list_relations
+
+		if = {
+			limit = {
+				has_diarchy_active_parameter = diarchy_is_regency
+			}
+			# GUIX # check if any family members are regents
+			every_close_or_extended_family_member = {
+				limit = {
+					is_diarch_of_target = root
+				}
+				root = {
+					add_to_variable_list = {
+						name = GUIX_character_list_relations
+						target = prev
+					}
+				}
+			}
+			# GUIX # check if any spouses are regents
+			every_spouse = {
+				limit = {
+					is_diarch_of_target = root
+				}
+				root = {
+					add_to_variable_list = {
+						name = GUIX_character_list_relations
+						target = prev
+					}
+				}
+			}
+			# GUIX # check if any vassals are regents
+			every_vassal_or_below = {
+				limit = {
+					is_diarch_of_target = root
+				}
+				root = {
+					add_to_variable_list = {
+						name = GUIX_character_list_relations
+						target = prev
+					}
+				}
+			}	
+		}			
+	}	
+}

@@ -1,0 +1,1103 @@
+####################################################################################################
+# GUIX # CUSTOM LISTS
+####################################################################################################
+
+types Lists
+{
+    # GUIX # TRAITS & MODIFIERS SCROLL
+	# referenced in guix_character_window_2_info.gui
+    ####################################################################################################
+	type guix_hbox_traits_list = hbox {
+
+		scrollarea = {
+			size = { 472 80 }
+	
+			scrollbarpolicy_vertical = always_off
+			scrollbarpolicy_horizontal = as_needed
+			
+			scrollbar_horizontal = {
+				scrollbar = {
+					name = "horizontal_scrollbar"
+					size = { 12 12 }
+					wheelstep = 30
+					direction = horizontal
+			
+					track = {
+						button = {
+							size = { 12 12 }
+							gfxtype = buttongfx
+							
+							texture = "gfx/interface/scrollbars/scrollbar_track_horizontal.dds"
+							spriteType = Corneredtiled
+							spriteborder = { 3 0 }
+							effectname = "NoHighlight"
+							intersectionmask = yes
+							# GUIX # set alpha to 1 to see scroll track (1 of 2)
+							alpha = 0
+						}
+						
+					}
+			
+					slider = {
+						button = {
+							gfxtype = framedbuttongfx
+							effectname = "NoHighlight"
+
+							texture = "gfx/interface/scrollbars/scrollbar_slider_horizontal.dds"
+							spriteType = Corneredtiled
+							spriteborder = { 3 0 }
+							framesize = { 40 12 }
+							minimumsize = { 15 -1 }
+							# GUIX # set alpha to 1 to see scroll bar (2 of 2)
+							alpha = 0
+
+							upframe = 1
+							overframe = 2
+							downframe = 2
+			
+							intersectionmask = yes
+							oversound = "event:/SFX/UI/Generic/sfx_ui_generic_icon_pointer_over"
+			
+							state = {
+								name = _mouse_press
+								start_sound = {
+									soundeffect = "event:/SFX/UI/Generic/sfx_ui_generic_icon_select"
+								}
+							}
+			
+							state = {
+								name = _mouse_release
+								start_sound = {
+									soundeffect = "event:/SFX/UI/Generic/sfx_ui_generic_icon_select"
+								}
+							}
+						}
+					}
+			
+					dec_button = {
+						button = {
+						}
+					}
+			
+					inc_button = {
+						button = {
+						}
+					}
+				}
+			}
+
+			# GUIX # TRAITS & MODIFIERS
+			##################################################
+			scrollwidget = {
+				
+				# GUIX # ANY PERSONALITY & ANY MODIFIERS (ALL TRAITS)
+				# This is the fallback option that shows everything in small
+				##################################################					
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					hbox = {					
+						# GUIX # PERSONALITY TRAITS						
+						fixedgridbox = {
+							name = "personality_traits"
+							datamodel = "[TraitArrays.GetPersonalityTraits]"
+							minimumsize = { 70 70 }
+							
+							flipdirection = yes
+							addcolumn = 70
+							addrow = 70
+							maxhorizontalslots = 4
+							datamodel_wrap = 4
+							maxverticalslots = 1
+							
+							item = {
+								button_group = {
+									onclick = "[GetVariableSystem.Set('guix_tab','traits')]"
+									icon_trait = {
+										blockoverride "icon_size"
+										{
+											size = { 70 70 }
+										}
+									}
+								}
+							}
+						}
+					}				
+
+					# GUIX # TRAITS
+					##################################################
+					hbox = {
+						datacontext = "[CharacterWindow.GetTraitArrays]"
+						fixedgridbox = {
+							datamodel = "[TraitArrays.GetTraits]"
+							addcolumn = 35
+							addrow = 35
+							datamodel_wrap = 2
+							maxhorizontalslots = 30
+							maxverticalslots = 2
+
+							using = Animation_Character_Window_Refresh
+
+							item = {
+								button_group = {
+									onclick = "[GetVariableSystem.Set('guix_tab','traits')]"
+									icon_trait = {
+										blockoverride "icon_size"
+										{
+											size = { 40 40 }
+										}
+									}
+								}
+							}
+						}
+					}
+
+					# GUIX # DIVIDER - TRAITS | MODIFIERS
+					hbox = {
+						visible = "[Not(IsDataModelEmpty( CharacterWindow.GetTimedModifiers ))]"
+						margin_left = 5
+						margin_right = 5
+						divider_light = {		
+							size = { 3 70 }
+							using = Color_Grey
+							alpha = 0.75
+						}
+					}
+					# GUIX # MODIFIERS
+					##################################################
+					hbox = {
+						fixedgridbox = {
+							datamodel = "[CharacterWindow.GetTimedModifiers]"
+							addcolumn = 35
+							addrow = 35
+							datamodel_wrap = 2
+							maxhorizontalslots = 30
+							maxverticalslots = 2
+
+							using = Animation_Character_Window_Refresh
+
+							item = {
+								button_group = {
+									onclick = "[GetVariableSystem.Set('guix_tab','modifiers')]"
+									modifier_item_icon = {
+										size = { 35 35 }
+										blockoverride "input_info_text" {
+											text = "CHARACTER_WINDOW_MODIFIERS"
+										}
+									}
+								}				
+							}
+						}
+					}
+					expand = {}					
+				}
+			}
+		}
+		expand = {}
+	}
+
+	####################################################################################################
+	# GUIX # Custom Character List Items for Character Window Expanded views of Family, Relations, Court & Vassals
+	####################################################################################################
+	type guix_widget_character_list_item = hbox {
+		datacontext = "[CharacterListItem.GetCharacter]"
+		
+		# GUIX # show black bars background if PRISONER
+		background = {
+			visible = "[Character.IsImprisoned]"
+			using = Background_Area
+			color = { 0 0 0 0.7 }
+			texture = "gfx/interface/component_masks/mask_header_lines.dds"
+			using = Mask_Rough_Edges
+			spriteType = Corneredstretched
+			spriteborder = { 10 10 }
+		}	
+
+		block "divider" {}
+
+		block "widget" {}
+
+		vbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+
+			background = {
+				using = Background_Area_With_Header_Dark
+				alpha = 1
+			}
+
+			# GUIX # NAME | AGE | HEALTH | SKILLS
+			hbox = {
+				name = "TOP SECTION"
+				layoutpolicy_horizontal = expanding
+				margin = { 0 3 }
+				margin_left = 5
+				margin_right = 5
+
+				#background = {
+				#	using = Background_Area_Characterlist
+				#}
+
+				background = {
+					using = Background_Area_Dark
+					margin_right = 50
+					alpha = 0.75
+					modify_texture = {
+						texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+						blend_mode = alphamultiply
+						alpha = 1
+						rotate_uv = 90
+						mirror = vertical
+					}
+				}
+
+				### NAME
+				hbox = {					
+					layoutpolicy_horizontal = expanding
+					margin_left = 5
+					text_single = {
+						using = Font_Size_Medium
+						layoutpolicy_horizontal = expanding
+						align = nobaseline
+						text = "GUIX_LIST_NAME"
+						autoresize = no
+						fontsize_min = 14
+					}
+					expand = {}
+				}
+
+				hbox = {
+					using = character_age_or_death_text
+				}
+
+				### SKILLS				
+				#hbox_skills_grid = {}
+				hbox_skills_grid_character_model = {}
+			}
+			# GUIX # PORTRAIT | COA | TRAITS | CONTEXTUAL | FAITH | CULTURE
+			hbox = {
+				name = "BOTTOM SECTION"
+				layoutpolicy_horizontal = expanding
+
+				### PORTRAIT
+				block "portrait_head_small_X" {
+					guix_portrait_head_small = {}
+				}
+				
+				### CONTENTS
+				vbox = {
+					name = "CONTENTS"
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					margin_left = 2
+
+					# GUIX # TRAITS TO CULTURE ROW
+					hbox = {
+						name = "TRAITS TO CULTURE ROW"
+						layoutpolicy_horizontal = expanding
+
+						### COA
+						widget = {
+							size = { 50 50 }
+
+							coa_house_small = {
+								datacontext = "[Character.GetHouse]"
+								parentanchor = center
+								scale = 0.8
+							}
+						}
+						divider_light = {
+							size = { 3 40 }
+						}
+						spacer = {
+							size = { 5 0 }
+						}
+
+						### TRAITS
+						hbox = {
+							name = "TRAITS"
+							layoutpolicy_horizontal = expanding
+							max_width = 210
+							#minimumsize = { 140 50 } #### needed for prison view
+
+							#background = {
+							#	using = Background_Area_Dark
+							#	alpha = 0.5
+							#	margin = { 8 18 }
+							#}
+
+							block "traits_for_variable_list" {
+								# traits are different for Family & Relations (custom lists) VS Court & Vassals (CharacterListItems)
+								fixedgridbox = {
+									visible = "[Character.IsAlive]"
+									datamodel = "[Character.GetTraitIndices]"
+									flipdirection = yes
+									addcolumn = 50
+									addrow = 50
+									maxhorizontalslots = 4
+	
+									item = {
+										icon_trait = {
+											datacontext = "[GetTraitForIndex(int32.GetInt)]"
+											blockoverride "icon_size"
+											{
+												size = { 50 50 }
+											}
+										}
+									}
+								}
+								fixedgridbox = {
+									visible = "[Not(Character.IsAlive)]"
+									datamodel = "[Character.GetTraitIndices]"
+									flipdirection = yes
+									addcolumn = 50
+									addrow = 50
+									maxhorizontalslots = 4
+									alpha = 0.6
+	
+									item = {
+										icon_trait = {
+											datacontext = "[GetTraitForIndex(int32.GetInt)]"
+											blockoverride "icon_size"
+											{
+												size = { 50 50 }
+											}
+										}
+									}
+								}																	
+							}
+							### TRAITS 2
+							block "traits_for_characterlistitem" {
+								fixedgridbox = {
+									datamodel = "[CharacterListItem.GetTraits]"
+									flipdirection = yes
+									addcolumn = 50
+									addrow = 50
+									maxverticalslots = 1
+									maxhorizontalslots = 4
+									datamodel_wrap = 4
+
+									item = {
+										container = {
+											visible = "[Trait.IsValid]"
+		
+											icon_trait = {
+												blockoverride "icon_size"
+												{
+													size = { 50 50 }
+												}
+		
+												blockoverride "tooltip_placement"
+												{
+													using = tooltip_se
+												}
+		
+												blockoverride "glow_radius"
+												{
+													glow_radius = 3
+												}
+											}
+										}
+									}
+								}										
+							}
+							expand = {}
+						}
+
+						expand = {}
+
+						# GUIX # CONTEXTUAL | FAITH | CULTURE
+						hbox = {
+							name = "CONTEXTUAL | FAITH | CULTURE"
+							datacontext = "[CharacterListItem.GetCharacter]"
+							layoutpolicy_horizontal = expanding
+							
+							margin_right = 5
+
+							background = {
+								using = Background_Area_Dark
+								alpha = 0.75
+								margin = { 6 10 }
+								using = Mask_Rough_Edges
+								modify_texture = {
+									texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+									blend_mode = alphamultiply
+									alpha = 1
+									rotate_uv = -90
+									mirror = vertical
+								}
+							}
+							
+							expand = {}
+
+							block "court_only_icons" {
+								
+								# GUIX # CLAIMS
+								widget_list_claims = {
+									name = "CLAIMS"
+									visible = "[Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded'))]"
+								}
+								spacer = {
+									size = { 5 0 }
+								}
+								divider_light = {
+									visible = "[Not( IsDataModelEmpty( CharacterListItem.GetTitleItems ) )]"
+									size = { 3 40 }
+								}
+							}
+
+							block "vassals_only_icons" {
+								# GUIX # VASSAL STANCE
+								hbox = {									
+									name = "VASSAL STANCE"
+									vassal_stance_icon = {
+										visible = "[And( Character.IsVassalOf( CharacterWindow.GetCourtOwner ), Not( Character.IsPlayer ) )]"
+										size = { 40 40 }
+									}
+								}
+								divider_light = {									
+									size = { 3 40 }
+								}
+							}							
+							
+							# GUIX # FAITH & CULTURE
+							##################################################
+							hbox = {
+								name = "faith_and_culture"
+								layoutpolicy_horizontal = expanding
+								max_width = 175
+								using = Animation_Character_Window_Refresh
+			
+								button_religion_icon = {
+									name = "faith_button"
+									datacontext = "[Character.GetFaith]"
+									size = { 45 45 }
+								}
+			
+								vbox = {
+									layoutpolicy_horizontal = expanding
+			
+									# GUIX # FAITH (ALIVE)
+									button_tertiary = {
+										visible = "[Character.IsAlive]"
+										datacontext = "[Character.GetFaith]"
+										layoutpolicy_horizontal = expanding
+										size = { 0 25 }
+										onclick = "[OpenGameViewData( 'faith', Faith.GetID )]"
+										text = "FAITH_CHARACTER_WINDOW"
+										default_format = "#clickable;italic"
+										align = left|nobaseline
+			
+										tooltipwidget = { faith_tooltip_click = {} }
+									}
+									# GUIX # FAITH (DEAD)
+									button_tertiary = {
+										visible = "[Not(Character.IsAlive)]"
+										datacontext = "[Character.GetFaith]"
+										layoutpolicy_horizontal = expanding
+										size = { 0 25 }
+										onclick = "[OpenGameViewData( 'faith', Faith.GetID )]"
+										text = "FAITH_CHARACTER_WINDOW"
+										default_format = "#low;italic"
+										align = left|nobaseline
+			
+										tooltipwidget = { faith_tooltip_click = {} }
+									}
+									
+									# GUIX # CULTURE (ALIVE)
+									button_tertiary = {
+										visible = "[Character.IsAlive]"
+										datacontext = "[Character.GetCulture]"
+										layoutpolicy_horizontal = expanding
+										size = { 0 25 }
+										onclick = "[OpenGameViewData( 'culture_window', Culture.GetID )]"
+										text = "CULTURE_CHARACTER_WINDOW"
+										default_format = "#clickable;italic"
+										align = left|nobaseline
+			
+										tooltipwidget = {
+											culture_tooltip_click = {}
+										}
+									}
+									# GUIX # CULTURE (DEAD)
+									button_tertiary = {
+										visible = "[Not(Character.IsAlive)]"
+										datacontext = "[Character.GetCulture]"
+										layoutpolicy_horizontal = expanding
+										size = { 0 25 }
+										onclick = "[OpenGameViewData( 'culture_window', Culture.GetID )]"
+										text = "CULTURE_CHARACTER_WINDOW"
+										default_format = "#low;italic"
+										align = left|nobaseline
+			
+										tooltipwidget = {
+											culture_tooltip_click = {}
+										}
+									}									
+								}
+							}
+						}
+					}
+
+					### RELATION TO ROW
+					hbox = {
+						name = "RELATION TO"
+						layoutpolicy_horizontal = expanding
+
+						hbox = {
+							name = "RELATION TO ALIVE"
+							visible = "[Character.IsAlive]"
+							text_single = {
+								text = "[Character.GetRelationToString(CharacterWindow.GetCharacter)]"
+								tooltip = "EXTENDED_RELATIONS_TOOLTIP"
+								autoresize = yes
+								align = nobaseline
+								max_width = 480
+							}
+						}
+						hbox = {
+							name = "RELATION TO DEAD"
+							visible = "[Not(Character.IsAlive)]"
+							text_single = {
+								text = "[Character.GetRelationToString(CharacterWindow.GetCharacter)]"
+								tooltip = "EXTENDED_RELATIONS_TOOLTIP"
+								autoresize = yes
+								align = nobaseline
+								max_width = 480
+							}
+						}						
+						expand = {}
+					}
+					
+				}
+				
+			}
+		}
+
+	}
+
+    # GUIX # hbox_list_sort_buttons but without any sort functionality (for Family & Relations views)
+    ####################################################################################################
+	type guix_hbox_list_dummy_buttons = hbox {
+		name = "sort_buttons"
+		layoutpolicy_horizontal = expanding
+		block "margins" {
+			margin_right = 23
+			margin_top = 6
+			spacing = 5
+		}
+
+		block "sort_dropdown" {}
+
+		expand = {}
+
+		block "skill_sort_buttons"
+		{
+			hbox = {
+				icon = {
+					name = "skill_diplomacy"
+					texture = "gfx/interface/icons/icon_skills.dds"
+					size = { 32 32 }
+					framesize = { 60 60 }
+					frame = 1
+					tooltip = "[diplomacy|E]"
+					using = tooltip_ne
+				}
+
+				icon = {
+					name = "skill_martial"
+					texture = "gfx/interface/icons/icon_skills.dds"
+					size = { 32 32 }
+					framesize = { 60 60 }
+					frame = 2
+					tooltip = "[martial|E]"
+					using = tooltip_ne
+				}	
+				
+				icon = {
+					name = "skill_stewardship"
+					texture = "gfx/interface/icons/icon_skills.dds"
+					size = { 32 32 }
+					framesize = { 60 60 }
+					frame = 3
+					tooltip = "[stewardship|E]"
+					using = tooltip_ne
+				}	
+				
+				icon = {
+					name = "skill_intrigue"
+					texture = "gfx/interface/icons/icon_skills.dds"
+					size = { 32 32 }
+					framesize = { 60 60 }
+					frame = 4
+					tooltip = "[intrigue|E]"
+					using = tooltip_ne
+				}				
+
+				icon = {
+					name = "skill_learning"
+					texture = "gfx/interface/icons/icon_skills.dds"
+					size = { 32 32 }
+					framesize = { 60 60 }
+					frame = 5
+					tooltip = "[learning|E]"
+					using = tooltip_ne
+				}		
+			}
+		}
+	}
+
+    # GUIX # modified hbox_list_sort_buttons
+    ####################################################################################################	
+	type hbox_list_sort_buttons = hbox {
+		name = "sort_buttons"
+
+		block "margins" {
+			margin_left = 20
+			margin_right = 30
+			margin_top = 5
+			spacing = 5
+		}
+
+		button_standard = {
+			name = "filters"
+			size = { 25 25 }
+
+			down = "[CharacterSelectionList.FiltersShown]"
+			frame = "[BoolTo1And2(CharacterSelectionList.IsAllDefault)]"
+			onclick = "[CharacterSelectionList.OnToggleFilters]"
+
+			tooltip = "TOGGLE_FILTERS"
+			using = tooltip_nw
+
+			button_search = {
+				alwaystransparent = yes
+				parentanchor = center
+				size = { 20 20 }
+			}
+
+			block "filters_visible" {}
+		}
+
+		divider_light = {
+			size = { 3 20 }
+			block "filters_visible" {}
+		}
+
+		text_single = {
+			text = "SORT_BY"
+			align = nobaseline
+		}
+
+		block "sort_dropdown" {
+			dropdown_sort_characterlist = {}
+		}
+
+		button_standard = {
+			name = "sort_order"
+			size = { 25 25 }
+			onclick = "[CharacterSelectionList.RevertSortOrder]"
+
+			tooltip = "CHARACTER_SORT_BY"
+			using = tooltip_nw
+
+			button_icon = {
+				alwaystransparent = yes
+				parentanchor = center
+				size = { 25 25 }
+				texture = "gfx/interface/icons/flat_icons/sort_icon.dds"
+				framesize = { 66 66 }
+
+				frame = "[BoolTo1And2(CharacterSelectionList.GetSortOrder)]"
+
+				blockoverride "button_frames"
+				{
+					effectname = "NoHighlight"
+				}
+			}
+		}
+
+		spacer = {
+			size = { 2 0 }
+		}
+
+		##################################################
+		# GUIX # Custom Court Highlight Button
+		##################################################
+		# GUIX # SHOW EMPLOYED BUTTON
+		button_normal = {
+			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','default'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"
+			size = { 30 30 }
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+			button_icon = {
+				texture = "gfx/interface/icons/custom/guix_court.dds"
+				size = { 20 20 }
+				parentanchor = center
+
+				onclick = "[GetVariableSystem.Set('guix_court_highlight','show_employed')]"
+				
+				tooltip = "HIGHLIGHT_BUTTON_COURT_DEFAULT_SHOW_EMPLOYED"
+				using = tooltip_ne
+				tooltip_offset = { 25 5 }
+			}
+		}
+
+		# GUIX # SHOW KNIGHTS BUTTON
+		button_normal = {
+			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_employed'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"
+			size = { 30 30 }
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+			button_icon = {
+				texture = "gfx/interface/icons/custom/guix_knight.dds"
+				size = { 20 20 }
+				parentanchor = center
+
+				onclick = "[GetVariableSystem.Set('guix_court_highlight','show_knights')]"
+				
+				tooltip = "HIGHLIGHT_BUTTON_COURT_EMPLOYED_SHOW_KNIGHTS"
+				using = tooltip_ne
+				tooltip_offset = { 25 5 }
+			}
+		}
+
+		# GUIX # SHOW HOSTAGE & PRISONERS BUTTON
+		button_normal = {
+			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_knights'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"	
+			size = { 30 30 }
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+			button_icon = {
+				texture = "gfx/interface/icons/custom/guix_prisoner.dds"
+				size = { 20 20 }
+				parentanchor = center
+
+				onclick = "[GetVariableSystem.Set('guix_court_highlight','show_captives')]"
+				
+				tooltip = "HIGHLIGHT_BUTTON_COURT_KNIGHTS_SHOW_HOSTAGES_PRISONERS"
+				using = tooltip_ne
+				tooltip_offset = { 25 5 }
+			}
+		}
+
+		# GUIX # SHOW GUESTS BUTTON
+		button_normal = {
+			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_captives'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"
+			size = { 30 30 }
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+			button_icon = {
+				texture = "gfx/interface/icons/custom/guix_guest.dds"
+				size = { 20 20 }
+				parentanchor = center
+
+				onclick = "[GetVariableSystem.Set('guix_court_highlight','show_guests')]"
+				
+				tooltip = "HIGHLIGHT_BUTTON_COURT_HOSTAGES_PRISONERS_SHOW_GUESTS"
+				using = tooltip_ne
+				tooltip_offset = { 25 5 }
+			}
+		}
+
+		# GUIX # SHOW FAMILY BUTTON
+		button_normal = {
+			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_guests'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"			
+			size = { 30 30 }
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+			button_icon = {
+				texture = "gfx/interface/icons/custom/guix_family.dds"
+				size = { 20 20 }
+				parentanchor = center
+
+				onclick = "[GetVariableSystem.Set('guix_court_highlight','show_family')]"
+				
+				tooltip = "HIGHLIGHT_BUTTON_COURT_GUEST_SHOW_FAMILY"
+				using = tooltip_ne
+				tooltip_offset = { 25 5 }
+			}
+		}
+
+		# GUIX # SHOW RELATIONS
+		button_normal = {
+			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_family'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"	
+			size = { 30 30 }
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+			button_icon = {
+				texture = "gfx/interface/icons/custom/guix_relations.dds"
+				size = { 20 20 }
+				parentanchor = center
+
+				onclick = "[GetVariableSystem.Set('guix_court_highlight','show_relations')]"
+				
+				tooltip = "HIGHLIGHT_BUTTON_COURT_FAMILY_SHOW_RELATIONS"
+				using = tooltip_ne
+				tooltip_offset = { 25 5 }
+			}
+		}
+
+		# GUIX # Back to Default View
+		button_normal = {
+			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_relations'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"
+			size = { 30 30 }
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+			button_icon = {
+				texture = "gfx/interface/icons/flat_icons/cancel.dds"
+				size = { 20 20 }
+				parentanchor = center
+
+				onclick = "[GetVariableSystem.Set('guix_court_highlight','default')]"
+				
+				tooltip = "HIGHLIGHT_BUTTON_COURT_RELATIONS_SHOW_DEFAULT"
+				using = tooltip_ne
+				tooltip_offset = { 25 5 }
+			}
+		}
+
+		##################################################
+		# GUIX # Custom Vassals Highlight Button
+		##################################################
+		# GUIX # SHOW COUNCIL BUTTON
+		button_normal = {
+			visible = "[And(GetVariableSystem.HasValue('guix_vassals_highlight','default'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded')))]"
+			size = { 30 30 }
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+			button_icon = {
+				texture = "gfx/interface/icons/custom/guix_court.dds"
+				size = { 20 20 }
+				parentanchor = center
+
+				onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_council')]"
+
+				tooltip = "HIGHLIGHT_BUTTON_VASSALS_SHOW_COUNCIL"
+				using = tooltip_ne
+				tooltip_offset = { 25 5 }
+			}
+		}		
+
+		# GUIX # SHOW KNIGHT BUTTON
+		button_normal = {
+			visible = "[And(GetVariableSystem.HasValue('guix_vassals_highlight','show_council'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded')))]"		
+			size = { 30 30 }
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+			button_icon = {
+				texture = "gfx/interface/icons/custom/guix_knight.dds"
+				size = { 20 20 }
+				parentanchor = center
+
+				onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_knights')]"	
+				
+				tooltip = "HIGHLIGHT_BUTTON_VASSALS_COUNCIL_SHOW_KNIGHTS"
+				using = tooltip_ne
+				tooltip_offset = { 25 5 }
+			}
+		}
+
+		# GUIX # SHOW FAMILY BUTTON
+		button_normal = {
+			visible = "[And(GetVariableSystem.HasValue('guix_vassals_highlight','show_knights'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded')))]"				
+			size = { 30 30 }
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+			button_icon = {
+				texture = "gfx/interface/icons/custom/guix_family.dds"
+				size = { 20 20 }
+				parentanchor = center
+
+				onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_family')]"
+				
+				tooltip = "HIGHLIGHT_BUTTON_VASSALS_KNIGHTS_SHOW_FAMILY"
+				using = tooltip_ne
+				tooltip_offset = { 25 5 }
+			}
+		}
+
+		# GUIX # SHOW FAMILY BUTTON
+		button_normal = {
+			visible = "[And(GetVariableSystem.HasValue('guix_vassals_highlight','show_family'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded')))]"				
+			size = { 30 30 }
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+			button_icon = {
+				texture = "gfx/interface/icons/custom/guix_family.dds"
+				size = { 20 20 }
+				parentanchor = center
+
+				onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_relations')]"
+				
+				tooltip = "HIGHLIGHT_BUTTON_VASSALS_FAMILY_SHOW_RELATIONS"
+				using = tooltip_ne
+				tooltip_offset = { 25 5 }
+			}
+		}
+
+		# GUIX # Back to Default View
+		button_normal = {
+			visible = "[And(GetVariableSystem.HasValue('guix_vassals_highlight','show_relations'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded')))]"					
+			size = { 30 30 }
+
+			icon = {
+				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+				size = { 100% 100% }
+			}
+			button_icon = {
+				texture = "gfx/interface/icons/flat_icons/cancel.dds"
+				size = { 20 20 }
+				parentanchor = center
+
+				onclick = "[GetVariableSystem.Set('guix_vassals_highlight','default')]"
+				
+				tooltip = "HIGHLIGHT_BUTTON_VASSALS_RELATIONS_SHOW_DEFAULT"
+				using = tooltip_ne
+				tooltip_offset = { 25 5 }
+			}
+		}
+
+		expand = {}
+
+		block "skill_sort_buttons"
+		{
+			hbox = {
+				margin_left = -4
+				button_standard_hover = {
+					name = "skill_diplomacy"
+					size = { 32 32 }
+
+					icon = {
+						texture = "gfx/interface/icons/icon_skills.dds"
+						size = { 32 32 }
+						framesize = { 60 60 }
+						frame = 1
+					}
+
+					onclick = "[CharacterSelectionList.SortBySkill('(int32)0')]"
+
+					tooltip = "SORT_BY_DIPLOMACY"
+					using = tooltip_ne
+
+					skillitem_sort_icon = {
+						visible = "[CharacterSelectionList.IsSortingBySkill('(int32)0')]"
+					}
+				}
+
+				button_standard_hover = {
+					name = "skill_martial"
+					size = { 32 32 }
+
+					icon = {
+						texture = "gfx/interface/icons/icon_skills.dds"
+						size = { 32 32 }
+						framesize = { 60 60 }
+						frame = 2
+					}
+
+					onclick = "[CharacterSelectionList.SortBySkill('(int32)1')]"
+
+					tooltip = "SORT_BY_MARTIAL"
+					using = tooltip_ne
+
+					skillitem_sort_icon = {
+						visible = "[CharacterSelectionList.IsSortingBySkill('(int32)1')]"
+					}
+				}
+
+				button_standard_hover = {
+					name = "skill_stewardship"
+					size = { 32 32 }
+
+					icon = {
+						texture = "gfx/interface/icons/icon_skills.dds"
+						size = { 32 32 }
+						framesize = { 60 60 }
+						frame = 3
+					}
+
+					onclick = "[CharacterSelectionList.SortBySkill('(int32)2')]"
+					tooltip = "SORT_BY_STEWARDSHIP"
+					using = tooltip_ne
+
+					skillitem_sort_icon = {
+						visible = "[CharacterSelectionList.IsSortingBySkill('(int32)2')]"
+					}
+				}
+
+				button_standard_hover = {
+					name = "skill_intrigue"
+					size = { 32 32 }
+
+					icon = {
+						texture = "gfx/interface/icons/icon_skills.dds"
+						size = { 32 32 }
+						framesize = { 60 60 }
+						frame = 4
+					}
+
+					onclick = "[CharacterSelectionList.SortBySkill('(int32)3')]"
+					tooltip = "SORT_BY_INTRIGUE"
+					using = tooltip_ne
+
+					skillitem_sort_icon = {
+						visible = "[CharacterSelectionList.IsSortingBySkill('(int32)3')]"
+					}
+				}
+
+				button_standard_hover = {
+					name = "skill_learning"
+					size = { 32 32 }
+
+					icon = {
+						texture = "gfx/interface/icons/icon_skills.dds"
+						size = { 32 32 }
+						framesize = { 60 60 }
+						frame = 5
+					}
+
+					onclick = "[CharacterSelectionList.SortBySkill('(int32)4')]"
+					tooltip = "SORT_BY_LEARNING"
+					using = tooltip_ne
+
+					skillitem_sort_icon = {
+						visible = "[CharacterSelectionList.IsSortingBySkill('(int32)4')]"
+					}
+				}
+			}
+		}
+	}
+}
