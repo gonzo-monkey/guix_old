@@ -106,22 +106,19 @@ guix_siblings_double = {
 
 	is_shown = {
 		OR = {
+			# or show DOUBLE row for siblings if there are
+			AND = {
+				any_sibling = { count > 7 even_if_dead = yes } # many siblings (2)
+				any_child = { count = 0 even_if_dead = yes } # and no children (0)
+			}
 			# show DOUBLE row for siblings if there are
-			AND = {				
+			AND = {
 				any_sibling = { count > 7 even_if_dead = yes } # many siblings (2)
 				any_child = { count <= 7 even_if_dead = yes } # and only a few children (0 or 1)
-				# but no consorts (0)
-				AND = {
-					any_concubine = { count = 0 }
-					OR = {
-						any_spouse = { count <= 1 }
-						AND = {
-							any_spouse = { count = 0 }
-							is_betrothed = yes
-						}
-					}
-				}
-			}
+				any_concubine = { count = 0 } # and no consort (0)
+				any_spouse = { count <= 1 } # and no secondary spouse (0)
+				
+			}			
 		}
 	}	
 }
