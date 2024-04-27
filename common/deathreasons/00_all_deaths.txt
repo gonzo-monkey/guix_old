@@ -57,39 +57,34 @@
 	# observation_disease
 	##############################################
 	death_bubonic_plague = {
-		natural = yes
-		natural_death_trigger = {
-			has_trait = bubonic_plague
-		}
+		epidemic = bubonic_plague
 		priority = 120
 		icon = "guix_death_skull_disease.dds"
 	}
 	death_smallpox = {
-		natural = yes
-		natural_death_trigger = {
-			has_trait = smallpox
-		}
+		epidemic = smallpox
 		priority = 110
 		icon = "guix_death_skull_disease.dds"
 	}
 	death_typhus = {
-		natural = yes
-		natural_death_trigger = {
-			has_trait = typhus
-		}
+		epidemic = typhus
 		priority = 100
 		icon = "guix_death_skull_disease.dds"
 	}
 	death_cancer = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = cancer
 		}
 		priority = 90
 		icon = "guix_death_skull_disease.dds"
 	}
+	death_dysentery = {
+		epidemic = dysentery
+		priority = 80
+		icon = "guix_death_skull_disease.dds"
+	}
+
 	death_pneumonic = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = pneumonic
 		}
@@ -97,23 +92,32 @@
 		icon = "guix_death_skull_disease.dds"
 	}
 	death_consumption = {
-		natural = yes
-		natural_death_trigger = {
-			has_trait = consumption
-		}
+		epidemic = consumption
 		priority = 70
 		icon = "guix_death_skull_disease.dds"
 	}
+
 	death_leper = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = leper
 		}
 		priority = 60
 		icon = "guix_death_skull_disease.dds"
 	}
+
+	death_ergotism = {
+		epidemic = ergotism
+		priority = 60
+		icon = "guix_death_skull_disease.dds"
+	}
+
+	death_measles = {
+		epidemic = measles
+		priority = 60
+		icon = "guix_death_skull_disease.dds"
+	}
+
 	death_gout_ridden = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = gout_ridden
 		}
@@ -121,7 +125,6 @@
 		icon = "guix_death_skull_disease.dds"
 	}
 	death_great_pox = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = great_pox
 		}
@@ -129,7 +132,6 @@
 		icon = "guix_death_skull_disease.dds"
 	}
 	death_ill = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = ill
 		}
@@ -137,7 +139,6 @@
 		icon = "guix_death_skull_disease.dds"
 	}
 	death_sickly = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = sickly
 		}
@@ -181,11 +182,9 @@
 	##############################################
 	death_natural_causes = {
 		default = yes
-		natural = yes
 		icon = "guix_death_skull_health.dds"
 	}
 	death_old_age = {
-		natural = yes
 		natural_death_trigger = {
 			age >= 60
 		}
@@ -207,7 +206,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_giant = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = giant
 		}
@@ -215,7 +213,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_spindly = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = spindly
 		}
@@ -223,7 +220,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_wheezing = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = wheezing
 		}
@@ -231,7 +227,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_bleeder = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = bleeder
 		}
@@ -239,7 +234,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_depressed = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = depressed
 		}
@@ -247,7 +241,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_lunatic = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = lunatic
 		}
@@ -255,7 +248,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_possessed = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = possessed
 		}
@@ -263,7 +255,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_incapable = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = incapable
 		}
@@ -271,7 +262,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_maimed = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = maimed
 		}
@@ -279,7 +269,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_physique_bad_1 = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = physique_bad_1
 		}
@@ -287,7 +276,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_physique_bad_2 = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = physique_bad_2
 		}
@@ -295,7 +283,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_physique_bad_3 = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = physique_bad_3
 		}
@@ -303,7 +290,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_weak = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = weak
 		}
@@ -311,7 +297,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_inbred = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = inbred
 		}
@@ -323,7 +308,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_dungeon_passive = {
-		natural = yes
 		natural_death_trigger = {
 			is_imprisoned = yes
 		}
@@ -339,7 +323,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_physician_mistreatment = {
-		natural = yes
 		natural_death_trigger = {
 			has_character_modifier = risky_disease_treatment_failure_modifier
 		}
@@ -351,7 +334,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_apoplexy = {
-		natural = yes
 		natural_death_trigger = {
 			OR = {
 				has_trait = wrathful
@@ -392,7 +374,6 @@
 	# observation_health_external
 	##############################################
 	death_wounded_1 = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = wounded_1
 		}
@@ -400,7 +381,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_wounded_2 = {
-		natural = yes
 		natural_death_trigger = {
 			OR = {
 				has_trait = wounded_2
@@ -414,7 +394,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_wounded_3 = {
-		natural = yes
 		natural_death_trigger = {
 			OR = {
 				has_trait = wounded_3
@@ -428,7 +407,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_flagellant = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = flagellant
 		}
@@ -436,7 +414,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	blind = {
-		natural = yes
 		natural_death_trigger = {
 			has_trait = blind
 		}
@@ -459,7 +436,6 @@
 	# observation_health_malnourishment
 	##############################################	
 	death_malnourishment = {
-		natural = yes
 		natural_death_trigger = {
 			has_character_modifier = malnourished_modifier
 		}
@@ -483,7 +459,6 @@
 	# observation_health_gluttany
 	##############################################
 	death_obesity = {
-		natural = yes
 		natural_death_trigger = {
 			has_character_modifier = obese_modifier
 		}
@@ -497,7 +472,6 @@
 		icon = "guix_death_skull_health.dds"
 	}
 	death_drinking_passive = {
-		natural = yes
 		natural_death_trigger = {
 			OR = {
 				has_trait = drunkard
@@ -874,7 +848,6 @@
 		icon = "guix_death_skull_brutal.dds"
 	}
 	death_torture_passive = {
-		natural = yes
 		natural_death_trigger = {
 			has_character_modifier = recently_tortured
 		}
