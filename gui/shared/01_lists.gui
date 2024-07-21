@@ -543,6 +543,38 @@ types Lists
 						name = "RELATION TO"
 						layoutpolicy_horizontal = expanding
 
+						# LEGITIMACY
+						vbox = {
+							layoutpolicy_vertical = expanding
+							spacing = -3
+
+							datacontext = "[Character.GetLegitimacyType]"
+							datacontext = "[Character.GetLegitimacyLevel]"
+
+							visible =  "[And( Character.IsAlive, And( Character.HasLandedTitles, And(Character.IsCountOrAbove, Character.GetGovernment.HasRule( 'legitimacy' ) ) ) )]"
+							using = tooltip_ne
+
+							tooltipwidget = {
+								legitimacy_hud_tooltip = {
+									datacontext = "[CharacterWindow.GetLegitimacyBar]"
+								}
+							}
+
+							icon = {
+								size = { 32 32 }
+
+								texture = "gfx/interface/icons/legitimacy_level_icon.dds"
+								framesize = { 70 70 }
+								frame = "[IntToFrameIndex( LegitimacyLevel.GetIndex )]"
+							}
+
+							# GUIX # hiding the numbers since they are duplicate info, the icon color shows the same thing.
+							#text_single = {
+							#	text = CHARACTER_WINDOW_LEGITIMACY_LEVEL
+							#	align = nobaseline
+							#}
+						}
+
 						hbox = {
 							name = "RELATION TO ALIVE"
 							visible = "[Character.IsAlive]"
