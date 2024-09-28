@@ -200,6 +200,11 @@
 		icon = "guix_death_skull_health.dds"
 	}
 
+	death_peaceful = {
+		public_knowledge = yes
+		icon = "guix_death_skull_health.dds"
+	}
+
 	# observation_health_internal
 	##############################################
 	death_stress = {
@@ -813,6 +818,17 @@
 		public_knowledge = yes
 		icon = "guix_death_skull_cracked.dds"
 	}
+
+	death_crushed_in_chariot_race = {
+		public_knowledge = yes
+		icon = "death_murder.dds"
+	}
+	
+	death_chariot_race_trick = {
+		public_knowledge = yes
+		icon = "death_murder.dds"
+	}
+	
 
 ##################################################
 # guix_death_brutal
