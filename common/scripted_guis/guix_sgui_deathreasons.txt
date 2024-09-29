@@ -155,7 +155,6 @@ guix_death_mystery = {
 				# observation_unknown
 				##############################################
 				death_reason = debug
-				death_reason = unknown_death_reason
 
 				# observation_mystery
 				##############################################
