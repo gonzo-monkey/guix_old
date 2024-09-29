@@ -1004,7 +1004,7 @@ death_avalanche = {
 
 death_sea_storm = {
 	public_knowledge = yes
-	icon = "death_natural.dds"
+	icon = "death_frozen.dds"
 }
 
 death_poisonous_forage = {

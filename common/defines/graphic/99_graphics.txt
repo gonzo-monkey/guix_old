@@ -1,5 +1,5 @@
 ﻿NGameIcons = {
-	DEFAULT_DEATH_REASON_ICON = "death_natural.dds"
+	DEFAULT_DEATH_REASON_ICON = "death_unknown.dds"
 
 	HEALTH_STATE_LEVELS_ICON_FRAMES = {
 		6
