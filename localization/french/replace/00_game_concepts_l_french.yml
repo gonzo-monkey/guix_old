@@ -57,7 +57,7 @@
   ### existing concept - edited desc 
  game_concept_court: "Court"
  game_concept_courts: "Courts"
- game_concept_court_desc: "Every [ruler|E] has a $game_concept_court$, consisting of [unlanded|E] [nobles|E], [lowborn|E] and [close_family|E] in servitude of a [ruler|E].\n\nAt times you may meet someone interesting you wish to #high $invite_to_court_interaction$#!, or check-in on a [guest|E]. Exceptionally skilled [courtiers|E] can be useful to have on your [council|E].\n\n#weak Many others in servitude simply go unseen. A liege may require the chamber pot, but does not wish to see its contents.#!"
+ game_concept_court_desc:0 "Every [ruler|E] has a $game_concept_court$, consisting of [unlanded|E] [nobles|E], [lowborn|E] and [close_family|E] in servitude of a [ruler|E].\n\nAt times you may meet someone interesting you wish to invite to court, or check-in on a [guest|E]. Exceptionally skilled [courtiers|E] can be useful to have on your [council|E].\n\n#weak Many others in servitude simply go unseen. A liege may require the chamber pot, but does not wish to see its contents.#!"
   
   ### existing concept - edited desc 
  game_concept_courtier: "Courtisan"
