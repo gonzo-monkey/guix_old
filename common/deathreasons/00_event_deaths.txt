@@ -972,7 +972,7 @@ death_march_malaise = {
 	icon = "death_disease.dds"
 }
 
-death_frozen = {
+death_froze = {
 	public_knowledge = yes
 	icon = "death_frozen.dds"
 }
