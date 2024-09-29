@@ -4,6 +4,7 @@
 ### added death_frozen for drowning or freezing deaths (all natural)
 ### added death_burned for any fire related deaths (murder or natural)
 ### added death_excrement for 1 unique event
+### added death_trepanned for 1 unique event
 
 death_murder = {
 	icon = "death_murder.dds"
@@ -465,7 +466,7 @@ death_brutally_despatched = {
 
 death_trepanned = {
 	public_knowledge = yes
-	icon = "death_murder.dds"
+	icon = "death_trepanned.dds"
 }
 
 
