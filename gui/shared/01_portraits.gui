@@ -271,7 +271,7 @@ types PortraitTypes
         }   
 
         # GUIX # OPINION
-        portrait_opinion_small = {          
+        guix_portrait_opinion_small = {          
             blockoverride "family_ties_main_char" {
                 # for Character Window only
             }
@@ -455,7 +455,7 @@ types PortraitTypes
 
         # GUIX # OPINION
         ##################################################
-        portrait_opinion_small = {}
+        guix_portrait_opinion_small = {}
 
         # Portrait unknown glow
         highlight_icon = {
@@ -966,7 +966,7 @@ types PortraitTypes
     # the 'family ties' family/dynasty is for char window only
     # (since it's the the family relation to the main char)
     ##################################################
-    type portrait_opinion_small = flowcontainer {
+    type guix_portrait_opinion_small = flowcontainer {
         visible = "[Character.IsValid]"
         parentanchor = bottom|right
         ignoreinvisible = yes
@@ -1157,7 +1157,54 @@ types PortraitTypes
             }            
         }              
     }
-    
+
+    # Vanilla # OPINION TEXT
+    # The new window_court_positions.gui started using portrait_opinion_small so I renamed
+    # the custom opinion flowcontainer to guix_portrait_opinion_small (above) so it doesn't
+    # get used by the window_court_positions.gui
+	type portrait_opinion_small = flowcontainer {
+		#name = "tutorial_highlight_portrait_opinion"
+		visible = "[And(Character.IsValid, And(Character.IsAlive, Not(Character.IsLocalPlayer)))]"
+		ignoreinvisible = yes
+		margin_right = 2
+
+		background = {
+			name = "portrait_opinion_bg"
+			texture = "gfx/interface/component_tiles/solid_black_label.dds"
+			spritetype = Corneredtiled
+			spriteborder = { 20 20 }
+			margin = { 2 2 }
+			texture_density = 2
+		}
+
+		icon = {
+			name = "dread"
+			visible = "[Character.ShouldShowDreadEffectIcon]"
+			size = { 16 16 }
+			texture = "gfx/interface/icons/portraits/dread_values.dds"
+			framesize = { 40 40 }
+			frame = "[Character.GetPlayerDreadEffectIconFrame]"
+			tooltip = "[Character.GetPlayerDreadEffectTooltip]"
+		}
+
+		text_single = {
+			visible = "[Character.IsValid]"
+			max_width = 45
+			align = nobaseline
+			fontsize = 13
+			margin = { 3 0 }
+
+			tooltipwidget = character_opinion_tooltip
+			using = tooltip_es
+			default_format = "#true_white"
+
+			block "opinion_text" {
+				text = "[Character.GetOpinionOf( GetPlayer )|=]"
+				fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
+			}
+		}
+	}    
+
     # GUIX # VASSALS ALLIANCE ICON
     ##################################################
     type vassal_at_war_alliance = flowcontainer {

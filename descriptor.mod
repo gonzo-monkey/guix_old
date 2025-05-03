@@ -1,7 +1,6 @@
 version="1"
 tags={
-	"Graphics"
+	"Utilities"
 }
-name="GUI X Character Window"
-supported_version="1.12.*"
-remote_file_id="3037402487"
+name="2025 Testing"
+supported_version="1.16.0.1"

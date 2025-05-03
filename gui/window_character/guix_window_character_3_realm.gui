@@ -161,9 +161,9 @@ types CharacterWindow {
 						align = nobaseline
 						fontsize_min = 14
 					}
-				}				
+				}			
 
-				expand = {}				
+				expand = {}		
 
 				# GUIX # REALM STATS
 				hbox = {
@@ -237,21 +237,21 @@ types CharacterWindow {
 						}
 					}						
 
+					#Gold
 					vbox = {
-						visible = "[Character.HasLandedTitles]"
-						spacing = -2
+						tooltip = "[Character.GetGoldTooltipWithBalance]"
 						min_width = 35
-						tooltip = "[Character.GetDreadBreakdown]"
+						spacing = -2
 
 						icon = {
-							name = "dread_icon"
+							name = "icon_gold"
 							size = { 30 30 }
-							texture = "gfx/interface/icons/icon_dread.dds"
+							texture = "gfx/interface/icons/icon_gold.dds"
 						}
 
 						text_single = {
-							name = "total_dread"
-							text = "[Character.GetDread|0]"
+							name = "total_gold"
+							text = "[Character.GetGold|0]"
 							default_format = "#high"
 							align = center|nobaseline
 							fontsize_min = 12
@@ -259,6 +259,74 @@ types CharacterWindow {
 						}
 					}
 
+					#Prestige
+					vbox = {
+						tooltip = "[Character.GetPrestigeTooltipWithBalance]"
+						min_width = 35
+						spacing = -2
+
+						icon = {
+							name = "icon_prestige"
+							size = { 30 30 }
+							texture = "[Character.GetPrestigeLevelTexture]"
+						}
+
+						text_single = {
+							name = "prestige"
+							text = "[Character.GetPrestige|0]"
+							default_format = "#high"
+							align = center|nobaseline
+							fontsize_min = 12
+							max_width = 50
+						}
+					}					
+
+					#Piety
+					vbox = {
+						tooltip = "[Character.GetPietyTooltipWithBalance]"
+						min_width = 35
+						spacing = -2
+
+						icon = {
+							name = "icon_piety"
+							size = { 30 30 }
+							texture = "[Character.GetPietyLevelTexture]"
+						}
+
+						text_single = {
+							name = "piety"
+							text = "[Character.GetPiety|0]"
+							default_format = "#high"
+							align = center|nobaseline
+							fontsize_min = 12
+							max_width = 50
+						}
+					}
+
+					#Influence
+					vbox = {
+						visible = "[Character.GetGovernment.HasRule( 'administrative' )]"
+						tooltip = "[Character.GetInfluenceTooltipWithBalance]"
+						min_width = 35
+						spacing = -2
+
+						icon = {
+							name = "icon_influence"
+							size = { 30 30 }
+							texture = "[Character.GetInfluenceLevelTexture]"
+						}
+
+						text_single = {
+							name = "influence"
+							text = "[Character.GetInfluence|0]"
+							default_format = "#high"
+							align = center|nobaseline
+							fontsize_min = 12
+							max_width = 50
+						}
+					}
+
+					#Legitimacy
 					vbox = {
 						layoutpolicy_vertical = expanding
 						spacing = -2
@@ -290,62 +358,22 @@ types CharacterWindow {
 						}
 					}
 
+					#Dread
 					vbox = {
-						tooltip = "[Character.GetGoldTooltipWithBalance]"
-						min_width = 35
+						visible = "[Character.HasLandedTitles]"
 						spacing = -2
+						min_width = 35
+						tooltip = "[Character.GetDreadBreakdown]"
 
 						icon = {
-							name = "icon_gold"
+							name = "dread_icon"
 							size = { 30 30 }
-							texture = "gfx/interface/icons/icon_gold.dds"
+							texture = "gfx/interface/icons/icon_dread.dds"
 						}
 
 						text_single = {
-							name = "total_gold"
-							text = "[Character.GetGold|0]"
-							default_format = "#high"
-							align = center|nobaseline
-							fontsize_min = 12
-							max_width = 50
-						}
-					}
-
-					vbox = {
-						tooltip = "[Character.GetPrestigeTooltipWithBalance]"
-						min_width = 35
-						spacing = -2
-
-						icon = {
-							name = "icon_prestige"
-							size = { 30 30 }
-							texture = "[Character.GetPrestigeLevelTexture]"
-						}
-
-						text_single = {
-							name = "prestige"
-							text = "[Character.GetPrestige|0]"
-							default_format = "#high"
-							align = center|nobaseline
-							fontsize_min = 12
-							max_width = 50
-						}
-					}
-
-					vbox = {
-						tooltip = "[Character.GetPietyTooltipWithBalance]"
-						min_width = 35
-						spacing = -2
-
-						icon = {
-							name = "icon_piety"
-							size = { 30 30 }
-							texture = "[Character.GetPietyLevelTexture]"
-						}
-
-						text_single = {
-							name = "piety"
-							text = "[Character.GetPiety|0]"
+							name = "total_dread"
+							text = "[Character.GetDread|0]"
 							default_format = "#high"
 							align = center|nobaseline
 							fontsize_min = 12
@@ -357,6 +385,7 @@ types CharacterWindow {
 						size = { 0 3 }
 					}
 
+					#Combat Strength
 					vbox = {
 						visible = "[Character.HasLandedTitles]"
 						tooltip = "[CharacterWindow.GetMilitaryStrengthTooltip]"

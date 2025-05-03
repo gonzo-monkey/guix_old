@@ -198,11 +198,38 @@ types CharacterWindow {
 						}
 					}
 					spacer = {
+						size = { 5 0 }
+					}
+
+					#Administrative Efficiency
+					vbox = {
+						visible = "[Or( Character.GetGovernment.HasRule( 'administrative' ), And( And( Not( Character.HasLandedTitles ), Not( Character.HasLiege ) ), GetPlayer.GetGovernment.HasRule( 'administrative' ) ) )]"
+						
+						tooltip = "ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_TT"
+						using = tooltip_ne
+						margin_bottom = 0
+						spacing = -2
+
+						using = Animation_Character_Window_Refresh
+
+						icon = {
+							name = "char_governor_efficiency_icon"
+							size = { 32 32 }
+							texture = "gfx/interface/icons/icon_skill_governor_efficiency.dds"
+						}
+
+						text_single = {
+							name = "char_governor_efficiency_value"
+							text = "ADMIN_WINDOW_THEME_GOVERNOR_EFFICIENCY_VALUE"
+							align = nobaseline
+						}
+					}
+					spacer = {
 						size = { 3 0 }
 					}
 					divider_light = {
 						layoutpolicy_vertical = expanding
-					}			
+					}						
 				}
 
 				# GUIX # FAITH & CULTURE

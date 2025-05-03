@@ -801,7 +801,7 @@ types CharacterWindow {
 
 			vbox = {
 				name = "relations_main_view"
-				visible = "[Not(CharacterWindow.AreRelationsExpanded( 'friends', 'rivals', 'lovers' ) ) ]"
+				visible = "[And(Not(CharacterWindow.AreRelationsExpanded( 'friends', 'rivals', 'lovers') ), Not(CharacterWindow.IsRelationExpanded('grudges'))) ]"
 				margin_top = -2
 				
 				# GUIX # WARDS | GUARDIANS | DIARCH
@@ -914,7 +914,7 @@ types CharacterWindow {
 								expand = {}
 							}
 						}
-						
+
 						# GUIX # GUARDIANS
 						vbox_character_row_item = {
 							name = "guardian"
@@ -1013,7 +1013,49 @@ types CharacterWindow {
 							blockoverride "expand_left" {
 								expand = {}
 							}
-						}		
+						}
+
+						# GUIX # GRUDGES
+						vbox_character_row_item = {
+							name = "grudge"
+							layoutpolicy_vertical = expanding
+
+							blockoverride "datamodel_wrap" {
+								datamodel_wrap = 4
+							}
+
+							blockoverride "portrait_datamodel" {
+								datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'grudge' ) )]"
+							}
+
+							blockoverride "header_text"
+							{
+								text = "GRUDGES_LABEL"
+								align = left|nobaseline
+								visible = "[LessThanOrEqualTo_int32( GetDataModelSize(CharacterWindow.GetRelationsOfType( GetRelation( 'grudge' ) )), '(int32)4' )]"
+							}
+
+							blockoverride "header_text_clickable"
+							{
+								text = "GRUDGES_LABEL_CLICKABLE"
+								align = left|nobaseline
+								visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetRelationsOfType( GetRelation( 'grudge' ) )), '(int32)4' )]"
+							}
+
+							blockoverride "remaining_items"
+							{
+								visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetRelationsOfType( GetRelation( 'grudge' ) )), '(int32)4' )]"
+								text = "[GetNumberAbove_int32( GetDataModelSize(CharacterWindow.GetRelationsOfType( GetRelation( 'grudge' ) )), '(int32)4' )|=]"
+							}
+
+							blockoverride "expand_button_inside" {
+								visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetRelationsOfType( GetRelation( 'grudge' ) )), '(int32)4' )]"
+								onclick = "[CharacterWindow.ToggleExpandedRelation( 'grudges' )]"
+							}
+							blockoverride "expand_left" {
+								expand = {}
+							}
+						}	
 
 						expand = {}
 						
@@ -1021,7 +1063,7 @@ types CharacterWindow {
 						vbox_character_row_item = {
 							name = "diarch"
 							datacontext = "[CharacterWindow.GetCharacter.GetDiarchy.GetDiarch]"
-							visible = "[CharacterWindow.GetCharacter.HasActiveDiarchy]"
+							#visible = "[CharacterWindow.GetCharacter.HasActiveDiarchy]"
 							layoutpolicy_vertical = expanding
 							margin_right = 8
 							blockoverride "gridbox" {
@@ -1080,18 +1122,25 @@ types CharacterWindow {
 							blockoverride "header_text"
 							{
 								text = "LOVERS_LABEL"
+								visible = "[LessThanOrEqualTo_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) ) ), '(int32)7' )]"
 							}
+							
+							blockoverride "header_text_clickable"
+							{
+								text = "LOVERS_LABEL_CLICKABLE"
+								visible = "[GreaterThan_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) ) ), '(int32)7' )]"
+							}							
 
 							blockoverride "remaining_items"
 							{
-								visible = "[GreaterThan_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) ) ), '(int32)5' )]"
+								visible = "[GreaterThan_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) ) ), '(int32)7' )]"
 								margin = { 167 }
-								text = "[GetNumberAbove_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) ) ), '(int32)5' )|=]"
+								text = "[GetNumberAbove_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) ) ), '(int32)7' )|=]"
 
 							}
 
 							blockoverride "expand_button_inside" {
-								visible = "[GreaterThan_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) ) ), '(int32)5' )]"
+								visible = "[GreaterThan_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'lover' ) ) ), '(int32)7' )]"
 								onclick = "[CharacterWindow.ToggleExpandedRelation( 'lovers' )]"
 							}
 							blockoverride "expand_left" {
@@ -1146,7 +1195,15 @@ types CharacterWindow {
 							{
 								text = "FRIENDS_LABEL"
 								align = left|nobaseline
+								visible = "[LessThanOrEqualTo_int32( GetDataModelSize(CharacterWindow.GetRelationsOfType( GetRelation( 'friend' ) )), '(int32)7' )]"
 							}
+
+							blockoverride "header_text_clickable"
+							{
+								text = "FRIENDS_LABEL_CLICKABLE"
+								align = left|nobaseline
+								visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetRelationsOfType( GetRelation( 'friend' ) )), '(int32)7' )]"
+							}							
 
 							blockoverride "remaining_items"
 							{
@@ -1212,7 +1269,15 @@ types CharacterWindow {
 							{
 								text = "RIVALS_LABEL"
 								align = left|nobaseline
+								visible = "[LessThanOrEqualTo_int32( GetDataModelSize(CharacterWindow.GetRelationsOfType( GetRelation( 'rival' ) )), '(int32)7' )]"
 							}
+
+							blockoverride "header_text_clickable"
+							{
+								text = "RIVALS_LABEL_CLICKABLE"
+								align = left|nobaseline
+								visible = "[GreaterThan_int32( GetDataModelSize(CharacterWindow.GetRelationsOfType( GetRelation( 'rival' ) )), '(int32)7' )]"
+							}							
 
 							blockoverride "remaining_items"
 							{
@@ -1260,6 +1325,46 @@ types CharacterWindow {
 				expand = {}
 			}
 
+			### GRUDGE EXPANDED
+			scrollbox = {
+				name = "grudge_expanded"
+				visible = "[CharacterWindow.IsRelationExpanded( 'grudges' )]"
+				size = { 100% 100% }
+
+				blockoverride "scrollbox_replace_vbox" {
+					vbox_character_row_relationship_item = {
+						name = "grudge"
+						margin_top = 10
+						spacing = 5
+
+
+						blockoverride "portrait_datamodel" {
+							datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'grudge' ) )]"
+						}
+
+						blockoverride "header_text"
+						{
+							text = "GRUDGES_LABEL_CLICKABLE"
+						}
+
+						blockoverride "remaining_items"
+						{
+							visible = "[GreaterThan_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'grudge' ) ) ), '(int32)4' )]"
+							margin = { 167 }
+							text = "[GetNumberAbove_int32( GetDataModelSize( CharacterWindow.GetRelationsOfType( GetRelation( 'grudge' ) ) ), '(int32)4' )|=]"
+
+						}
+
+						blockoverride "expand_button_inside" {
+							onclick = "[CharacterWindow.ToggleExpandedRelation( 'grudges' )]"
+							down = "[CharacterWindow.IsRelationExpanded( 'grudges' )]"
+						}
+
+						blockoverride "gridbox_slots" {}
+					}
+				}
+			}
+
 			### RIVALS EXPANDED
 			scrollbox = {
 				name = "rivals_expanded"
@@ -1279,7 +1384,7 @@ types CharacterWindow {
 
 						blockoverride "header_text"
 						{
-							text = "RIVALS_LABEL"
+							text = "RIVALS_LABEL_CLICKABLE"
 						}
 
 						blockoverride "remaining_items"
@@ -1319,7 +1424,7 @@ types CharacterWindow {
 
 						blockoverride "header_text"
 						{
-							text = "FRIENDS_LABEL"
+							text = "FRIENDS_LABEL_CLICKABLE"
 						}
 
 						blockoverride "expand_button_inside" {
@@ -1350,7 +1455,7 @@ types CharacterWindow {
 
 						blockoverride "header_text"
 						{
-							text = "LOVERS_LABEL"
+							text = "LOVERS_LABEL_CLICKABLE"
 						}
 
 						blockoverride "expand_button_inside" {
@@ -1395,7 +1500,13 @@ types CharacterWindow {
 					blockoverride "datamodel" {
 						datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'guardian' ) )]"
 					}
-				}	
+				}
+				# GUIX # GRUDGE
+				container_implementation_vbox = {
+					blockoverride "datamodel" {
+						datamodel = "[CharacterWindow.GetRelationsOfType( GetRelation( 'grudge' ) )]"
+					}
+				}				
 				# GUIX # DIARCH (uses GUIX_character_list_relations since there is no GetRelation for Diarch)
 				container_implementation_vbox = {
 					blockoverride "datamodel" {
@@ -3102,7 +3213,9 @@ types CharacterWindow {
 					flipdirection = yes
 					addcolumn = 85
 					addrow = 92
-					datamodel_wrap = 7
+					block "datamodel_wrap" {
+						datamodel_wrap = 7
+					}
 
 					block "gridbox_slots"
 					{
