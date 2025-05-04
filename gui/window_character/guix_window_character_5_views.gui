@@ -3463,6 +3463,7 @@ types CharacterWindow {
                         size = { 0 10 }
                     }
 
+					# GUIX # these are wars
                     text_multi = {
                         visible = "[Not(DiplomacyItem.HasReasonCharacters)]"
                         text = "[DiplomacyItem.GetInfo]"
@@ -3470,7 +3471,8 @@ types CharacterWindow {
                         autoresize = yes
                         max_width = 560
                     }
-    
+
+					# GUIX # these are alliances
                     hbox = {
                         margin_left = 10
                         layoutpolicy_horizontal = expanding
@@ -3821,7 +3823,8 @@ types CharacterWindow {
         # GUIX # ATTACKING DIPLOMACY CHARACTER
         hbox = {
             datacontext = "[GetScriptedGui('guix_diplomacy_attacking')]"
-            visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End )]"
+			visible = "[And( ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End ), Not(DiplomacyItem.HasReasonCharacters) )]"
+
             text_single = {
                 text = "GUIX_DIPLOMACY_ATTACKING"
                 align = bottom
@@ -3832,7 +3835,8 @@ types CharacterWindow {
         # GUIX # DEFENDING AGAINST DIPLOMACY CHARACTER
         hbox = {
             datacontext = "[GetScriptedGui('guix_diplomacy_defending')]"
-            visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End )]"
+			visible = "[And( ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End ), Not(DiplomacyItem.HasReasonCharacters) )]"
+
             text_single = {
                 text = "GUIX_DIPLOMACY_DEFENDING"
                 align = bottom
@@ -3842,7 +3846,8 @@ types CharacterWindow {
         # GUIX # ALLIED TO DIPLOMACY CHARACTER
         hbox = {
             datacontext = "[GetScriptedGui('guix_diplomacy_ally')]"
-            visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End )]"
+			visible = "[And( ScriptedGui.IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).AddScope('target', DiplomacyItem.GetTargetCharacter.MakeScope ).End ), DiplomacyItem.HasReasonCharacters )]"
+
             text_single = {
                 text = "GUIX_DIPLOMACY_ALLIANCE"
                 align = bottom

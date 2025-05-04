@@ -350,9 +350,6 @@ guix_diplomacy_attacking = {
 			}
 
 		}
-		NOT = {
-			is_allied_to = scope:target
-		}
 	}
 }
 
@@ -369,9 +366,6 @@ guix_diplomacy_defending = {
 			any_character_war = {
 				any_war_attacker = { this = scope:target }
 			}
-		}
-		NOT = {
-			is_allied_to = scope:target
 		}
 	}
 }

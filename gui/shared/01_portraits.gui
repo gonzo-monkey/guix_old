@@ -1384,6 +1384,7 @@ types PortraitTypes
     ##################################################
     type vassal_at_war_alliance = flowcontainer {
         ignoreinvisible = yes
+        direction = vertical
 
         background = {
             using = Background_Area_Dark
@@ -1394,20 +1395,6 @@ types PortraitTypes
                 blend_mode = alphamultiply
             }
         }
-
-        # GUIX # vassal alliance
-        icon = {
-            datacontext = "[Character]"
-            block "vassal_alliance_datacontext_visible" {
-                datacontext = "[GetScriptedGui('guix_vassal_alliance')]"
-                visible = "[And(Character.GetLiege.IsValid,ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('target', Character.GetLiege.MakeScope ).End ))]"
-            }
-            size = { 30 30 }
-            texture = "gfx/interface/icons/custom/guix_vassal_alliance.dds"
-            tooltip = "GUIX_VASSAL_ALLIANCE"
-            using = tooltip_ne
-        }
-        
         # GUIX # vassal at war
         icon = {
             block "vassal_at_war_datacontext_visible" {
@@ -1419,6 +1406,18 @@ types PortraitTypes
             mirror = horizontal
             tooltip = "GUIX_VASSAL_AT_WAR"
             using = tooltip_ne
-        }        
+        }
+        # GUIX # vassal alliance
+        icon = {
+            datacontext = "[Character]"
+            block "vassal_alliance_datacontext_visible" {
+                datacontext = "[GetScriptedGui('guix_vassal_alliance')]"
+                visible = "[And(Character.GetLiege.IsValid,ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('target', Character.GetLiege.MakeScope ).End ))]"
+            }
+            size = { 30 30 }
+            texture = "gfx/interface/icons/custom/guix_vassal_alliance.dds"
+            tooltip = "GUIX_VASSAL_ALLIANCE"
+            using = tooltip_ne
+        }      
     }
 }
