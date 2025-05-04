@@ -273,6 +273,7 @@ types Lists
 				#hbox_skills_grid = {}
 				hbox_skills_grid_character_model = {}
 			}
+
 			# GUIX # PORTRAIT | COA | TRAITS | CONTEXTUAL | FAITH | CULTURE
 			hbox = {
 				name = "BOTTOM SECTION"
@@ -454,6 +455,29 @@ types Lists
 										size = { 40 40 }
 									}
 								}
+								# TRIBUTE
+								hbox = {
+									visible = "[Character.HasSuzerain]"
+									datacontext = "[Character.GetSubjectContract]"
+									spacing = 5
+
+									block "release_tributary_button" {
+										button_round = {
+											visible = "[Character.IsPlayerInteractionShown('release_tributary_interaction')]"
+											enabled = "[Character.IsPlayerInteractionValid('release_tributary_interaction')]"
+											onclick = "[Character.OpenPlayerInteraction('release_tributary_interaction')]"
+											tooltip = "[Character.GetPlayerInteractionTooltip('release_tributary_interaction')]"
+
+											button_icon = {
+												alwaystransparent = yes
+												parentanchor = center
+												position = { 1 1 }
+												size = { 20 20 }
+												texture = "gfx/interface/icons/flat_icons/release_tributary.dds"
+											}
+										}
+									}
+								}								
 								divider_light = {									
 									size = { 3 40 }
 								}
@@ -544,10 +568,7 @@ types Lists
 						layoutpolicy_horizontal = expanding
 
 						# LEGITIMACY
-						vbox = {
-							layoutpolicy_vertical = expanding
-							spacing = -3
-
+						hbox = {
 							datacontext = "[Character.GetLegitimacyType]"
 							datacontext = "[Character.GetLegitimacyLevel]"
 
@@ -561,13 +582,20 @@ types Lists
 							}
 
 							icon = {
-								size = { 32 32 }
-
+								size = { 25 25 }
 								texture = "gfx/interface/icons/legitimacy_level_icon.dds"
 								framesize = { 70 70 }
 								frame = "[IntToFrameIndex( LegitimacyLevel.GetIndex )]"
 							}
 
+							vassal_expected_legitimacy_icon = {
+								name = "legitimacy_expectation"
+								size = { 25 25 }
+							}
+
+							spacer = {
+								size = { 2 0 }
+							}
 							# GUIX # hiding the numbers since they are duplicate info, the icon color shows the same thing.
 							#text_single = {
 							#	text = CHARACTER_WINDOW_LEGITIMACY_LEVEL
@@ -575,36 +603,54 @@ types Lists
 							#}
 						}
 
+						# TRIBUTE
 						hbox = {
-							name = "RELATION TO ALIVE"
-							visible = "[Character.IsAlive]"
-							text_single = {
-								text = "[Character.GetRelationToString(CharacterWindow.GetCharacter)]"
-								tooltip = "EXTENDED_RELATIONS_TOOLTIP"
-								autoresize = yes
-								align = nobaseline
-								max_width = 480
+							visible = "[Character.HasSuzerain]"
+							datacontext = "[Character.GetSubjectContract]"
+
+							tooltip = "MY_REALM_WINDOW_CEASE_PAYING_TRIBUTE_CHANCE_TT"
+
+							icon_flat_standard = {
+								size = { 25 25 }
+								texture = "gfx/interface/icons/flat_icons/cease_paying_tributary.dds"
+							}
+							spacer = {
+								size = { 2 0 }
 							}
 						}
+						
 						hbox = {
-							name = "RELATION TO DEAD"
-							visible = "[Not(Character.IsAlive)]"
-							text_single = {
-								text = "[Character.GetRelationToString(CharacterWindow.GetCharacter)]"
-								tooltip = "EXTENDED_RELATIONS_TOOLTIP"
-								autoresize = yes
-								align = nobaseline
-								max_width = 480
+							spacing = 5
+							
+							hbox = {
+								name = "RELATION TO ALIVE"
+								visible = "[Character.IsAlive]"
+								text_single = {
+									text = "[Character.GetRelationToString(CharacterWindow.GetCharacter)]"
+									tooltip = "EXTENDED_RELATIONS_TOOLTIP"
+									autoresize = yes
+									align = nobaseline
+									max_width = 480
+								}
 							}
-						}						
-						expand = {}
+							hbox = {
+								name = "RELATION TO DEAD"
+								visible = "[Not(Character.IsAlive)]"
+								text_single = {
+									text = "[Character.GetRelationToString(CharacterWindow.GetCharacter)]"
+									tooltip = "EXTENDED_RELATIONS_TOOLTIP"
+									autoresize = yes
+									align = nobaseline
+									max_width = 480
+								}
+							}						
+							expand = {}
+						}
+						expand = {}				
 					}
-					
 				}
-				
 			}
 		}
-
 	}
 
     # GUIX # hbox_list_sort_buttons but without any sort functionality (for Family & Relations views)

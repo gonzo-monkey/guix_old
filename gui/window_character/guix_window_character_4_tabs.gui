@@ -345,9 +345,17 @@ types CharacterWindow {
 
 				hbox = {
 					text_single = {
+						visible = "[And( Not( IsNomad( Character )), Not( IsHerder( Character ) ) )]"
 						layoutpolicy_horizontal = expanding
 						align = center
 						text = "CV_TAB_VASSALS"
+						default_format = "#low"
+					}
+					text_single = {
+						visible = "[Or(IsNomad( Character ), IsHerder( Character ))]"
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_SUBJECTS"
 						default_format = "#low"
 					}
 				}
@@ -371,9 +379,17 @@ types CharacterWindow {
 
 				hbox = {
 					text_single = {
+						visible = "[And( Not( IsNomad( Character )), Not( IsHerder( Character ) ) )]"
 						layoutpolicy_horizontal = expanding
 						align = center
 						text = "CV_TAB_VASSALS"
+						default_format = "#low"
+					}
+					text_single = {
+						visible = "[Or(IsNomad( Character ), IsHerder( Character ))]"
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_SUBJECTS"
 						default_format = "#low"
 					}
 				}
@@ -395,9 +411,17 @@ types CharacterWindow {
 
 				hbox = {
 					text_single = {
+						visible = "[And( Not( IsNomad( Character )), Not( IsHerder( Character ) ) )]"
 						layoutpolicy_horizontal = expanding
 						align = center
 						text = "CV_TAB_VASSALS"
+						default_format = "#clickable"
+					}
+					text_single = {
+						visible = "[Or(IsNomad( Character ), IsHerder( Character ))]"
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_SUBJECTS"
 						default_format = "#clickable"
 					}
 				}
@@ -418,9 +442,17 @@ types CharacterWindow {
 
 				hbox = {
 					text_single = {
+						visible = "[And( Not( IsNomad( Character )), Not( IsHerder( Character ) ) )]"
 						layoutpolicy_horizontal = expanding
 						align = center
 						text = "CV_TAB_VASSALS"
+						default_format = "#clickable"
+					}
+					text_single = {
+						visible = "[Or(IsNomad( Character ), IsHerder( Character ))]"
+						layoutpolicy_horizontal = expanding
+						align = center
+						text = "CV_TAB_SUBJECTS"
 						default_format = "#clickable"
 					}
 				}
