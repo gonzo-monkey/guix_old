@@ -299,7 +299,6 @@ types CharacterWindow {
 						portrait_scale = { -1 1 }
 						portrait_offset = { 1 0 }
 					}
-
 				}
 
 				text_label_center = {
@@ -416,6 +415,7 @@ types CharacterWindow {
 
 					text_label_center = {
 						datacontext = "[CharacterWindow.GetCharacter]"
+
 						visible = "[Character.IsHostage]"
 						text = "WARDEN_OF"
 					}
@@ -435,6 +435,103 @@ types CharacterWindow {
 
 						using = tooltip_ws
 						tooltip = "MRW_TT_NOT_RIGHTFUL_LIEGE"
+					}
+				}
+				expand = {}
+			}
+			### Suzerain
+			vbox = {
+				name = "suzerain"
+				datacontext = "[CharacterWindow.GetCharacter.GetSuzerain]"
+				visible = "[CharacterWindow.GetCharacter.HasSuzerain]"
+				allow_outside = yes
+
+				margin_right = 20
+				layoutpolicy_vertical = expanding
+				using = Animation_Character_Window_Refresh
+
+				guix_portrait_head_small = {
+					blockoverride "portrait_transformation"
+					{
+						portrait_scale = { -1 1 }
+						portrait_offset = { 1 0 }
+					}
+
+					blockoverride "coa" {
+						coa_realm_tiny = {
+							parentanchor = bottom|left
+							position = { 3 -2 }
+							scale = 0.85
+						}
+					}
+				}
+
+				hbox = {
+					spacing = 3
+
+					datacontext = "[CharacterWindow.GetCharacter]"
+
+					text_label_center = {
+						visible = "[Character.IsHostage]"
+						text = "WARDEN_OF"
+					}
+
+					text_label_center = {
+						visible = "[Not( Character.IsHostage )]"
+						text = "[suzerain|E]"
+						margin_left = 28
+
+						### Tributary Icon
+						widget = {
+							size = { 24 24 }
+							datacontext = "[Character.GetTributaryContract]"
+							tooltip = "CONTRACT_NAME"
+							using = tooltip_se
+
+							icon = {
+								visible = "[And( Not( IsNomad( Character )), Not( IsHerder( Character ) ) )]"
+								parentanchor = center
+								size = { 24 24 }
+								texture = "gfx/interface/icons/tributary_settled_map_icon.dds"
+							}
+
+							icon = {
+								visible = "[Or(IsNomad( Character ), IsHerder( Character ))]"
+								parentanchor = center
+								size = { 24 24 }
+								texture = "gfx/interface/icons/tributary_nomadic_map_icon.dds"
+							}
+						}
+					}
+				}
+
+
+				portrait_opinion = {
+					name = "suzerain_opinion"
+
+					datacontext = "[CharacterWindow.GetCharacter]"
+					visible = "[And( Character.GetSuzerain.IsValid, And( Character.IsAlive, Not(Character.IsLocalPlayer ) ) )]"
+
+					blockoverride "opinion_text"
+					{
+						text = "[Character.GetOpinionOf( Character.GetSuzerain )|=]"
+						fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetSuzerain )]"
+					}
+
+					blockoverride "ott_heading_text"
+					{
+						text = "[Character.GetOpinionHeadingText( CharacterWindow.GetCharacter.GetSuzerain )]"
+					}
+
+					blockoverride "ott_opinion_value_text"
+					{
+						text = "[Character.GetOpinionOf( Character.GetSuzerain )|=]"
+						fonttintcolor = "[Character.GetOpinionOfTint( CharacterWindow.GetCharacter.GetSuzerain )]"
+					}
+
+					blockoverride "ott_opinion_breakdown_text"
+					{
+						text = "[Character.GetOpinionBreakdownText( CharacterWindow.GetCharacter.GetSuzerain )]"
 					}
 				}
 				expand = {}

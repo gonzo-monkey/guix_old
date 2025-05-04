@@ -303,6 +303,30 @@ types CharacterWindow {
 						}
 					}
 
+					#Herd
+					vbox = {
+						datacontext = "[Character.GetDomicile]"
+						visible = "[IsNomad( Character )]"
+						tooltip = "[Domicile.GetHerdBreakdown]"
+						min_width = 35
+						spacing = -2
+
+						icon = {
+							name = "herd_icon"
+							size = { 30 30 }
+							texture = "gfx/interface/icons/icon_herd.dds"
+						}
+
+						text_single = {
+							name = "total_herd"
+							text = "[Domicile.GetHerd|0]"
+							default_format = "#high"
+							align = center|nobaseline
+							fontsize_min = 12
+							max_width = 50
+						}
+					}
+
 					#Influence
 					vbox = {
 						visible = "[Character.GetGovernment.HasRule( 'administrative' )]"
@@ -775,7 +799,7 @@ types CharacterWindow {
 					item = {
 						coa_title_tiny_crown = {
 							datacontext = "[TitleItem.GetTitle]"
-							#	visible = "[GreaterThan_int32( Title.GetTierFrame, '(int32)3' )]"
+							#parentanchor = left|vcenter
 							using = tooltip_ne
 
 							icon = {
@@ -786,8 +810,17 @@ types CharacterWindow {
 								position = { 5 0 }
 								texture = "gfx/interface/icons/title_status/icon_title_law.dds"
 							}
+							icon = {
+								name = "is_nomad"
+								visible = "[TitleItem.GetTitle.IsNomad]"
+								parentanchor = bottom|right
+								size = { 25 25 }
+								position = { 5 0 }
+								texture = "gfx/interface/icons/title_status/icon_title_nomad.dds"
+							}
 						}
 					}
+
 				}
 				expand = {}
 			}

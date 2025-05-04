@@ -545,6 +545,18 @@ types PortraitTypes
                 }
             }
 
+            # GUIX # removed
+			#icon = {
+				#name = "relation_icon"
+				#visible = "[LessThan_int32(Character.GetPlayerDynastyRelationFrame, '(int32)9')]"
+				#size = { 20 20 }
+
+				#texture = "gfx/interface/icons/portraits/relation.dds"
+				#framesize = { 40 40 }
+				#frame = "[Character.GetPlayerDynastyRelationFrame]"
+				#tooltip = "[Character.GetPlayerDynastyRelationTooltip]"
+			#}
+
             icon = {
 				name = "hostage_icon"
 				visible = "[Character.IsHostage]"
@@ -553,6 +565,7 @@ types PortraitTypes
 				tooltip = "[Character.GetHostageTooltip]"
 			}
 
+            # GUIX # PDX added in 1.9 "Lance"
             icon = {
                 name = "traveling_icon"
                 visible = "[And(Character.IsTraveling, Character.GetTravelPlan.IsInTransit)]"
@@ -588,15 +601,6 @@ types PortraitTypes
                 tooltip = "[Character.PunishmentTooltip]"
             }
 
-            # TODO BP2: Add visible trigger and tooltip
-            icon = {
-                name = "hostage"
-                visible = no
-                size = { 25 25 }
-
-                texture = "gfx/interface/icons/portraits/hostage.dds"
-            }
-
             icon = {
                 name = "hook"
                 visible = "[Character.PlayerHasHooksOrHookableSecrets]"
@@ -626,6 +630,90 @@ types PortraitTypes
                 framesize = { 40 40 }
                 frame = "[Character.GetPowerfulVassalFrame]"
                 tooltip = "[Character.GetPowerfulVassalTooltip]"
+            }
+
+            # GUIX # PDX added in 1.16 "Chamfron"
+            icon = {
+                name = "tributary"
+                datacontext = "[Character.GetTributaryContract]"
+                visible = "[Character.IsTributaryOf(GetPlayer)]"
+                size = { 25 25 }
+
+                texture = "[Character.GetTributaryContract.GetPortraitIconSmall]"
+                tooltip = "FRAME_RELATION_TRIBUTARY"
+            }
+            
+            # GUIX # PDX added in 1.16 "Chamfron"
+            icon = {
+                name = "obedient_to_me"
+                visible = "[And(Character.UsesObedience,And(Character.GetOverlord.IsLocalPlayer, And(Character.IsObedientTo(GetPlayer), Not(Character.IsPlayer))))]"
+                size = { 25 25 }
+                texture = "gfx/interface/icons/portraits/obedient_small.dds"
+                tooltipwidget = widget_obedience_tooltip
+            }
+
+            # GUIX # PDX added in 1.16 "Chamfron"
+            icon = {
+                name = "obedient_to_someone_else"
+                visible = "[And(Not(Character.IsPlayer),And(Character.UsesObedience,And(Not(Character.GetOverlord.IsLocalPlayer),Character.IsObedientTo(Character.GetOverlord))))]"
+
+                size = { 25 25 }
+                enabled = no
+                texture = "gfx/interface/icons/portraits/obedient_small.dds"
+                tooltipwidget = widget_obedience_tooltip
+            }
+
+            # GUIX # PDX added in 1.16 "Chamfron"
+            icon = {
+                name = "disobedient_to_me"
+                visible = "[And(Character.UsesObedience,And(Character.GetOverlord.IsLocalPlayer, And(Not(Character.IsObedientTo(GetPlayer)), Not(Character.IsPlayer))))]"
+                size = { 25 25 }
+                texture = "gfx/interface/icons/portraits/disobedient_small.dds"
+                tooltipwidget = widget_obedience_tooltip
+            }
+
+            # GUIX # PDX added in 1.16 "Chamfron"
+            icon = {
+                name = "disobedient_to_someone_else"
+                visible = "[And( Not(Character.IsPlayer), And(Character.UsesObedience,And(Not(Character.GetOverlord.IsLocalPlayer),Not(Character.IsObedientTo(Character.GetOverlord)))))]"
+                size = { 25 25 }
+                enabled = no
+                texture = "gfx/interface/icons/portraits/disobedient_small.dds"
+                tooltipwidget = widget_obedience_tooltip
+            }
+
+            # GUIX # PDX added in 1.16 "Chamfron"
+            icon = {
+                name = "unpredictable_small"
+                visible = "[Character.IsOtherPlayer]"
+                size = { 25 25 }
+
+                texture = "gfx/interface/icons/portraits/unpredictable_small.dds"
+
+                tooltip = "PLAYER_OBEDIENCE_UNPREDICTABLE"
+            }
+
+            # GUIX # PDX added in 1.13 "Basileus"
+            icon = {
+                name = "powerful_family"
+                visible = "[And( And( Character.IsHouseHead, Character.GetHouse.IsPowerful ), Character.IsVassalOf( GetPlayer ) )]"
+                size = { 25 25 }
+
+                texture = "gfx/interface/icons/portraits/powerful_family_head_small.dds"
+                framesize = { 28 28 }
+                tooltip = "FRAME_RELATION_POWERFUL_FAMILY"
+            }
+
+            # GUIX # PDX added in 1.13 "Basileus"
+            icon = {
+                name = "dominant_family"
+                visible = "[And( And( Character.IsHouseHead, Character.GetHouse.IsDominant ), Character.IsVassalOf( GetPlayer ) )]"
+                size = { 25 25 }
+
+                texture = "gfx/interface/icons/portraits/powerful_family_head_small.dds"
+                framesize = { 28 28 }
+                frame = 2
+                tooltip = "FRAME_RELATION_DOMINANT_FAMILY"
             }
 
             icon = {
@@ -920,7 +1008,6 @@ types PortraitTypes
                 guix_icon_template = {
                     name = "can_be_punished"
                     visible = "[Character.CanBePunished]"
-
                     texture = "gfx/interface/icons/portraits/punishment_small.dds"
                     tooltip = "[Character.PunishmentTooltip]"
                 }
@@ -950,21 +1037,113 @@ types PortraitTypes
                 }
 
                 # GUIX # traveling_icon
+                # GUIX # PDX added in 1.9 "Lance"
                 guix_icon_template = {
                     name = "traveling_icon"
                     visible = "[And(Character.IsTraveling, Character.GetTravelPlan.IsInTransit)]"
                     texture = "gfx/interface/icons/portraits/travel_small.dds"
                     tooltip = "CHARACTER_TRAVELING_TOOLTIP"
                     size = { 18 18 } # reducing icon size
-                }                                
+                }
+                
+                # GUIX # added the below icons after the 1.16 update
+                # GUIX # didn't do anything special, just updated them from the vanilla icon parameter to guix_icon_template parameter so they would be in a consistent format
+
+                # GUIX # tributary (1.16)
+				guix_icon_template = {
+					name = "tributary"
+					datacontext = "[Character.GetTributaryContract]"
+					visible = "[Character.IsTributaryOf(GetPlayer)]"
+					texture = "[Character.GetTributaryContract.GetPortraitIconSmall]"
+					tooltip = "FRAME_RELATION_TRIBUTARY"
+				}
+                
+                # GUIX # obedient_to_me (1.16)
+				guix_icon_template = {
+					name = "obedient_to_me"
+					visible = "[And(Character.UsesObedience,And(Character.GetOverlord.IsLocalPlayer, And(Character.IsObedientTo(GetPlayer), Not(Character.IsPlayer))))]"
+					texture = "gfx/interface/icons/portraits/obedient_small.dds"
+					tooltipwidget = widget_obedience_tooltip
+				}
+	            
+                # GUIX # obedient_to_someone_else (1.16)
+				guix_icon_template = {
+					name = "obedient_to_someone_else"
+					visible = "[And(Not(Character.IsPlayer),And(Character.UsesObedience,And(Not(Character.GetOverlord.IsLocalPlayer),Character.IsObedientTo(Character.GetOverlord))))]"
+					enabled = no
+					texture = "gfx/interface/icons/portraits/obedient_small.dds"
+					tooltipwidget = widget_obedience_tooltip
+				}
+                
+                # GUIX # disobedient_to_me (1.16)
+				guix_icon_template = {
+					name = "disobedient_to_me"
+					visible = "[And(Character.UsesObedience,And(Character.GetOverlord.IsLocalPlayer, And(Not(Character.IsObedientTo(GetPlayer)), Not(Character.IsPlayer))))]"
+					texture = "gfx/interface/icons/portraits/disobedient_small.dds"
+					tooltipwidget = widget_obedience_tooltip
+				}
+
+                # GUIX # disobedient_to_someone_else (1.16)
+				guix_icon_template = {
+					name = "disobedient_to_someone_else"
+					visible = "[And( Not(Character.IsPlayer), And(Character.UsesObedience,And(Not(Character.GetOverlord.IsLocalPlayer),Not(Character.IsObedientTo(Character.GetOverlord)))))]"
+					enabled = no
+					texture = "gfx/interface/icons/portraits/disobedient_small.dds"
+					tooltipwidget = widget_obedience_tooltip
+				}
+
+                # GUIX # unpredictable_small (1.6)
+                # GUIX # I only added after update 1.16
+				guix_icon_template = {
+					name = "unpredictable_small"
+					visible = "[Character.IsOtherPlayer]"
+
+					texture = "gfx/interface/icons/portraits/unpredictable_small.dds"
+
+					tooltip = "PLAYER_OBEDIENCE_UNPREDICTABLE"
+				}
+
+                # GUIX # powerful_family (1.13)
+                # GUIX # I only added after update 1.16
+				guix_icon_template = {
+					name = "powerful_family"
+					visible = "[And( And( Character.IsHouseHead, Character.GetHouse.IsPowerful ), Character.IsVassalOf( GetPlayer ) )]"
+
+					texture = "gfx/interface/icons/portraits/powerful_family_head_small.dds"
+					framesize = { 28 28 }
+					tooltip = "FRAME_RELATION_POWERFUL_FAMILY"
+				}
+
+                # GUIX # dominant_family (1.13)
+                # GUIX # I only added after update 1.16
+				guix_icon_template = {
+					name = "dominant_family"
+					visible = "[And( And( Character.IsHouseHead, Character.GetHouse.IsDominant ), Character.IsVassalOf( GetPlayer ) )]"
+
+					texture = "gfx/interface/icons/portraits/powerful_family_head_small.dds"
+					framesize = { 28 28 }
+					frame = 2
+					tooltip = "FRAME_RELATION_DOMINANT_FAMILY"
+				}
+
+                # GUIX # head_icon (not sure)
+                # GUIX # I only added after update 1.16
+				guix_icon_template = {
+					name = "head_icon"
+					visible = "[LessThan_int32(Character.GetDynastyHeadRelationFrame('(bool)yes'), '(int32)9')]"
+
+					texture = "gfx/interface/icons/portraits/relation_small.dds"
+					framesize = { 28 28 }
+					frame = "[Character.GetDynastyHeadRelationFrame('(bool)yes')]"
+					tooltip = "[Character.GetDynastyHeadRelationTooltip]"
+				}
+               
             }
         }
     }
 
     # GUIX # OPINION TEXT
-    # your family/dynasty will always show
-    # the 'family ties' family/dynasty is for char window only
-    # (since it's the the family relation to the main char)
+    # your family/dynasty will always show the 'family ties' family/dynasty is for char window only (since it's the the family relation to the main char)
     ##################################################
     type guix_portrait_opinion_small = flowcontainer {
         visible = "[Character.IsValid]"
@@ -1051,9 +1230,7 @@ types PortraitTypes
         }
 
         # GUIX # FAMILY TIES ICONS
-        # family relationship to the character in Character Window
-        # only show on character window & when main char is NOT player
-        # family icons are for seeing other main char's family
+        # The custom 'Family Ties' icons only show when the char in the char window is NOT the player. This is so you can see other char's family relationships that you would otherwise not see in vanilla.
         ##################################################
         block "family_ties_main_char" {
             # GUIX # DYNASTY HEIR (player)
@@ -1159,9 +1336,7 @@ types PortraitTypes
     }
 
     # Vanilla # OPINION TEXT
-    # The new window_court_positions.gui started using portrait_opinion_small so I renamed
-    # the custom opinion flowcontainer to guix_portrait_opinion_small (above) so it doesn't
-    # get used by the window_court_positions.gui
+    # The new window_court_positions.gui started using portrait_opinion_small so I renamed the custom opinion flowcontainer to guix_portrait_opinion_small (above) so it doesn't get used by the window_court_positions.gui
 	type portrait_opinion_small = flowcontainer {
 		#name = "tutorial_highlight_portrait_opinion"
 		visible = "[And(Character.IsValid, And(Character.IsAlive, Not(Character.IsLocalPlayer)))]"
