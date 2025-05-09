@@ -1,6 +1,6 @@
 version="1"
 tags={
-	"Utilities"
+	"Graphics"
 }
-name="guix_wip"
-supported_version="1.16.0.1"
+name="guix_old"
+supported_version="1.16.1"
