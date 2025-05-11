@@ -2045,50 +2045,84 @@ types CoATypes
 	{
 		block "size"
 		{
-			size = { 50 50 }
+			size = { 45 30 }
 		}
 
-		icon = {
-			name = "sigil_bg"
-			texture = "gfx/interface/window_event/sigil_bg.dds"
-			alwaystransparent = yes
+		widget = {
 			parentanchor = center
 
-			block "size"
-			{
-				size = { 50 50 }
+			icon = {
+				name = "sigil_bg"
+				texture = "gfx/interface/skinned/window_letter/sigil_bg.dds"
+				alwaystransparent = yes
+				parentanchor = center
+
+				block "size"
+				{
+					size = { 50 50 }
+				}
 			}
+
+			icon = {
+				name = "sigil"
+				visible = "[Character.HasSealCoA]"
+				gfxtype = coatofarmsgfx
+				shaderfile = "gfx/FX/gui_coatofarms.shader"
+				effectname = PdxGuiSeal
+				alwaystransparent = yes
+				datacontext = "[Character.GetSealCoA]"
+				coat_of_arms_slot = "[CoatOfArms.GetSlot('(int32)88','(int32)88')]"
+				coat_of_arms = "[CoatOfArms.GetTexture('(int32)88','(int32)88')]"
+				coat_of_arms_mask = "gfx/interface/skinned/window_letter/sigil_center.dds"
+				parentanchor = center
+
+				block "sigil_size"
+				{
+					size = { 34 34 }
+				}
+			}
+
+			icon = {
+				name = "sigil_lowborn"
+				visible = "[Not( Character.HasSealCoA )]"
+				texture = "gfx/interface/skinned/window_letter/sigil_center_lowborn.dds"
+				alwaystransparent = yes
+				parentanchor = center
+
+				block "sigil_size"
+				{
+					size = { 34 34 }
+				}
+			}
+
 		}
 
-		icon = {
-			name = "sigil"
+		coa_house_widget = {
+			using = CoA_House_Defaults
 			visible = "[Character.HasSealCoA]"
-			gfxtype = coatofarmsgfx
-			shaderfile = "gfx/FX/gui_coatofarms.shader"
-			effectname = PdxGuiSeal
-			alwaystransparent = yes
-			datacontext = "[Character.GetSealCoA]"
-			coat_of_arms_slot = "[CoatOfArms.GetSlot('(int32)88','(int32)88')]"
-			coat_of_arms = "[CoatOfArms.GetTexture('(int32)88','(int32)88')]"
-			coat_of_arms_mask = "gfx/interface/window_event/sigil_center.dds"
+			datacontext = "[Character.GetHouse]"
 			parentanchor = center
 
 			block "sigil_size"
 			{
 				size = { 34 34 }
 			}
-		}
 
-		icon = {
-			name = "sigil_lowborn"
-			visible = "[Not( Character.HasSealCoA )]"
-			texture = "gfx/interface/window_event/sigil_center_lowborn.dds"
-			alwaystransparent = yes
-			parentanchor = center
+			coat_of_arms_icon = {
+				parentanchor = center
+				block "sigil_size"
+				{
+					size = { 34 34 }
+				}
+				coat_of_arms = "[DynastyHouse.GetHouseCoA.GetTexture('(int32)124','(int32)124')]"
+				coat_of_arms_slot = "[DynastyHouse.GetHouseCoA.GetSlot('(int32)124','(int32)124')]"
+				coat_of_arms_mask = "gfx/interface/skinned/window_letter/asia_house_mask.dds"
 
-			block "sigil_size"
-			{
-				size = { 34 34 }
+				modify_texture = {
+					texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+					blend_mode = overlay
+					alpha = @overlay_alpha
+				}
 			}
 		}
 	}
