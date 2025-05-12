@@ -229,16 +229,27 @@ types CharacterWindow {
 						margin = { 8 0 }
 						using = Background_Area_Solid
 					}
-					icon = {
-						name = "diarchy_active_icon"
+
+
+					#guix# made this a button instead of an icon for easy access to power sharing window
+					button_round = {
 						visible = "[And(CharacterWindow.GetCharacter.HasActiveDiarchy, Not(CharacterWindow.ShowMarriageIcon))]"
-						parentanchor = bottom
-						position = { 0 -3 }
-						size = { 30 30 }
-						texture = "gfx/interface/icons/scale_of_power.dds"
-						tooltip = IN_ACTIVE_DIARCHY
-						using = tooltip_below
-					}
+						name = "diarchy_active_button"
+						size = { 32 32 }
+
+						onclick = "[ToggleGameViewData( 'diarchy', Character.GetID )]"
+						tooltip = "DIARCHY_WINDOW_OPEN_TOOLTIP"
+
+						button_icon = {
+							parentanchor = center
+							position = { 0 -1 }
+							size = { 24 24 }
+							alwaystransparent = yes
+							texture = "gfx/interface/window_regency/scale_of_power.dds"
+							tooltip = IN_ACTIVE_DIARCHY
+							using = tooltip_below
+						}
+					}					
 		
 					icon = {
 						name = "marriage_type_icon"
