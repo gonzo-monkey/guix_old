@@ -725,7 +725,7 @@ types Lists
 	}
 
     # GUIX # modified hbox_list_sort_buttons
-    ####################################################################################################	
+    ####################################################################################################
 	type hbox_list_sort_buttons = hbox {
 		name = "sort_buttons"
 
@@ -799,272 +799,64 @@ types Lists
 		}
 
 		##################################################
-		# GUIX # Custom Court Highlight Button
+		# GUIX # Court Filter Button
 		##################################################
-		# GUIX # SHOW EMPLOYED BUTTON
-		button_normal = {
-			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','default'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"
-			size = { 30 30 }
+		button_standard_clean = {
+			name = "toggle_filter_court"
+			visible = "[Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"
+			size = { 70 30 }
+			onclick = "[GetVariableSystem.Toggle( 'guix_filter_court' )]"
+			down = "[VariableSystem.Exists( 'guix_filter_court' )]"
 
-			icon = {
-				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-				size = { 100% 100% }
+			text = "Filter"
+			align = center|nobaseline
+			margin_right = 25
+
+			button_icon_highlight = {
+				visible = "[Not( VariableSystem.Exists( 'guix_filter_court' ) )]"
+				parentanchor = vcenter|right
+				position = { -5 0 }
+				size = { 15 15 }
+				texture = "gfx/interface/icons/flat_icons/select_arrow.dds"
 			}
-			button_icon = {
-				texture = "gfx/interface/icons/custom/guix_court.dds"
-				size = { 20 20 }
-				parentanchor = center
-
-				onclick = "[GetVariableSystem.Set('guix_court_highlight','show_employed')]"
-				
-				tooltip = "HIGHLIGHT_BUTTON_COURT_DEFAULT_SHOW_EMPLOYED"
-				using = tooltip_ne
-				tooltip_offset = { 25 5 }
-			}
-		}
-
-		# GUIX # SHOW KNIGHTS BUTTON
-		button_normal = {
-			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_employed'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"
-			size = { 30 30 }
-
-			icon = {
-				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-				size = { 100% 100% }
-			}
-			button_icon = {
-				texture = "gfx/interface/icons/custom/guix_knight.dds"
-				size = { 20 20 }
-				parentanchor = center
-
-				onclick = "[GetVariableSystem.Set('guix_court_highlight','show_knights')]"
-				
-				tooltip = "HIGHLIGHT_BUTTON_COURT_EMPLOYED_SHOW_KNIGHTS"
-				using = tooltip_ne
-				tooltip_offset = { 25 5 }
-			}
-		}
-
-		# GUIX # SHOW HOSTAGE & PRISONERS BUTTON
-		button_normal = {
-			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_knights'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"	
-			size = { 30 30 }
-
-			icon = {
-				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-				size = { 100% 100% }
-			}
-			button_icon = {
-				texture = "gfx/interface/icons/custom/guix_prisoner.dds"
-				size = { 20 20 }
-				parentanchor = center
-
-				onclick = "[GetVariableSystem.Set('guix_court_highlight','show_captives')]"
-				
-				tooltip = "HIGHLIGHT_BUTTON_COURT_KNIGHTS_SHOW_HOSTAGES_PRISONERS"
-				using = tooltip_ne
-				tooltip_offset = { 25 5 }
-			}
-		}
-
-		# GUIX # SHOW GUESTS BUTTON
-		button_normal = {
-			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_captives'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"
-			size = { 30 30 }
-
-			icon = {
-				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-				size = { 100% 100% }
-			}
-			button_icon = {
-				texture = "gfx/interface/icons/custom/guix_guest.dds"
-				size = { 20 20 }
-				parentanchor = center
-
-				onclick = "[GetVariableSystem.Set('guix_court_highlight','show_guests')]"
-				
-				tooltip = "HIGHLIGHT_BUTTON_COURT_HOSTAGES_PRISONERS_SHOW_GUESTS"
-				using = tooltip_ne
-				tooltip_offset = { 25 5 }
-			}
-		}
-
-		# GUIX # SHOW FAMILY BUTTON
-		button_normal = {
-			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_guests'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"			
-			size = { 30 30 }
-
-			icon = {
-				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-				size = { 100% 100% }
-			}
-			button_icon = {
-				texture = "gfx/interface/icons/custom/guix_family.dds"
-				size = { 20 20 }
-				parentanchor = center
-
-				onclick = "[GetVariableSystem.Set('guix_court_highlight','show_family')]"
-				
-				tooltip = "HIGHLIGHT_BUTTON_COURT_GUEST_SHOW_FAMILY"
-				using = tooltip_ne
-				tooltip_offset = { 25 5 }
-			}
-		}
-
-		# GUIX # SHOW RELATIONS
-		button_normal = {
-			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_family'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"	
-			size = { 30 30 }
-
-			icon = {
-				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-				size = { 100% 100% }
-			}
-			button_icon = {
-				texture = "gfx/interface/icons/custom/guix_relations.dds"
-				size = { 20 20 }
-				parentanchor = center
-
-				onclick = "[GetVariableSystem.Set('guix_court_highlight','show_relations')]"
-				
-				tooltip = "HIGHLIGHT_BUTTON_COURT_FAMILY_SHOW_RELATIONS"
-				using = tooltip_ne
-				tooltip_offset = { 25 5 }
-			}
-		}
-
-		# GUIX # Back to Default View
-		button_normal = {
-			visible = "[And(GetVariableSystem.HasValue('guix_court_highlight','show_relations'),Or(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_tab','court_expanded')))]"
-			size = { 30 30 }
-
-			icon = {
-				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-				size = { 100% 100% }
-			}
-			button_icon = {
-				texture = "gfx/interface/icons/flat_icons/cancel.dds"
-				size = { 20 20 }
-				parentanchor = center
-
-				onclick = "[GetVariableSystem.Set('guix_court_highlight','default')]"
-				
-				tooltip = "HIGHLIGHT_BUTTON_COURT_RELATIONS_SHOW_DEFAULT"
-				using = tooltip_ne
-				tooltip_offset = { 25 5 }
+			button_icon_highlight = {
+				visible = "[VariableSystem.Exists( 'guix_filter_court' )]"
+				parentanchor = vcenter|right
+				position = { -5 0 }
+				size = { 15 15 }
+				texture = "gfx/interface/icons/flat_icons/select_arrow.dds"
+				mirror = horizontal
 			}
 		}
 
 		##################################################
-		# GUIX # Custom Vassals Highlight Button
+		# GUIX # Vassals Highlight Button
 		##################################################
-		# GUIX # SHOW COUNCIL BUTTON
-		button_normal = {
-			visible = "[And(GetVariableSystem.HasValue('guix_vassals_highlight','default'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded')))]"
-			size = { 30 30 }
+		button_standard_clean = {
+			name = "toggle_filter_vassals"
+			visible = "[Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded'))]"
+			size = { 70 30 }
+			onclick = "[GetVariableSystem.Toggle( 'guix_filter_vassals' )]"
+			down = "[VariableSystem.Exists( 'guix_filter_vassals' )]"
 
-			icon = {
-				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-				size = { 100% 100% }
+			text = "Filter"
+			align = center|nobaseline
+			margin_right = 25
+
+			button_icon_highlight = {
+				visible = "[Not( VariableSystem.Exists( 'guix_filter_vassals' ) )]"
+				parentanchor = vcenter|right
+				position = { -5 0 }
+				size = { 15 15 }
+				texture = "gfx/interface/icons/flat_icons/select_arrow.dds"
 			}
-			button_icon = {
-				texture = "gfx/interface/icons/custom/guix_court.dds"
-				size = { 20 20 }
-				parentanchor = center
-
-				onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_council')]"
-
-				tooltip = "HIGHLIGHT_BUTTON_VASSALS_SHOW_COUNCIL"
-				using = tooltip_ne
-				tooltip_offset = { 25 5 }
-			}
-		}		
-
-		# GUIX # SHOW KNIGHT BUTTON
-		button_normal = {
-			visible = "[And(GetVariableSystem.HasValue('guix_vassals_highlight','show_council'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded')))]"		
-			size = { 30 30 }
-
-			icon = {
-				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-				size = { 100% 100% }
-			}
-			button_icon = {
-				texture = "gfx/interface/icons/custom/guix_knight.dds"
-				size = { 20 20 }
-				parentanchor = center
-
-				onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_knights')]"	
-				
-				tooltip = "HIGHLIGHT_BUTTON_VASSALS_COUNCIL_SHOW_KNIGHTS"
-				using = tooltip_ne
-				tooltip_offset = { 25 5 }
-			}
-		}
-
-		# GUIX # SHOW FAMILY BUTTON
-		button_normal = {
-			visible = "[And(GetVariableSystem.HasValue('guix_vassals_highlight','show_knights'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded')))]"				
-			size = { 30 30 }
-
-			icon = {
-				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-				size = { 100% 100% }
-			}
-			button_icon = {
-				texture = "gfx/interface/icons/custom/guix_family.dds"
-				size = { 20 20 }
-				parentanchor = center
-
-				onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_family')]"
-				
-				tooltip = "HIGHLIGHT_BUTTON_VASSALS_KNIGHTS_SHOW_FAMILY"
-				using = tooltip_ne
-				tooltip_offset = { 25 5 }
-			}
-		}
-
-		# GUIX # SHOW FAMILY BUTTON
-		button_normal = {
-			visible = "[And(GetVariableSystem.HasValue('guix_vassals_highlight','show_family'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded')))]"				
-			size = { 30 30 }
-
-			icon = {
-				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-				size = { 100% 100% }
-			}
-			button_icon = {
-				texture = "gfx/interface/icons/custom/guix_family.dds"
-				size = { 20 20 }
-				parentanchor = center
-
-				onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_relations')]"
-				
-				tooltip = "HIGHLIGHT_BUTTON_VASSALS_FAMILY_SHOW_RELATIONS"
-				using = tooltip_ne
-				tooltip_offset = { 25 5 }
-			}
-		}
-
-		# GUIX # Back to Default View
-		button_normal = {
-			visible = "[And(GetVariableSystem.HasValue('guix_vassals_highlight','show_relations'),Or(GetVariableSystem.HasValue('guix_tab','vassals'),GetVariableSystem.HasValue('guix_tab','vassals_expanded')))]"					
-			size = { 30 30 }
-
-			icon = {
-				texture = "gfx/interface/buttons/button_lifestyles_base.dds"
-				size = { 100% 100% }
-			}
-			button_icon = {
-				texture = "gfx/interface/icons/flat_icons/cancel.dds"
-				size = { 20 20 }
-				parentanchor = center
-
-				onclick = "[GetVariableSystem.Set('guix_vassals_highlight','default')]"
-				
-				tooltip = "HIGHLIGHT_BUTTON_VASSALS_RELATIONS_SHOW_DEFAULT"
-				using = tooltip_ne
-				tooltip_offset = { 25 5 }
+			button_icon_highlight = {
+				visible = "[VariableSystem.Exists( 'guix_filter_vassals' )]"
+				parentanchor = vcenter|right
+				position = { -5 0 }
+				size = { 15 15 }
+				texture = "gfx/interface/icons/flat_icons/select_arrow.dds"
+				mirror = horizontal
 			}
 		}
 

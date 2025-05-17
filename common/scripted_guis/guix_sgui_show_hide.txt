@@ -241,9 +241,11 @@ guix_character_is_employed = {
 		other_character
 	}
 	is_shown = {
-		OR = {		
-			is_councillor_of = scope:other_character
+		AND = {					
 			has_any_court_position = yes
+			NOT = {
+				is_councillor_of = scope:other_character
+			}
 		}
 	}
 }
@@ -480,19 +482,6 @@ guix_vassal_alliance = {
 ####################################################################################################
 # GUIX # determine what liege/vassal icon to display in DIPLOMACY tab
 ####################################################################################################
-# GUIX # councillor or court position
-guix_character_is_employed = {
-	scope = character
-	saved_scopes = {
-		other_character
-	}
-	is_shown = {
-		OR = {		
-			is_councillor_of = scope:other_character
-			has_any_court_position = yes
-		}
-	}
-}
 
 # hostage & prisoner
 guix_character_is_captive_of = {

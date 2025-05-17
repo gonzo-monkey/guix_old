@@ -1611,7 +1611,7 @@ types CharacterWindow {
 				fixedgridbox = {
 					name = "characters_grid_extended_council"
 					datamodel = "[CharacterSelectionList.GetList]"
-					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_employed'))]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_council'))]"
 					addcolumn = 589
 					addrow = 120
 					setitemsizefromcell = yes
@@ -1644,6 +1644,44 @@ types CharacterWindow {
 						}						
 					}
 				}				
+
+				# GUIX # Court Positions Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_court_positions"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_employed'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS COUNCIL
+							guix_widget_character_list_item = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[GetScriptedGui( 'guix_character_is_employed' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+							# NOT COUNCIL
+							guix_widget_character_list_item = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(GetScriptedGui( 'guix_character_is_employed' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								#blockoverride "vassals_only_icons" {}
+							}
+						}						
+					}
+				}	
 
 				# GUIX # Knights Expanded
 				fixedgridbox = {
@@ -1678,6 +1716,82 @@ types CharacterWindow {
 								}
 								blockoverride "traits_for_variable_list" {}
 								blockoverride "vassals_only_icons" {}
+							}
+						}						
+					}
+				}
+
+				# GUIX # Family Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_family"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_family'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS FAMILY
+							guix_widget_character_list_item = {
+								visible = "[GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+							# NOT FAMILY
+							guix_widget_character_list_item = {
+								visible = "[Not(GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+								datacontext = "[CharacterListItem.GetCharacter]"
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								#blockoverride "vassals_only_icons" {}
+							}
+						}						
+					}
+				}
+
+				# GUIX # Relations Expanded
+				fixedgridbox = {
+					name = "characters_grid_extended_relations"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_relations'))]"
+					addcolumn = 589
+					addrow = 120
+					setitemsizefromcell = yes
+					layoutpolicy_horizontal = expanding
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS FAMILY
+							guix_widget_character_list_item = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[GetScriptedGui( 'guix_is_any_relation' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								blockoverride "vassals_only_icons" {}
+							}
+							# NOT FAMILY
+							guix_widget_character_list_item = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(GetScriptedGui( 'guix_is_any_relation' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+								blockoverride "portrait_head_small_X" {
+									guix_portrait_head_small = {}
+								}
+								blockoverride "traits_for_variable_list" {}
+								#blockoverride "vassals_only_icons" {}
 							}
 						}						
 					}
@@ -1757,82 +1871,6 @@ types CharacterWindow {
 							}
 						}						
 					}
-				}
-
-				# GUIX # Family Expanded
-				fixedgridbox = {
-					name = "characters_grid_extended_family"
-					datamodel = "[CharacterSelectionList.GetList]"
-					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_family'))]"
-					addcolumn = 589
-					addrow = 120
-					setitemsizefromcell = yes
-					layoutpolicy_horizontal = expanding
-					item = {
-						widget = {
-							allow_outside = yes
-							# IS FAMILY
-							guix_widget_character_list_item = {
-								visible = "[GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
-								alpha = 1
-								datacontext = "[CharacterListItem.GetCharacter]"
-								blockoverride "portrait_head_small_X" {
-									guix_portrait_head_small = {}
-								}
-								blockoverride "traits_for_variable_list" {}
-								blockoverride "vassals_only_icons" {}
-							}
-							# NOT FAMILY
-							guix_widget_character_list_item = {
-								visible = "[Not(GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
-								alpha = 0.25
-								datacontext = "[CharacterListItem.GetCharacter]"
-								blockoverride "portrait_head_small_X" {
-									guix_portrait_head_small = {}
-								}
-								blockoverride "traits_for_variable_list" {}
-								#blockoverride "vassals_only_icons" {}
-							}
-						}						
-					}
-				}
-
-				# GUIX # Relations Expanded
-				fixedgridbox = {
-					name = "characters_grid_extended_relations"
-					datamodel = "[CharacterSelectionList.GetList]"
-					visible = "[And(GetVariableSystem.HasValue('guix_tab','court_expanded'),GetVariableSystem.HasValue('guix_court_highlight','show_relations'))]"
-					addcolumn = 589
-					addrow = 120
-					setitemsizefromcell = yes
-					layoutpolicy_horizontal = expanding
-					item = {
-						widget = {
-							allow_outside = yes
-							# IS FAMILY
-							guix_widget_character_list_item = {
-								visible = "[GetScriptedGui( 'guix_has_relations' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
-								alpha = 1
-								datacontext = "[CharacterListItem.GetCharacter]"
-								blockoverride "portrait_head_small_X" {
-									guix_portrait_head_small = {}
-								}
-								blockoverride "traits_for_variable_list" {}
-								blockoverride "vassals_only_icons" {}
-							}
-							# NOT FAMILY
-							guix_widget_character_list_item = {
-								visible = "[Not(GetScriptedGui( 'guix_has_relations' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
-								alpha = 0.25
-								datacontext = "[CharacterListItem.GetCharacter]"
-								blockoverride "portrait_head_small_X" {
-									guix_portrait_head_small = {}
-								}
-								blockoverride "traits_for_variable_list" {}
-								#blockoverride "vassals_only_icons" {}
-							}
-						}						
-					}
 				}				
 
 				# GUIX # Default
@@ -1867,7 +1905,7 @@ types CharacterWindow {
 				fixedgridbox = {
 					name = "characters_grid_council"
 					datamodel = "[CharacterSelectionList.GetList]"
-					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_employed'))]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_council'))]"
 
 					layoutpolicy_horizontal = expanding
 					expand = {}
@@ -1882,16 +1920,16 @@ types CharacterWindow {
 					item = {
 						widget = {
 							allow_outside = yes
-							# IS COUNCIL OR COURT POSITION
+							# IS COUNCIL
 							guix_portrait_head_small = {
 								datacontext = "[CharacterListItem.GetCharacter]"
-								visible = "[GetScriptedGui( 'guix_character_is_employed' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								visible = "[Character.IsCouncillor]"
 								alpha = 1
 							}
-							# NOT COUNCIL OR COURT POSITION
+							# NOT COUNCIL
 							guix_portrait_head_small = {
 								datacontext = "[CharacterListItem.GetCharacter]"
-								visible = "[Not(GetScriptedGui( 'guix_character_is_employed' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								visible = "[Not(Character.IsCouncillor)]"
 								alpha = 0.25
 							}							
 						}
@@ -1933,6 +1971,76 @@ types CharacterWindow {
 					}
 				}
 
+				# GUIX # Family
+				fixedgridbox = {
+					name = "characters_grid_family"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_family'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS FAMILY
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+							}
+							# NOT FAMILY							
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+							}		
+						}
+					}
+				}				
+
+				# GUIX # Relations
+				fixedgridbox = {
+					name = "characters_grid_relations"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_relations'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS RELATION
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[GetScriptedGui( 'guix_is_any_relation' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+							}
+							# NOT RELATION							
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(GetScriptedGui( 'guix_is_any_relation' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+							}		
+						}
+					}
+				}	
+
 				# GUIX # Captives (Hostages & Prisoners)
 				fixedgridbox = {
 					name = "characters_grid_captives"
@@ -1964,6 +2072,41 @@ types CharacterWindow {
 								visible = "[Not(GetScriptedGui( 'guix_character_is_captive_of' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
 								alpha = 0.25
 							}		
+						}
+					}
+				}
+
+				# GUIX # Court Positions
+				fixedgridbox = {
+					name = "characters_grid_court_positions"
+					datamodel = "[CharacterSelectionList.GetList]"
+					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_employed'))]"
+
+					layoutpolicy_horizontal = expanding
+					expand = {}
+
+					flipdirection = yes
+					addcolumn = 84
+					addrow = 91
+					datamodel_wrap = 7
+					maxverticalslots = 10
+					maxhorizontalslots = 7
+					
+					item = {
+						widget = {
+							allow_outside = yes
+							# IS COUNCIL OR COURT POSITION
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[GetScriptedGui( 'guix_character_is_employed' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
+								alpha = 1
+							}
+							# NOT COUNCIL OR COURT POSITION
+							guix_portrait_head_small = {
+								datacontext = "[CharacterListItem.GetCharacter]"
+								visible = "[Not(GetScriptedGui( 'guix_character_is_employed' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
+								alpha = 0.25
+							}							
 						}
 					}
 				}
@@ -2002,76 +2145,7 @@ types CharacterWindow {
 						}
 					}
 				}
-				
-				# GUIX # Family
-				fixedgridbox = {
-					name = "characters_grid_family"
-					datamodel = "[CharacterSelectionList.GetList]"
-					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_family'))]"
-
-					layoutpolicy_horizontal = expanding
-					expand = {}
-
-					flipdirection = yes
-					addcolumn = 84
-					addrow = 91
-					datamodel_wrap = 7
-					maxverticalslots = 10
-					maxhorizontalslots = 7
-					
-					item = {
-						widget = {
-							allow_outside = yes
-							# IS FAMILY
-							guix_portrait_head_small = {
-								datacontext = "[CharacterListItem.GetCharacter]"
-								visible = "[GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
-								alpha = 1
-							}
-							# NOT FAMILY							
-							guix_portrait_head_small = {
-								datacontext = "[CharacterListItem.GetCharacter]"
-								visible = "[Not(GetScriptedGui( 'guix_is_any_family' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
-								alpha = 0.25
-							}		
-						}
-					}
-				}
-
-				# GUIX # Relations
-				fixedgridbox = {
-					name = "characters_grid_relations"
-					datamodel = "[CharacterSelectionList.GetList]"
-					visible = "[And(GetVariableSystem.HasValue('guix_tab','court'),GetVariableSystem.HasValue('guix_court_highlight','show_relations'))]"
-
-					layoutpolicy_horizontal = expanding
-					expand = {}
-
-					flipdirection = yes
-					addcolumn = 84
-					addrow = 91
-					datamodel_wrap = 7
-					maxverticalslots = 10
-					maxhorizontalslots = 7
-					
-					item = {
-						widget = {
-							allow_outside = yes
-							# IS RELATION
-							guix_portrait_head_small = {
-								datacontext = "[CharacterListItem.GetCharacter]"
-								visible = "[GetScriptedGui( 'guix_is_any_relation' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End )]"
-								alpha = 1
-							}
-							# NOT RELATION							
-							guix_portrait_head_small = {
-								datacontext = "[CharacterListItem.GetCharacter]"
-								visible = "[Not(GetScriptedGui( 'guix_is_any_relation' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('other_character', CharacterWindow.GetCharacter.MakeScope ).End ))]"
-								alpha = 0.25
-							}		
-						}
-					}
-				}				
+			
 			}
 
 			blockoverride "character_count"
@@ -3144,6 +3218,7 @@ types CharacterWindow {
 				}
 			}
 		}
+
 	}
 	
 	##################################################
@@ -3389,6 +3464,1149 @@ types CharacterWindow {
 					}
 				}
 			}
+		}
+	}
+
+	####################################################################################################
+	# GUIX # FILTERS - These are the windows that show when filtering Court and Vassals
+	# The actual windows are in window_character.gui
+	####################################################################################################
+
+	# GUIX # Court Filter Window
+	##################################################
+	type guix_filter_window_court = window {
+		visible = "[And( VariableSystem.Exists( 'guix_filter_court' ), GetVariableSystem.HasValue('guix_tab','court') )]"
+		size = { 0 0 }
+		parentanchor = bottom|left
+		movable = yes
+		allow_outside = yes
+
+		state = {
+			name = _show
+			position = { 615 -45 }
+			using = Animation_FadeIn_Quick
+		}
+		state = {
+			name = _hide
+			position = { 565 -45 }
+			using = Animation_FadeOut_Quick
+		}
+
+		using = Window_Background_Subwindow
+
+		vbox = {
+			set_parent_size_to_minimum = yes
+			min_width = 240
+			margin = { 10 4 }
+
+			header_pattern = {
+				layoutpolicy_horizontal = expanding
+
+				blockoverride "header_text" {
+					text = "GUIX_FILTER"
+				}
+				blockoverride "button_close" {
+					onclick = "[VariableSystem.Clear( 'guix_filter_court' )]"
+				}
+			}
+
+			############################################
+			#guix# this is where the filter options go
+			############################################
+			vbox = {
+				layoutpolicy_horizontal = expanding
+				margin_bottom = 15
+				
+				# GUIX # SHOW COUNCIL BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_council' ) )]"
+							texture = "gfx/interface/icons/custom/guix_court.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_council')]"
+						}
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_council' )]"
+							texture = "gfx/interface/icons/custom/guix_court.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}				
+					}
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_COUNCIL"
+					}
+					expand = {}
+				}			
+
+				# GUIX # SHOW KNIGHTS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_knights' ) )]"
+							texture = "gfx/interface/icons/custom/guix_knight.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_knights')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_knights' )]"
+							texture = "gfx/interface/icons/custom/guix_knight.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_KNIGHTS"
+					}
+					expand = {}
+				}
+				
+				# GUIX # SHOW FAMILY BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_family' ) )]"
+							texture = "gfx/interface/icons/custom/guix_family.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_family')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_family' )]"
+							texture = "gfx/interface/icons/custom/guix_family.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_FAMILY"
+					}
+					expand = {}
+				}
+
+				# GUIX # SHOW RELATIONS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_relations' ) )]"							
+							texture = "gfx/interface/icons/custom/guix_relations.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_relations')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_relations' )]"							
+							texture = "gfx/interface/icons/custom/guix_relations.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_RELATIONS"
+					}
+					expand = {}
+				}			
+
+				# GUIX # SHOW HOSTAGE & PRISONERS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_captives' ) )]"							
+							texture = "gfx/interface/icons/custom/guix_prisoner.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_captives')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_captives' )]"							
+							texture = "gfx/interface/icons/custom/guix_prisoner.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_HOSTAGES_PRISONERS"
+					}
+					expand = {}
+				}
+
+				# GUIX # SHOW COURT POSITIONS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_employed' ) )]"								
+							texture = "gfx/interface/icons/custom/guix_court.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_employed')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_employed' )]"								
+							texture = "gfx/interface/icons/custom/guix_court.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_COURT_POSITIONS"
+					}
+					expand = {}
+				}
+
+				# GUIX # SHOW GUESTS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_guests' ) )]"							
+							texture = "gfx/interface/icons/custom/guix_guest.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_guests')]"
+						}
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_guests' )]"							
+							texture = "gfx/interface/icons/custom/guix_guest.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_GUESTS"
+					}
+					expand = {}
+				}				
+						
+			}
+
+			# Filter Reset
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin_top = 4
+				margin_bottom = 10
+
+				button_standard_clean = {
+					name = "filter_reset_button"
+					size = { 100 34 }
+
+					onclick = "[GetVariableSystem.Set('guix_court_highlight','default')]"
+
+					text = "Reset"
+
+					align = center|nobaseline
+					margin_left = 30
+
+					block "filter_reset" {}
+
+					button_icon_highlight = {
+						parentanchor = vcenter|left
+						position = { 5 0 }
+						size = { 25 25 }
+						texture = "gfx/interface/icons/flat_icons/replace.dds"
+					}
+				}
+			}
+			
+		}
+	}
+
+	# GUIX # Court Filter Window Expanded
+	##################################################
+	type guix_filter_window_court_expanded = window {
+		visible = "[And( VariableSystem.Exists( 'guix_filter_court' ), GetVariableSystem.HasValue('guix_tab','court_expanded') )]"
+		size = { 0 0 }
+		parentanchor = bottom|left
+		movable = yes
+		allow_outside = yes
+
+		state = {
+			name = _show
+			position = { 615 -255 }
+			using = Animation_FadeIn_Quick
+		}
+		state = {
+			name = _hide
+			position = { 565 -255 }
+			using = Animation_FadeOut_Quick
+		}
+
+		using = Window_Background_Subwindow
+
+		vbox = {
+			set_parent_size_to_minimum = yes
+			min_width = 240
+			margin = { 10 4 }
+
+			header_pattern = {
+				layoutpolicy_horizontal = expanding
+
+				blockoverride "header_text" {
+					text = "GUIX_FILTER"
+				}
+				blockoverride "button_close" {
+					onclick = "[VariableSystem.Clear( 'guix_filter_court' )]"
+				}
+			}
+
+			############################################
+			#guix# this is where the filter options go
+			############################################
+			vbox = {
+				layoutpolicy_horizontal = expanding
+				margin_bottom = 15
+				
+				# GUIX # SHOW COUNCIL BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_council' ) )]"
+							texture = "gfx/interface/icons/custom/guix_court.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_council')]"
+						}
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_council' )]"
+							texture = "gfx/interface/icons/custom/guix_court.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}				
+					}
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_COUNCIL"
+					}
+					expand = {}
+				}			
+
+				# GUIX # SHOW KNIGHTS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_knights' ) )]"
+							texture = "gfx/interface/icons/custom/guix_knight.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_knights')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_knights' )]"
+							texture = "gfx/interface/icons/custom/guix_knight.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_KNIGHTS"
+					}
+					expand = {}
+				}
+				
+				# GUIX # SHOW FAMILY BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_family' ) )]"
+							texture = "gfx/interface/icons/custom/guix_family.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_family')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_family' )]"
+							texture = "gfx/interface/icons/custom/guix_family.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_FAMILY"
+					}
+					expand = {}
+				}
+
+				# GUIX # SHOW RELATIONS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_relations' ) )]"							
+							texture = "gfx/interface/icons/custom/guix_relations.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_relations')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_relations' )]"							
+							texture = "gfx/interface/icons/custom/guix_relations.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_RELATIONS"
+					}
+					expand = {}
+				}			
+
+				# GUIX # SHOW HOSTAGE & PRISONERS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_captives' ) )]"							
+							texture = "gfx/interface/icons/custom/guix_prisoner.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_captives')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_captives' )]"							
+							texture = "gfx/interface/icons/custom/guix_prisoner.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_HOSTAGES_PRISONERS"
+					}
+					expand = {}
+				}
+
+				# GUIX # SHOW COURT POSITIONS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_employed' ) )]"								
+							texture = "gfx/interface/icons/custom/guix_court.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_employed')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_employed' )]"								
+							texture = "gfx/interface/icons/custom/guix_court.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_COURT_POSITIONS"
+					}
+					expand = {}
+				}
+
+				# GUIX # SHOW GUESTS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_court_highlight','show_guests' ) )]"							
+							texture = "gfx/interface/icons/custom/guix_guest.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_court_highlight','show_guests')]"
+						}
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_court_highlight','show_guests' )]"							
+							texture = "gfx/interface/icons/custom/guix_guest.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_GUESTS"
+					}
+					expand = {}
+				}				
+						
+			}
+
+			# Filter Reset
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin_top = 4
+				margin_bottom = 10
+
+				button_standard_clean = {
+					name = "filter_reset_button"
+					size = { 100 34 }
+
+					onclick = "[GetVariableSystem.Set('guix_court_highlight','default')]"
+
+					text = "Reset"
+
+					align = center|nobaseline
+					margin_left = 30
+
+					block "filter_reset" {}
+
+					button_icon_highlight = {
+						parentanchor = vcenter|left
+						position = { 5 0 }
+						size = { 25 25 }
+						texture = "gfx/interface/icons/flat_icons/replace.dds"
+					}
+				}
+			}
+			
+		}
+	}
+
+	# GUIX # Vassals Filter Window
+	##################################################
+	type guix_filter_window_vassals = window {
+		visible = "[And( VariableSystem.Exists( 'guix_filter_vassals' ), GetVariableSystem.HasValue('guix_tab','vassals') )]"
+		size = { 0 0 }
+		parentanchor = bottom|left
+		movable = yes
+		allow_outside = yes
+
+		state = {
+			name = _show
+			position = { 615 -165 }
+			using = Animation_FadeIn_Quick
+		}
+		state = {
+			name = _hide
+			position = { 565 -165 }
+			using = Animation_FadeOut_Quick
+		}	
+
+		using = Window_Background_Subwindow
+
+		vbox = {
+			set_parent_size_to_minimum = yes
+			min_width = 240
+			margin = { 10 4 }
+
+			header_pattern = {
+				layoutpolicy_horizontal = expanding
+
+				blockoverride "header_text" {
+					text = "GUIX_FILTER"
+				}
+				blockoverride "button_close" {
+					onclick = "[VariableSystem.Clear( 'guix_filter_vassals' )]"
+				}
+			}
+
+			############################################
+			# GUIX # this is where the filter options go
+			############################################
+			vbox = {
+				layoutpolicy_horizontal = expanding
+				margin_bottom = 15
+				
+				# GUIX # SHOW COUNCIL BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_vassals_highlight','show_council' ) )]"
+							texture = "gfx/interface/icons/custom/guix_court.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_council')]"
+						}
+
+						button_icon = {
+						visible = "[GetVariableSystem.HasValue( 'guix_vassals_highlight','show_council' )]"
+							texture = "gfx/interface/icons/custom/guix_court.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_COUNCIL"
+					}
+					expand = {}
+				}
+
+				# GUIX # SHOW KNIGHTS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_vassals_highlight','show_knights' ) )]"
+							texture = "gfx/interface/icons/custom/guix_knight.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_knights')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_vassals_highlight','show_knights' )]"
+							texture = "gfx/interface/icons/custom/guix_knight.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_KNIGHTS"
+					}
+					expand = {}
+				}
+				
+				# GUIX # SHOW FAMILY BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_vassals_highlight','show_family' ) )]"
+							texture = "gfx/interface/icons/custom/guix_family.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_family')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_vassals_highlight','show_family' )]"
+							texture = "gfx/interface/icons/custom/guix_family.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_FAMILY"
+					}
+					expand = {}
+				}
+
+				# GUIX # SHOW RELATIONS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_vassals_highlight','show_relations' ) )]"
+							texture = "gfx/interface/icons/custom/guix_relations.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_relations')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_vassals_highlight','show_relations' )]"
+							texture = "gfx/interface/icons/custom/guix_relations.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_RELATIONS"
+					}
+					expand = {}
+				}
+												
+			}
+
+			# Filter Reset
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin_top = 4
+				margin_bottom = 10
+
+				button_standard_clean = {
+					name = "filter_reset_button"
+					size = { 100 34 }
+
+					onclick = "[GetVariableSystem.Set('guix_vassals_highlight','default')]"
+
+					text = "FILTER_RESET"
+
+					align = center|nobaseline
+					margin_left = 30
+
+					block "filter_reset" {}
+
+					button_icon_highlight = {
+						parentanchor = vcenter|left
+						position = { 5 0 }
+						size = { 25 25 }
+						texture = "gfx/interface/icons/flat_icons/replace.dds"
+					}
+				}
+			}
+			
+		}
+	}
+
+	# GUIX # Vassals Filter Window Expanded
+	##################################################
+	type guix_filter_window_vassals_expanded = window {
+		visible = "[And( VariableSystem.Exists( 'guix_filter_vassals' ), GetVariableSystem.HasValue('guix_tab','vassals_expanded') )]"
+		size = { 0 0 }
+		parentanchor = bottom|left
+		movable = yes
+		allow_outside = yes
+
+		state = {
+			name = _show
+			position = { 615 -375 }
+			using = Animation_FadeIn_Quick
+		}
+		state = {
+			name = _hide
+			position = { 565 -375 }
+			using = Animation_FadeOut_Quick
+		}	
+
+		using = Window_Background_Subwindow
+
+		vbox = {
+			set_parent_size_to_minimum = yes
+			min_width = 240
+			margin = { 10 4 }
+
+			header_pattern = {
+				layoutpolicy_horizontal = expanding
+
+				blockoverride "header_text" {
+					text = "GUIX_FILTER"
+				}
+				blockoverride "button_close" {
+					onclick = "[VariableSystem.Clear( 'guix_filter_vassals' )]"
+				}
+			}
+
+			############################################
+			# GUIX # this is where the filter options go
+			############################################
+			vbox = {
+				layoutpolicy_horizontal = expanding
+				margin_bottom = 15
+				
+				# GUIX # SHOW COUNCIL BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_vassals_highlight','show_council' ) )]"
+							texture = "gfx/interface/icons/custom/guix_court.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_council')]"
+						}
+
+						button_icon = {
+						visible = "[GetVariableSystem.HasValue( 'guix_vassals_highlight','show_council' )]"
+							texture = "gfx/interface/icons/custom/guix_court.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_COUNCIL"
+					}
+					expand = {}
+				}
+
+				# GUIX # SHOW KNIGHTS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_vassals_highlight','show_knights' ) )]"
+							texture = "gfx/interface/icons/custom/guix_knight.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_knights')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_vassals_highlight','show_knights' )]"
+							texture = "gfx/interface/icons/custom/guix_knight.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_KNIGHTS"
+					}
+					expand = {}
+				}
+				
+				# GUIX # SHOW FAMILY BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_vassals_highlight','show_family' ) )]"
+							texture = "gfx/interface/icons/custom/guix_family.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_family')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_vassals_highlight','show_family' )]"
+							texture = "gfx/interface/icons/custom/guix_family.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_FAMILY"
+					}
+					expand = {}
+				}
+
+				# GUIX # SHOW RELATIONS BUTTON
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					button_normal = {
+						visible = yes
+						size = { 40 40 }
+
+						icon = {
+							texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+							size = { 100% 100% }
+						}
+						button_icon = {
+							visible = "[Not( GetVariableSystem.HasValue( 'guix_vassals_highlight','show_relations' ) )]"
+							texture = "gfx/interface/icons/custom/guix_relations.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							onclick = "[GetVariableSystem.Set('guix_vassals_highlight','show_relations')]"
+						}
+
+						button_icon = {
+							visible = "[GetVariableSystem.HasValue( 'guix_vassals_highlight','show_relations' )]"
+							texture = "gfx/interface/icons/custom/guix_relations.dds"
+							size = { 25 25 }
+							parentanchor = center
+
+							enabled = no
+						}						
+					}			
+					spacer = {
+						size = { 5 0 }
+					}
+					text_single = {
+						text = "FILTER_RELATIONS"
+					}
+					expand = {}
+				}
+												
+			}
+
+			# Filter Reset
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin_top = 4
+				margin_bottom = 10
+
+				button_standard_clean = {
+					name = "filter_reset_button"
+					size = { 100 34 }
+
+					onclick = "[GetVariableSystem.Set('guix_vassals_highlight','default')]"
+
+					text = "FILTER_RESET"
+
+					align = center|nobaseline
+					margin_left = 30
+
+					block "filter_reset" {}
+
+					button_icon_highlight = {
+						parentanchor = vcenter|left
+						position = { 5 0 }
+						size = { 25 25 }
+						texture = "gfx/interface/icons/flat_icons/replace.dds"
+					}
+				}
+			}
+			
 		}
 	}
 

@@ -26,8 +26,10 @@ window = {
 		on_start = "[GetVariableSystem.Set('guix_tab','family')]"
 		on_start = "[GetVariableSystem.Set('guix_cw','show_realm')]"	
 		on_start = "[GetVariableSystem.Set('guix_spouse','show_primary')]"
+		on_start = "[GetVariableSystem.Set('guix_court_highlight','default')]"
 		on_start = "[GetVariableSystem.Set('guix_vassals_highlight','default')]"
-		on_start = "[GetVariableSystem.Set('guix_court_highlight','default')]"	
+		on_start = "[GetVariableSystem.Clear( 'guix_filter_court' )]"
+		on_start = "[GetVariableSystem.Clear( 'guix_filter_vassals' )]"
 	}
 
 	state = {
@@ -73,8 +75,18 @@ window = {
 		# GUIX # SECTION 5 --- VIEWS
 		# family | relations | court | vassals | diplomacy | titles | claims | traits | modifiers
 		guix_window_character_5_views = {}
-		##################################################		
+		##################################################	
 	}
+
+	##################################################
+	# GUIX # SECTION 5 --- FILTER WINDOWS
+	# Putting the filter windows on the window_character.gui to get them to show outside
+	# even though they are tied to the logic on guix_window_character_5_views.gui
+	guix_filter_window_court = {}
+	guix_filter_window_court_expanded = {}
+	guix_filter_window_vassals = {}
+	guix_filter_window_vassals_expanded = {}
+	##################################################
 
 	window_character_filter = {
 		name = "court_character_filter_window"

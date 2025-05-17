@@ -24,7 +24,7 @@ types PortraitTypes
         #blockoverride "grayscale" {}
 
         portrait_button = {
-            size = { 300 421 }
+            size = { 600 421 }
             position = { -30 10 }
             parentanchor = bottom|hcenter
             using = portrait_base
